@@ -1,0 +1,97 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package uk.co.atgsoft.caveman.wine.purchase;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import uk.co.atgsoft.caveman.Wine.BottleSize;
+import uk.co.atgsoft.caveman.Wine.Wine;
+
+/**
+ *
+ * @author adam
+ */
+public class PurchaseRecordImpl implements PurchaseRecord {
+
+    private Wine mWine;
+    
+    private BigDecimal mPrice;
+    
+    private int mQuantity;
+    
+    private BottleSize mSize;
+    
+    private String mVendor;
+    
+    private Date mDate;
+    
+    @Override
+    public void setWine(final Wine wine) {
+        if (wine == null) throw new IllegalArgumentException("Wine cannot be null");
+        mWine = wine;
+    }
+
+    @Override
+    public Wine getWine() {
+        return mWine;
+    }
+
+    @Override
+    public void setPrice(final BigDecimal price) {
+        if (price == null || price.floatValue() < 0) throw new IllegalArgumentException("Invalid price");
+        mPrice = price;
+    }
+
+    @Override
+    public BigDecimal getPrice() {
+        return mPrice;
+    }
+
+    @Override
+    public void setQuantity(final int quantity) {
+        if (quantity < 1) throw new IllegalArgumentException("Quantity must be at least 1");
+        mQuantity = quantity;
+    }
+
+    @Override
+    public int getQuantity() {
+        return mQuantity;
+    }
+
+    @Override
+    public void setBottleSize(final BottleSize size) {
+        if (size == null) throw new IllegalArgumentException("Size cannot be null");
+        mSize = size;
+    }
+
+    @Override
+    public BottleSize getBottleSize() {
+        return mSize;
+    }
+
+    @Override
+    public void setVendor(final String vendor) {
+        if (vendor == null || vendor.isEmpty()) throw new IllegalArgumentException("Vendor cannot be null or empty");
+        mVendor = vendor;
+    }
+
+    @Override
+    public String getVendor() {
+        return mVendor;
+    }
+
+    @Override
+    public void setDate(final Date date) {
+        if (date == null) throw new IllegalArgumentException("Date cannot be null");
+        mDate = date;
+    }
+
+    @Override
+    public Date getDate() {
+        return mDate;
+    }
+    
+}
