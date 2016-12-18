@@ -5,8 +5,8 @@
  */
 package uk.co.atgsoft.caveman.wine.stock;
 
-import uk.co.atgsoft.caveman.Wine.BottleSize;
-import uk.co.atgsoft.caveman.Wine.Wine;
+import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
  *

@@ -8,8 +8,8 @@ package uk.co.atgsoft.caveman.wine.stock;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import uk.co.atgsoft.caveman.Wine.BottleSize;
-import uk.co.atgsoft.caveman.Wine.Wine;
+import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
  *

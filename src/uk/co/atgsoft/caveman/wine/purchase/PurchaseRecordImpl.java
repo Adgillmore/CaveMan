@@ -7,8 +7,8 @@ package uk.co.atgsoft.caveman.wine.purchase;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import uk.co.atgsoft.caveman.Wine.BottleSize;
-import uk.co.atgsoft.caveman.Wine.Wine;
+import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
  *
