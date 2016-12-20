@@ -7,6 +7,8 @@ package uk.co.atgsoft.caveman;
 
 import java.util.List;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -33,15 +35,18 @@ public class Main extends Application {
     
     private ComboBox<Wine> myWines;
     
+    private ObservableList<Wine> purchases;
+    
     private WineDao wineDao;
     
     @Override
     public void start(Stage primaryStage) {
         
         DatabaseUtils.createDatabase();
+        wineDao = new WineDaoImpl();
         final VBox root = new VBox(10, initWinePanel(), initPurchaseHistoryPanel());
         Scene scene = new Scene(root, 800, 600);
-        wineDao = new WineDaoImpl();
+        
         
         primaryStage.setTitle("CaveMan - The wine cave manager");
         primaryStage.setScene(scene);
@@ -81,6 +86,7 @@ public class Main extends Application {
                         Integer.parseInt(textVintage.getText()), 
                         textGrape.getText());
                 wineDao.insertWine(wine);
+                purchases.add(wine);
                 System.out.println("Created new Wine " + wine.toString());
             }
         });
@@ -93,34 +99,37 @@ public class Main extends Application {
     
     private Node initPurchaseHistoryPanel() {
         
-        final Button refreshButton = new Button("Refresh");
-        refreshButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                final List<Wine> wines = wineDao.getAllWines();
-                myWines.getItems().setAll(wines);
-            }
-        });
+//        final Button refreshButton = new Button("Refresh");
+//        refreshButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                final List<Wine> wines = wineDao.getAllWines();
+//                myWines.getItems().setAll(wines);
+//            }
+//        });
+//        
+//        myWines = new ComboBox<>();
+//        myWines.setCellFactory(new Callback<ListView<Wine>, ListCell<Wine>>() {
+//            @Override
+//            public ListCell<Wine> call(ListView<Wine> param) {
+//                final ListCell<Wine> cell = new ListCell<Wine>() {
+//                    
+//                    @Override
+//                    protected void updateItem(Wine item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (item == null) return;
+//                        setText(item.getName() + ", " + item.getProducer() 
+//                                + ", " + item.getVintage());
+//                    }
+//                };
+//                return cell;
+//            }
+//        });
         
-        myWines = new ComboBox<>();
-        myWines.setCellFactory(new Callback<ListView<Wine>, ListCell<Wine>>() {
-            @Override
-            public ListCell<Wine> call(ListView<Wine> param) {
-                final ListCell<Wine> cell = new ListCell<Wine>() {
-                    
-                    @Override
-                    protected void updateItem(Wine item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null) return;
-                        setText(item.getName() + ", " + item.getProducer() 
-                                + ", " + item.getVintage());
-                    }
-                };
-                return cell;
-            }
-        });
+        purchases = FXCollections.observableArrayList(wineDao.getAllWines());
+        ListView list = new ListView(purchases);
         
-        final VBox purchaseHistory = new VBox(10, myWines, refreshButton);
+        final VBox purchaseHistory = new VBox(10, list);
         purchaseHistory.setPrefWidth(600);
         return purchaseHistory;
     }

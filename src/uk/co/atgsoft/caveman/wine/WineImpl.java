@@ -20,6 +20,10 @@ public class WineImpl implements Wine {
     private int mVintage;
     
     private String mGrape;
+    
+    private String delimiter = ": ";
+    
+    private String spacer = ", ";
 
     public WineImpl() {
     }
@@ -80,5 +84,20 @@ public class WineImpl implements Wine {
         if (grape == null) throw new IllegalArgumentException("Grape cannot be null");
         mGrape = grape;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(getName())
+                .append(spacer)
+                .append(getProducer())
+                .append(spacer)
+                .append(getVintage())
+                .append(spacer)
+                .append(getGrape());
+        return sb.toString();
+    }
+    
+    
     
 }
