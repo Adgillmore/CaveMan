@@ -16,11 +16,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
+import uk.co.atgsoft.caveman.database.dao.WineDao;
+import uk.co.atgsoft.caveman.database.dao.WineDaoImpl;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 
@@ -32,12 +33,15 @@ public class Main extends Application {
     
     private ComboBox<Wine> myWines;
     
+    private WineDao wineDao;
+    
     @Override
     public void start(Stage primaryStage) {
         
         DatabaseUtils.createDatabase();
         final VBox root = new VBox(10, initWinePanel(), initPurchaseHistoryPanel());
         Scene scene = new Scene(root, 800, 600);
+        wineDao = new WineDaoImpl();
         
         primaryStage.setTitle("CaveMan - The wine cave manager");
         primaryStage.setScene(scene);
@@ -76,7 +80,7 @@ public class Main extends Application {
                         textProducer.getText(), 
                         Integer.parseInt(textVintage.getText()), 
                         textGrape.getText());
-                DatabaseUtils.insertWine(wine);
+                wineDao.insertWine(wine);
                 System.out.println("Created new Wine " + wine.toString());
             }
         });
@@ -93,7 +97,7 @@ public class Main extends Application {
         refreshButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                final List<Wine> wines = DatabaseUtils.getAllWines();
+                final List<Wine> wines = wineDao.getAllWines();
                 myWines.getItems().setAll(wines);
             }
         });
