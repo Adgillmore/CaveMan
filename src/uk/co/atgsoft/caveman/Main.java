@@ -5,22 +5,21 @@
  */
 package uk.co.atgsoft.caveman;
 
-import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.database.dao.WineDao;
 import uk.co.atgsoft.caveman.database.dao.WineDaoImpl;
@@ -33,20 +32,19 @@ import uk.co.atgsoft.caveman.wine.WineImpl;
  */
 public class Main extends Application {
     
-    private ComboBox<Wine> myWines;
-    
-    private ObservableList<Wine> purchases;
+    private TableView table;
     
     private WineDao wineDao;
     
+    private ObservableList<Wine> wines;
+    
     @Override
     public void start(Stage primaryStage) {
-        
         DatabaseUtils.createDatabase();
         wineDao = new WineDaoImpl();
-        final VBox root = new VBox(10, initWinePanel(), initPurchaseHistoryPanel());
+        wines = FXCollections.observableArrayList();
+        final BorderPane root = new BorderPane(initPurchaseHistoryPanel(), initToolbar(), null, null, initWinePanel());
         Scene scene = new Scene(root, 800, 600);
-        
         
         primaryStage.setTitle("CaveMan - The wine cave manager");
         primaryStage.setScene(scene);
@@ -58,6 +56,12 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    private Node initToolbar() {
+        final Button button = new Button("Add");
+        final HBox toolbar = new HBox(button);
+        return toolbar;
     }
     
     private Node initWinePanel() {
@@ -73,65 +77,58 @@ public class Main extends Application {
         final TextField textGrape = new TextField();
         textGrape.setPromptText("Syrah");
         
-        final Button saveButton = new Button("Save");
-        saveButton.disableProperty().bind(textName.textProperty().isEmpty()
+        final Button addButton = new Button("Add");
+        addButton.disableProperty().bind(textName.textProperty().isEmpty()
                 .or(textProducer.textProperty().isEmpty())
                 .or(textGrape.textProperty().isEmpty())
                 .or(textVintage.textProperty().isEmpty()));
-        saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                final Wine wine = new WineImpl(textName.getText(), 
-                        textProducer.getText(), 
-                        Integer.parseInt(textVintage.getText()), 
-                        textGrape.getText());
-                wineDao.insertWine(wine);
-                purchases.add(wine);
-                System.out.println("Created new Wine " + wine.toString());
-            }
+        addButton.setOnAction((ActionEvent event) -> {
+            final Wine wine = new WineImpl(textName.getText(),
+                    textProducer.getText(),
+                    Integer.parseInt(textVintage.getText()),
+                    textGrape.getText());
+            wineDao.insertWine(wine);
+            wines.add(wine);
+            System.out.println("Created new Wine " + wine.toString());
+        });
+        
+        final Button removeButton = new Button("Remove");
+        removeButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
+        removeButton.setOnAction((ActionEvent event) -> {
+        wines.remove(table.getSelectionModel().getFocusedIndex());
+        wineDao.removeWine((Wine) table.getSelectionModel().getSelectedItem());
         });
         
         final VBox textFields = new VBox(10, textName, textProducer, 
-                textVintage, textGrape, saveButton);
-        textFields.setPrefWidth(600);
+                textVintage, textGrape, addButton, removeButton);
+        textFields.setPrefWidth(250);
         return textFields;
     }
     
     private Node initPurchaseHistoryPanel() {
+        table = new TableView();
+        TableColumn name = new TableColumn("Name");
+        TableColumn producer = new TableColumn("Producer");
+        TableColumn vintage = new TableColumn("Vintage");
+        TableColumn grape = new TableColumn("Grape");
         
-//        final Button refreshButton = new Button("Refresh");
-//        refreshButton.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                final List<Wine> wines = wineDao.getAllWines();
-//                myWines.getItems().setAll(wines);
-//            }
-//        });
-//        
-//        myWines = new ComboBox<>();
-//        myWines.setCellFactory(new Callback<ListView<Wine>, ListCell<Wine>>() {
-//            @Override
-//            public ListCell<Wine> call(ListView<Wine> param) {
-//                final ListCell<Wine> cell = new ListCell<Wine>() {
-//                    
-//                    @Override
-//                    protected void updateItem(Wine item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (item == null) return;
-//                        setText(item.getName() + ", " + item.getProducer() 
-//                                + ", " + item.getVintage());
-//                    }
-//                };
-//                return cell;
-//            }
-//        });
+        name.setCellValueFactory(
+        new PropertyValueFactory<>("Name")
+        );
+        producer.setCellValueFactory(
+        new PropertyValueFactory<>("Producer")
+        );
+        vintage.setCellValueFactory(
+        new PropertyValueFactory<>("Vintage")
+        );
+        grape.setCellValueFactory(
+        new PropertyValueFactory<>("Grape")
+        );
         
-        purchases = FXCollections.observableArrayList(wineDao.getAllWines());
-        ListView list = new ListView(purchases);
-        
-        final VBox purchaseHistory = new VBox(10, list);
-        purchaseHistory.setPrefWidth(600);
-        return purchaseHistory;
+        table.getColumns().addAll(name, producer, vintage, grape);
+        wines.addAll(wineDao.getAllWines());
+        table.setItems(wines);
+        return table;
     }
     
 }

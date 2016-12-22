@@ -16,5 +16,7 @@ public interface WineDao {
     
     void insertWine(Wine wine);
     
+    void removeWine(Wine wine);
+    
     List<Wine> getAllWines();
 }

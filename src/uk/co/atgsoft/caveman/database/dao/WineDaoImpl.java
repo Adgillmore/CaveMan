@@ -80,4 +80,27 @@ public class WineDaoImpl implements WineDao {
         
         return wines;
     }
+
+    @Override
+    public void removeWine(final Wine wine) {
+        Connection c = null;
+        Statement stmt = null;
+    try {
+//      Class.forName("org.sqlite.JDBC");
+      c = DriverManager.getConnection("jdbc:sqlite:test.db");
+      System.out.println("Opened database successfully");
+
+      stmt = c.createStatement();
+      String sql = "DELETE FROM WINE WHERE NAME = '" +
+                   wine.getName() + "';"; 
+      stmt.executeUpdate(sql);
+      stmt.close();
+      c.commit();
+      c.close();
+    } catch ( Exception e ) {
+      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+    }
+    System.out.println("Record deleted successfully");
+    }
+    
 }
