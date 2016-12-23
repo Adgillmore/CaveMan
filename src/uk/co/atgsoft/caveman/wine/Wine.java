@@ -11,6 +11,10 @@ package uk.co.atgsoft.caveman.wine;
  */
 public interface Wine {
     
+    int getId();
+    
+    void setId(int id);
+    
     void setName(String name);
     
     String getName();

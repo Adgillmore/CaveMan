@@ -5,9 +5,13 @@
  */
 package uk.co.atgsoft.caveman;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,11 +31,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import uk.co.atgsoft.caveman.database.DatabaseUtils;
+import uk.co.atgsoft.caveman.database.dao.PurchaseDao;
+import uk.co.atgsoft.caveman.database.dao.PurchaseDaoImpl;
 import uk.co.atgsoft.caveman.database.dao.WineDao;
 import uk.co.atgsoft.caveman.database.dao.WineDaoImpl;
+import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
 
 /**
  *
@@ -43,16 +51,21 @@ public class Main extends Application {
     
     private WineDao wineDao;
     
+    private PurchaseDao purchaseDao;
+    
     private ObservableList<Wine> wineList;
     
     private Dialog<Pair<String, String>> addWineDialog;
     
-    private BooleanProperty saveEnabled = new SimpleBooleanProperty();
+    private BooleanProperty saveDisabled = new SimpleBooleanProperty();
+    
+    private ObservableStringValue vintageLimit = new SimpleStringProperty("1850");
     
     @Override
     public void start(Stage primaryStage) {
-        DatabaseUtils.createDatabase();
+        
         wineDao = new WineDaoImpl();
+        purchaseDao = new PurchaseDaoImpl();
         wineList = FXCollections.observableArrayList();
         table = initTableView(wineList, wineDao);
         addWineDialog = initDialog(wineList, wineDao);
@@ -102,9 +115,22 @@ public class Main extends Application {
         textVintage.setPromptText("1961");
         final TextField textGrape = new TextField();
         textGrape.setPromptText("Syrah");
+        final TextField textDate = new TextField();
+        textDate.setPromptText("25/12/2016");
+        final TextField textQuantity = new TextField();
+        textQuantity.setPromptText("1");
         final VBox textFields = new VBox(10, textName, textProducer, 
-                textVintage, textGrape);
+                textVintage, textGrape, textDate, textQuantity);
         textFields.setPrefWidth(250);
+        
+        saveDisabled.bind(
+                textName.textProperty().isEmpty()
+                .or(textProducer.textProperty().isEmpty())
+                .or(textVintage.textProperty().isEmpty())
+                .or(textVintage.textProperty().lessThan(vintageLimit))
+                .or(textGrape.textProperty().isEmpty())
+                .or(textDate.textProperty().isEmpty())
+                .or(textQuantity.textProperty().isEmpty()));
         
         // Init dialog
         final Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -113,14 +139,27 @@ public class Main extends Application {
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
         dialog.getDialogPane().setContent(textFields);
         final Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
-        saveButton.disableProperty().bind(saveEnabled);
+        saveButton.disableProperty().bind(saveDisabled);
         saveButton.setOnAction((ActionEvent event) -> {
+            
             final Wine wine = new WineImpl(textName.getText(),
                     textProducer.getText(),
                     Integer.parseInt(textVintage.getText()),
                     textGrape.getText());
-            dao.insertWine(wine);
-            wines.add(wine);
+            
+            int id = 0;
+            if (wines.contains(wine)) {
+                id = wines.get(wines.indexOf(wine)).getId();
+            } else {
+                dao.insertWine(wine);
+                wine.setId(dao.getId(wine));
+                wines.add(wine);
+            }
+            
+            final PurchaseRecord purchase = new PurchaseRecordImpl(wine, new BigDecimal(0), 
+                    Integer.parseInt(textQuantity.getText()),
+            BottleSize.BOTTLE, "", Date.valueOf(textDate.getText()));
+            purchaseDao.addPurchase(purchase);
             System.out.println("Created new Wine " + wine.toString());
         });
         return dialog;

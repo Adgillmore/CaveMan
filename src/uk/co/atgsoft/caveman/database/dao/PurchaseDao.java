@@ -6,21 +6,19 @@
 package uk.co.atgsoft.caveman.database.dao;
 
 import java.util.List;
-import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
 
 /**
  *
  * @author adam.gillmore
  */
-public interface WineDao {
+public interface PurchaseDao {
     
-    void insertWine(Wine wine);
+    void addPurchase(PurchaseRecord purchase);
     
-    void removeWine(Wine wine);
+    void removePurchase(PurchaseRecord purchase);
     
-    void updateWine(Wine wine);
+    void updatePurchase(PurchaseRecord purchase);
     
-    int getId(Wine wine);
-    
-    List<Wine> getAllWines();
+    List<PurchaseRecord> getAllPurchases();
 }

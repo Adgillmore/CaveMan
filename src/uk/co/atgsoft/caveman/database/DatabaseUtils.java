@@ -15,29 +15,35 @@ import java.sql.Statement;
  */
 public final class DatabaseUtils {
     
-    public static void createDatabase() {
+    public static void createTable(final String statement) {
         Connection c = null;
         Statement stmt = null;
         try {
-//          Class.forName("org.sqlite.JDBC");
-          c = DriverManager.getConnection("jdbc:sqlite:test.db");
-          System.out.println("Opened database successfully");
-
-          stmt = c.createStatement();
-          String sql = "CREATE TABLE IF NOT EXISTS WINE " +
-                       "(ID INTEGER PRIMARY KEY     AUTOINCREMENT," +
-                       " NAME           TEXT    NOT NULL, " + 
-                       " PRODUCER       TEXT    NOT NULL, " + 
-                       " VINTAGE        INT, " + 
-                       " GRAPE         TEXT)"; 
-          stmt.executeUpdate(sql);
-          stmt.close();
-          c.close();
-        } catch ( Exception e ) {
-          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            System.out.println("Opened database successfully");
+            stmt = c.createStatement();
+            stmt.executeUpdate(statement);
+            stmt.close();
+            c.close();
+        }   catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
         System.out.println("Table created successfully");
     }
     
-    
+    public static void executeStatement(final String statement) {
+        Connection c = null;
+        Statement stmt = null;
+        try {
+          c = DriverManager.getConnection("jdbc:sqlite:test.db");
+          stmt = c.createStatement();
+          stmt.executeUpdate(statement);
+          stmt.close();
+          c.commit();
+          c.close();
+        } catch ( Exception e ) {
+          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+        
 }

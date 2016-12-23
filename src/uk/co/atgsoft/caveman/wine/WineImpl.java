@@ -5,13 +5,13 @@
  */
 package uk.co.atgsoft.caveman.wine;
 
-import uk.co.atgsoft.caveman.wine.Wine;
-
 /**
  *
  * @author adam
  */
 public class WineImpl implements Wine {
+    
+    private int mId;
 
     private String mName;
     
@@ -96,6 +96,16 @@ public class WineImpl implements Wine {
                 .append(spacer)
                 .append(getGrape());
         return sb.toString();
+    }
+
+    @Override
+    public int getId() {
+        return mId;
+    }
+
+    @Override
+    public void setId(int id) {
+        mId = id;
     }
     
     

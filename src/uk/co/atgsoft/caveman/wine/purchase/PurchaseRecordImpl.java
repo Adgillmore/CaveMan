@@ -27,6 +27,18 @@ public class PurchaseRecordImpl implements PurchaseRecord {
     private String mVendor;
     
     private Date mDate;
+
+    public PurchaseRecordImpl(final Wine wine, final BigDecimal price, final int quantity, final BottleSize size, 
+            final String vendor, final Date date) {
+        mWine = wine;
+        mPrice = price;
+        mQuantity = quantity;
+        mSize = size;
+        mVendor = vendor;
+        mDate = date;
+    }
+    
+    
     
     @Override
     public void setWine(final Wine wine) {
