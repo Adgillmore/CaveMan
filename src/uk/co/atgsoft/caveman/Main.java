@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
@@ -23,6 +24,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -40,6 +42,8 @@ import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
 import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
 
 /**
  *
@@ -49,6 +53,10 @@ public class Main extends Application {
     
     private TableView table;
     
+    private ObjectProperty<Wine> currentWineProperty;
+    
+    private Wine currentWine;
+    
     private WineDao wineDao;
     
     private PurchaseDao purchaseDao;
@@ -56,6 +64,8 @@ public class Main extends Application {
     private ObservableList<Wine> wineList;
     
     private Dialog<Pair<String, String>> addWineDialog;
+    
+    private Dialog<Pair<String, String>> addStockDialog;
     
     private BooleanProperty saveDisabled = new SimpleBooleanProperty();
     
@@ -68,7 +78,9 @@ public class Main extends Application {
         purchaseDao = new PurchaseDaoImpl();
         wineList = FXCollections.observableArrayList();
         table = initTableView(wineList, wineDao);
+
         addWineDialog = initDialog(wineList, wineDao);
+        addStockDialog = initAddStockDialog(wineList);
         
         final BorderPane root = new BorderPane(table, initToolbar(wineList, wineDao), 
                 null, null, null);
@@ -162,7 +174,33 @@ public class Main extends Application {
             purchaseDao.addPurchase(purchase);
             System.out.println("Created new Wine " + wine.toString());
         });
+        
+        final Button addStockButton = new Button("Add Stock");
+        addStockButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
         return dialog;
+    }
+    
+    private Dialog initAddStockDialog(final ObservableList<Wine> wines) {
+        final TextField textQuantity = new TextField();
+        textQuantity.setPromptText("6");
+        
+        final Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Add Stock");
+        ButtonType saveButtonType = new ButtonType("Save", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(textQuantity);
+        final Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
+        saveButton.setOnAction((ActionEvent event) -> {
+            
+            final StockRecord stock = new StockRecordImpl(wines.get(0));
+        });
+        return dialog;
+        
     }
     
     private TableView initTableView(final ObservableList<Wine> wines, final WineDao dao) {
@@ -188,6 +226,16 @@ public class Main extends Application {
         table.getColumns().addAll(name, producer, vintage, grape);
         wines.addAll(dao.getAllWines());
         table.setItems(wines);
+        table.setRowFactory(tv -> {
+            final TableRow<Wine> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                currentWine = row.getItem();
+                addStockDialog.show();
+            }
+            });
+            return row;
+        });
         return table;
     }
     
