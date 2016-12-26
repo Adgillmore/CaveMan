@@ -5,11 +5,9 @@
  */
 package uk.co.atgsoft.caveman;
 
-import java.math.BigDecimal;
-import java.sql.Date;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
@@ -17,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,20 +27,18 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import uk.co.atgsoft.caveman.database.dao.PurchaseDao;
 import uk.co.atgsoft.caveman.database.dao.PurchaseDaoImpl;
 import uk.co.atgsoft.caveman.database.dao.WineDao;
 import uk.co.atgsoft.caveman.database.dao.WineDaoImpl;
-import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.ui.WineDetailController;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
 import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
 
@@ -53,9 +50,9 @@ public class Main extends Application {
     
     private TableView table;
     
-    private ObjectProperty<Wine> currentWineProperty;
+    private AnchorPane wineDetailDialog;
     
-    private Wine currentWine;
+    private WineDetailController wineDetailController;
     
     private WineDao wineDao;
     
@@ -72,13 +69,17 @@ public class Main extends Application {
     private ObservableStringValue vintageLimit = new SimpleStringProperty("1850");
     
     @Override
-    public void start(Stage primaryStage) {
-        
+    public void start(Stage primaryStage) throws IOException {
         wineDao = new WineDaoImpl();
         purchaseDao = new PurchaseDaoImpl();
         wineList = FXCollections.observableArrayList();
+        
+        final FXMLLoader loader = new FXMLLoader();
+        loader.load(getClass().getResourceAsStream("wine_detail.fxml"));
+        wineDetailDialog = (AnchorPane) loader.getRoot();
+        wineDetailController = loader.getController();
         table = initTableView(wineList, wineDao);
-
+        
         addWineDialog = initDialog(wineList, wineDao);
         addStockDialog = initAddStockDialog(wineList);
         
@@ -103,6 +104,7 @@ public class Main extends Application {
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
+                wineDetailController.setWine(new WineImpl());
                 addWineDialog.show();
             }
         });
@@ -118,61 +120,32 @@ public class Main extends Application {
     }
     
     private Dialog initDialog(final ObservableList<Wine> wines, final WineDao dao) {
-        // Init content
-        final TextField textName = new TextField();
-        textName.setPromptText("Hermitage, La Chapelle");
-        final TextField textProducer = new TextField();
-        textProducer.setPromptText("Paul Jaboulet Aine");
-        final TextField textVintage = new TextField();
-        textVintage.setPromptText("1961");
-        final TextField textGrape = new TextField();
-        textGrape.setPromptText("Syrah");
-        final TextField textDate = new TextField();
-        textDate.setPromptText("25/12/2016");
-        final TextField textQuantity = new TextField();
-        textQuantity.setPromptText("1");
-        final VBox textFields = new VBox(10, textName, textProducer, 
-                textVintage, textGrape, textDate, textQuantity);
-        textFields.setPrefWidth(250);
-        
-        saveDisabled.bind(
-                textName.textProperty().isEmpty()
-                .or(textProducer.textProperty().isEmpty())
-                .or(textVintage.textProperty().isEmpty())
-                .or(textVintage.textProperty().lessThan(vintageLimit))
-                .or(textGrape.textProperty().isEmpty())
-                .or(textDate.textProperty().isEmpty())
-                .or(textQuantity.textProperty().isEmpty()));
-        
+
         // Init dialog
         final Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Add New Wine");
         ButtonType saveButtonType = new ButtonType("Save", ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
-        dialog.getDialogPane().setContent(textFields);
+        dialog.getDialogPane().setContent(wineDetailDialog);
         final Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
-        saveButton.disableProperty().bind(saveDisabled);
+//        saveButton.disableProperty().bind(saveDisabled);
         saveButton.setOnAction((ActionEvent event) -> {
             
-            final Wine wine = new WineImpl(textName.getText(),
-                    textProducer.getText(),
-                    Integer.parseInt(textVintage.getText()),
-                    textGrape.getText());
-            
-            int id = 0;
-            if (wines.contains(wine)) {
-                id = wines.get(wines.indexOf(wine)).getId();
-            } else {
+            final Wine wine = wineDetailController.getWine();
+            if (wine.getId() == null) {
+                wine.setId(wine.getName() + ":" + wine.getProducer() + ":" + wine.getVintage());
                 dao.insertWine(wine);
-                wine.setId(dao.getId(wine));
                 wines.add(wine);
+            } else {
+                dao.updateWine(wine);
             }
+
             
-            final PurchaseRecord purchase = new PurchaseRecordImpl(wine, new BigDecimal(0), 
-                    Integer.parseInt(textQuantity.getText()),
-            BottleSize.BOTTLE, "", Date.valueOf(textDate.getText()));
-            purchaseDao.addPurchase(purchase);
-            System.out.println("Created new Wine " + wine.toString());
+//            final PurchaseRecord purchase = new PurchaseRecordImpl(wine, new BigDecimal(0), 
+//                    Integer.parseInt(textQuantity.getText()),
+//            BottleSize.BOTTLE, "", Date.valueOf(textDate.getText()));
+//            purchaseDao.addPurchase(purchase);
+//            System.out.println("Created new Wine " + wine.toString());
         });
         
         final Button addStockButton = new Button("Add Stock");
@@ -207,6 +180,8 @@ public class Main extends Application {
         TableView table = new TableView();
         TableColumn name = new TableColumn("Name");
         TableColumn producer = new TableColumn("Producer");
+        TableColumn region = new TableColumn("Region");
+        TableColumn country = new TableColumn("Country");
         TableColumn vintage = new TableColumn("Vintage");
         TableColumn grape = new TableColumn("Grape");
         
@@ -222,17 +197,25 @@ public class Main extends Application {
         grape.setCellValueFactory(
         new PropertyValueFactory<>("Grape")
         );
+        region.setCellValueFactory(
+        new PropertyValueFactory<>("Region")
+        );
+        country.setCellValueFactory(
+        new PropertyValueFactory<>("Country")
+        );
         
-        table.getColumns().addAll(name, producer, vintage, grape);
+        table.getColumns().addAll(name, producer, region, country, vintage, grape);
+        
+        
         wines.addAll(dao.getAllWines());
         table.setItems(wines);
         table.setRowFactory(tv -> {
             final TableRow<Wine> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
-                currentWine = row.getItem();
-                addStockDialog.show();
-            }
+                    wineDetailController.setWine(row.getItem());
+                    addWineDialog.show();
+                }
             });
             return row;
         });

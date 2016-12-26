@@ -5,6 +5,7 @@
  */
 package uk.co.atgsoft.caveman.database.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 
 /**
@@ -23,10 +25,15 @@ public class WineDaoImpl implements WineDao {
 
     public WineDaoImpl() {
         DatabaseUtils.createTable("CREATE TABLE IF NOT EXISTS WINE " +
-           "(ID INTEGER PRIMARY KEY     AUTOINCREMENT," +
+           "(ID TEXT PRIMARY KEY," +
            " NAME           TEXT    NOT NULL, " + 
            " PRODUCER       TEXT    NOT NULL, " + 
+           " REGION       TEXT    NOT NULL, " + 
+           " COUNTRY       TEXT    NOT NULL, " + 
            " VINTAGE        INT, " + 
+           " ALCOHOL        REAL, " + 
+           " COLOUR         TEXT, " + 
+           " PRICE          REAL, " + 
            " GRAPE         TEXT)");
     }
     
@@ -35,11 +42,17 @@ public class WineDaoImpl implements WineDao {
     @Override
     public void insertWine(final Wine wine) {
     DatabaseUtils.executeStatement(
-          "INSERT INTO WINE (NAME,PRODUCER,VINTAGE,GRAPE) " +
+          "INSERT INTO WINE (ID,NAME,PRODUCER,REGION,COUNTRY,VINTAGE,ALCOHOL,COLOUR,PRICE,GRAPE) " +
                "VALUES (" 
+          + "'" + wine.getId() + "', "
           + "'" + wine.getName() + "', " 
           + "'" + wine.getProducer() + "', "
+          + "'" + wine.getRegion() + "', "
+          + "'" + wine.getCountry() + "', "
           + wine.getVintage() + ", "
+          + wine.getAlcohol() + ", "
+          + "'" + wine.getWineColour() + "', "
+          + wine.getPrice().floatValue() + ", "
           + "'" + wine.getGrape() + "');");
     System.out.println("Wine added successfully");
     }
@@ -83,10 +96,17 @@ public class WineDaoImpl implements WineDao {
           ResultSet rs = stmt.executeQuery( "SELECT * FROM WINE;" );
           while ( rs.next() ) {
              final Wine wine = new WineImpl(
+                rs.getString("id"),
                 rs.getString("name"),
                 rs.getString("producer"),
+                rs.getString("region"),
+                rs.getString("country"),
                 rs.getInt("vintage"),
-                rs.getString("grape"));
+                rs.getFloat("alcohol"),
+                new BigDecimal(rs.getFloat("price")),
+                WineColour.valueOf(rs.getString("colour").toUpperCase()),
+                rs.getString("grape")
+             );
              wines.add(wine);
              
           }

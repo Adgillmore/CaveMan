@@ -5,13 +5,15 @@
  */
 package uk.co.atgsoft.caveman.wine;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author adam
  */
 public class WineImpl implements Wine {
     
-    private int mId;
+    private String mId;
 
     private String mName;
     
@@ -21,6 +23,16 @@ public class WineImpl implements Wine {
     
     private String mGrape;
     
+    private String mCountry;
+    
+    private String mRegion;
+    
+    private WineColour mColour;
+    
+    private float mAlcohol;
+    
+    private BigDecimal mAvgPrice;
+    
     private String delimiter = ": ";
     
     private String spacer = ", ";
@@ -28,18 +40,29 @@ public class WineImpl implements Wine {
     public WineImpl() {
     }
 
-    public WineImpl(String name, String producer, int vintage, String grape) {
+    public WineImpl(String id, String name, String producer, final String region, final String country, int vintage, 
+            float alcohol, BigDecimal price, WineColour colour, String grape) {
+        if (id == null) throw new IllegalArgumentException("Id cannot be null");
         if (name == null) throw new IllegalArgumentException("Name cannot be null");
         if (producer == null) throw new IllegalArgumentException("Producer cannot be null");
+        if (region == null) throw new IllegalArgumentException("Region cannot be null");
+        if (country == null) throw new IllegalArgumentException("Country cannot be null");
         if (vintage < 1800 || vintage > 2200) throw new IllegalArgumentException("Vintage is out of range");
         if (grape == null) throw new IllegalArgumentException("Grape cannot be null");
+        if (colour == null) throw new IllegalArgumentException("Colour cannot be null");
+        if (price == null) throw new IllegalArgumentException("Price cannot be null");
+        if (alcohol < 0) throw new IllegalArgumentException("Alcohol cannot be less than 0");
+        mId = id;
         mName = name;
         mProducer = producer;
+        mRegion = region;
+        mCountry = country;
         mVintage = vintage;
+        mAlcohol = alcohol;
+        mAvgPrice = price;
+        mColour = colour;
         mGrape = grape;
     }
-    
-    
     
     @Override
     public void setName(final String name) {
@@ -70,7 +93,7 @@ public class WineImpl implements Wine {
 
     @Override
     public void setVintage(final int vintage) {
-        if (vintage < 1800 || vintage > 2200) throw new IllegalArgumentException("Vintage is out of range");
+        if (vintage < 1800 || vintage > 2200) return;
         mVintage = vintage;
     }
 
@@ -99,13 +122,77 @@ public class WineImpl implements Wine {
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(final String id) {
         mId = id;
+    }
+
+    @Override
+    public void setCountry(final String country) {
+        if (country == null) {
+            throw new IllegalArgumentException("Country cannot be null");
+        }
+        mCountry = country;
+    }
+
+    @Override
+    public String getCountry() {
+        return mCountry;
+    }
+
+    @Override
+    public void setRegion(final String region) {
+        if (region == null) {
+            throw new IllegalArgumentException("Region cannot be null");
+        }
+        mRegion = region;
+    }
+
+    @Override
+    public String getRegion() {
+        return mRegion;
+    }
+
+    @Override
+    public void setColour(final WineColour colour) {
+        if (colour == null) {
+            throw new IllegalArgumentException("Colour cannot be null");
+        }
+        mColour = colour;
+    }
+
+    @Override
+    public WineColour getWineColour() {
+        return mColour;
+    }
+
+    @Override
+    public void setAlcohol(final float alcohol) {
+        if (alcohol < 0 || alcohol > 100) throw new IllegalArgumentException("Alcohol must be between 0 and 100");
+        mAlcohol = alcohol;
+    }
+
+    @Override
+    public float getAlcohol() {
+        return mAlcohol;
+    }
+
+    @Override
+    public void setPrice(final BigDecimal price) {
+        if (price == null || price.floatValue() < 0) {
+            throw new IllegalArgumentException("Price cannot be null or negative");
+        }
+        mAvgPrice = price;
+        
+    }
+
+    @Override
+    public BigDecimal getPrice() {
+        return mAvgPrice;
     }
     
     

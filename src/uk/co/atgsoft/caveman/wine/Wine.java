@@ -5,15 +5,17 @@
  */
 package uk.co.atgsoft.caveman.wine;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author adam
  */
 public interface Wine {
     
-    int getId();
+    void setId(String id);
     
-    void setId(int id);
+    String getId();
     
     void setName(String name);
     
@@ -23,12 +25,32 @@ public interface Wine {
     
     String getProducer();
     
+    void setVintage(int vintage);
+    
     int getVintage();
     
-    void setVintage(int vintage);
+    void setGrape(String grape);
     
     String getGrape();
     
-    void setGrape(String grape);
+    void setCountry(String country);
+    
+    String getCountry();
+    
+    void setRegion(String region);
+    
+    String getRegion();
+    
+    void setColour(WineColour colour);
+    
+    WineColour getWineColour();
+    
+    void setAlcohol(float alcohol);
+    
+    float getAlcohol();
+    
+    void setPrice(BigDecimal price);
+    
+    BigDecimal getPrice();
     
 }
