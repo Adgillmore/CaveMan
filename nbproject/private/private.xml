@@ -13,6 +13,12 @@
         </group>
         <group name="WineCave">
             <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/Main.java</file>
+            <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/wine_detail.fxml</file>
+            <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/wine/WineImpl.java</file>
+            <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/WineDaoImpl.java</file>
+            <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/wine/Wine.java</file>
+            <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/WineDao.java</file>
+            <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/ui/WineDetailController.java</file>
         </group>
     </open-files>
 </project-private>

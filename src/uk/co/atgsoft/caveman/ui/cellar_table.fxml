@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.cell.*?>
+
+<TableView id="cellarTable" 
+           prefHeight="400.0" 
+           prefWidth="600.0" 
+           xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="uk.co.atgsoft.caveman.ui.CellarTableController">
+    <columns>
+        <TableColumn text="Name" >
+            <cellValueFactory>
+                <PropertyValueFactory property="Name" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Producer" >
+            <cellValueFactory>
+                <PropertyValueFactory property="producer" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Region" >
+            <cellValueFactory>
+                <PropertyValueFactory property="region" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Country" >
+            <cellValueFactory>
+                <PropertyValueFactory property="country" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Vintage" >
+            <cellValueFactory>
+                <PropertyValueFactory property="vintage" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Grape" >
+            <cellValueFactory>
+                <PropertyValueFactory property="grape" />
+            </cellValueFactory>
+        </TableColumn>
+    </columns>
+    <items>
+        <FXCollections fx:id="wines" fx:factory="observableArrayList" />
+    </items>
+</TableView>

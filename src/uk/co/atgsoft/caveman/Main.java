@@ -6,6 +6,8 @@
 package uk.co.atgsoft.caveman;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -22,11 +24,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -36,6 +36,7 @@ import uk.co.atgsoft.caveman.database.dao.PurchaseDao;
 import uk.co.atgsoft.caveman.database.dao.PurchaseDaoImpl;
 import uk.co.atgsoft.caveman.database.dao.WineDao;
 import uk.co.atgsoft.caveman.database.dao.WineDaoImpl;
+import uk.co.atgsoft.caveman.ui.CellarTableController;
 import uk.co.atgsoft.caveman.ui.WineDetailController;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
@@ -73,12 +74,13 @@ public class Main extends Application {
         wineDao = new WineDaoImpl();
         purchaseDao = new PurchaseDaoImpl();
         wineList = FXCollections.observableArrayList();
+        wineList.addAll(wineDao.getAllWines());
         
         final FXMLLoader loader = new FXMLLoader();
-        loader.load(getClass().getResourceAsStream("wine_detail.fxml"));
+        loader.load(WineDetailController.class.getResourceAsStream("wine_detail.fxml"));
         wineDetailDialog = (AnchorPane) loader.getRoot();
         wineDetailController = loader.getController();
-        table = initTableView(wineList, wineDao);
+        table = initTableView(wineList);
         
         addWineDialog = initDialog(wineList, wineDao);
         addStockDialog = initAddStockDialog(wineList);
@@ -176,40 +178,17 @@ public class Main extends Application {
         
     }
     
-    private TableView initTableView(final ObservableList<Wine> wines, final WineDao dao) {
-        TableView table = new TableView();
-        TableColumn name = new TableColumn("Name");
-        TableColumn producer = new TableColumn("Producer");
-        TableColumn region = new TableColumn("Region");
-        TableColumn country = new TableColumn("Country");
-        TableColumn vintage = new TableColumn("Vintage");
-        TableColumn grape = new TableColumn("Grape");
+    private TableView initTableView(final ObservableList<Wine> wines) {
+        final FXMLLoader loader = new FXMLLoader();
+        try {
+            table = loader.load(CellarTableController.class.getResourceAsStream("cellar_table.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        name.setCellValueFactory(
-        new PropertyValueFactory<>("Name")
-        );
-        producer.setCellValueFactory(
-        new PropertyValueFactory<>("Producer")
-        );
-        vintage.setCellValueFactory(
-        new PropertyValueFactory<>("Vintage")
-        );
-        grape.setCellValueFactory(
-        new PropertyValueFactory<>("Grape")
-        );
-        region.setCellValueFactory(
-        new PropertyValueFactory<>("Region")
-        );
-        country.setCellValueFactory(
-        new PropertyValueFactory<>("Country")
-        );
-        
-        table.getColumns().addAll(name, producer, region, country, vintage, grape);
-        
-        
-        wines.addAll(dao.getAllWines());
-        table.setItems(wines);
-        table.setRowFactory(tv -> {
+        final CellarTableController controller = loader.getController();
+        controller.addAllStock(wines);
+        table.setRowFactory(callback -> {
             final TableRow<Wine> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {

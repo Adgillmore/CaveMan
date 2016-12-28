@@ -124,7 +124,7 @@ public class WineDetailController {
         if (wine == null) {
             throw new IllegalArgumentException("Wine cannot be null");
         }
-        
+        mWine = null;
         nameText.setText(wine.getName());
         producerText.setText(wine.getProducer());
         regionText.setText(wine.getRegion());
