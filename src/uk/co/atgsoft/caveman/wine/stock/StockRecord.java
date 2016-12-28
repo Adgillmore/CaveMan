@@ -5,6 +5,7 @@
  */
 package uk.co.atgsoft.caveman.wine.stock;
 
+import java.util.Map;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 
@@ -21,6 +22,8 @@ public interface StockRecord {
     float getNumberOfStandardBottles();
     
     float getVolume();
+    
+    Map<BottleSize, StockEntry> getStock();
     
     void addStock(BottleSize size, int quantity);
     

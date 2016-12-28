@@ -7,9 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" 
-                xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
-                fx:controller="uk.co.atgsoft.caveman.ui.WineDetailController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.co.atgsoft.caveman.ui.WineDetailController">
    <children>
       <Label layoutX="282.0" layoutY="32.0" text="Name" />
       <Label layoutX="269.0" layoutY="70.0" text="Producer" />
@@ -56,11 +54,10 @@
       <TextField layoutX="81.0" layoutY="269.0" prefHeight="26.0" prefWidth="257.0" />
       <ToggleButton layoutX="288.0" layoutY="225.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="ToggleButton" />
       <ProgressBar layoutX="42.0" layoutY="228.0" prefHeight="20.0" prefWidth="230.0" progress="0.0" />
-      <TableView fx:id="stockTable" layoutX="375.0" layoutY="225.0" prefHeight="78.0" prefWidth="398.0">
+      <TableView fx:id="stockTable" layoutX="362.0" layoutY="225" prefHeight="78.0" prefWidth="399.0">
         <columns>
-          <TableColumn fx:id="unitColumn" prefWidth="77.81463623046875" text="Unit" />
-          <TableColumn fx:id="sizeColumn" prefWidth="94.67373657226562" text="Size" />
-          <TableColumn fx:id="quantityColumn" prefWidth="192.32623291015625" text="Quantity" />
+          <TableColumn fx:id="sizeColumn" prefWidth="301.0" text="Size" />
+          <TableColumn fx:id="quantityColumn" prefWidth="91.0" text="Quantity" />
         </columns>
       </TableView>
       <StackPane layoutX="35.0" layoutY="29.0" prefHeight="161.0" prefWidth="225.0">
@@ -68,11 +65,10 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcebbf" height="169.0" stroke="BLACK" strokeType="INSIDE" width="225.0" />
          </children>
       </StackPane>
-      <TableView layoutX="562.0" layoutY="311.0" prefHeight="271.0" prefWidth="212.0">
+      <TableView layoutX="562.0" layoutY="311.0" prefHeight="271.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="211.0" text="Tags" />
+          <TableColumn prefWidth="200.0" text="Tags" />
         </columns>
       </TableView>
    </children>
 </AnchorPane>
-

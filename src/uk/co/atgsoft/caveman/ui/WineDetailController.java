@@ -6,6 +6,7 @@
 package uk.co.atgsoft.caveman.ui;
 
 import java.math.BigDecimal;
+import java.util.Map.Entry;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,9 +23,8 @@ import javafx.util.StringConverter;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
-import uk.co.atgsoft.caveman.wine.WineUnit;
+import uk.co.atgsoft.caveman.wine.stock.StockEntry;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
-import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
 
 /**
  *
@@ -50,15 +50,15 @@ public class WineDetailController {
     
     @FXML private TextField priceText;
     
-    @FXML private TableColumn<StockRecord, BottleSize> sizeColumn;
+    @FXML private TableColumn<StockEntry, BottleSize> sizeColumn;
     
-    @FXML private TableColumn<StockRecord, WineUnit> unitColumn;
+    @FXML private TableColumn<StockEntry, Integer> quantityColumn;
     
-    @FXML private TableColumn<StockRecord, Integer> quantityColumn;
-    
-    @FXML private TableView<StockRecord> stockTable;
+    @FXML private TableView<StockEntry> stockTable;
     
     private Wine mWine;
+    
+    private StockRecord mStock;
     
     @FXML
     private void initialize() {
@@ -139,15 +139,20 @@ public class WineDetailController {
             }
         });
         
-        quantityColumn.setCellValueFactory(new Callback<CellDataFeatures<StockRecord, Integer>, ObservableValue<Integer>>() {
+        sizeColumn.setCellValueFactory(new Callback<CellDataFeatures<StockEntry, BottleSize>, ObservableValue<BottleSize>>() {
             @Override
-            public ObservableValue<Integer> call(final CellDataFeatures<StockRecord, Integer> param) {
-                return new ReadOnlyObjectWrapper<>(param.getValue().getNumberOfBottles()); // can change this if using javafx properties
+            public ObservableValue<BottleSize> call(final CellDataFeatures<StockEntry, BottleSize> param) {
+                return new ReadOnlyObjectWrapper<>(param.getValue().getBottleSize()); // can change this if using javafx properties
             }
         });
         
-        unitColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(WineUnit.values())));
-        sizeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(BottleSize.values())));
+        quantityColumn.setCellValueFactory(new Callback<CellDataFeatures<StockEntry, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(final CellDataFeatures<StockEntry, Integer> param) {
+                return new ReadOnlyObjectWrapper<>(param.getValue().getQuantity()); // can change this if using javafx properties
+            }
+        });
+        
         quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Integer>() {
             
             @Override
@@ -166,7 +171,7 @@ public class WineDetailController {
                 return number;
             }
         }));
-
+        sizeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(BottleSize.values())));
         
         quantityColumn.setEditable(true);
         stockTable.setEditable(true);
@@ -186,11 +191,24 @@ public class WineDetailController {
         if (wine.getWineColour() != null) colourText.setText(wine.getWineColour().toString());
         if (wine.getPrice() != null) priceText.setText(wine.getPrice().toString());
         grapesText.setText(wine.getGrape());
-        stockTable.getItems().add(new StockRecordImpl(wine));
         mWine = wine;
     }
     
     public Wine getWine() {
         return mWine;
+    }
+    
+    public void setStockRecord(StockRecord stock) {
+        mStock = stock;
+        stockTable.getItems().clear();
+        for (Entry<BottleSize, StockEntry> entry : stock.getStock().entrySet()) {
+            stockTable.getItems().add(entry.getValue());
+        }
+        
+        setWine(stock.getWine());
+    }
+    
+    public StockRecord getStockRecord() {
+        return mStock;
     }
 }

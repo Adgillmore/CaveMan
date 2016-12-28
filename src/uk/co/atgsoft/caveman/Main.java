@@ -38,6 +38,7 @@ import uk.co.atgsoft.caveman.database.dao.WineDao;
 import uk.co.atgsoft.caveman.database.dao.WineDaoImpl;
 import uk.co.atgsoft.caveman.ui.CellarTableController;
 import uk.co.atgsoft.caveman.ui.WineDetailController;
+import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
@@ -193,6 +194,7 @@ public class Main extends Application {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     wineDetailController.setWine(row.getItem());
+                    wineDetailController.setStockRecord(new StockRecordImpl(row.getItem(), BottleSize.HALF, 24));
                     addWineDialog.show();
                 }
             });

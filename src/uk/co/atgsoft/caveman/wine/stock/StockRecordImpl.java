@@ -19,7 +19,7 @@ public class StockRecordImpl implements StockRecord {
 
     private final Wine mWine;
     
-    private final Map<BottleSize, Integer> mStock;
+    private final Map<BottleSize, StockEntry> mStock;
 
     public StockRecordImpl(final Wine wine) {
         this(wine, 0);
@@ -33,7 +33,7 @@ public class StockRecordImpl implements StockRecord {
         if (wine == null) throw new IllegalArgumentException("Wine cannot be null");
         mWine = wine;
         mStock = new HashMap<>();
-        mStock.put(size, stock);
+        mStock.put(size, new StockEntryImpl(size, stock));
     }
         
     @Override
@@ -44,8 +44,8 @@ public class StockRecordImpl implements StockRecord {
     @Override
     public int getNumberOfBottles() {
         int count = 0;
-        for (Entry<BottleSize, Integer> e : mStock.entrySet()) {
-            count += e.getValue();
+        for (Entry<BottleSize, StockEntry> e : mStock.entrySet()) {
+            count += e.getValue().getQuantity();
         }
         return count;
     }
@@ -53,8 +53,8 @@ public class StockRecordImpl implements StockRecord {
     @Override
     public float getNumberOfStandardBottles() {
         int count = 0;
-        for (Entry<BottleSize, Integer> e : mStock.entrySet()) {
-            count += e.getValue() * e.getKey().getMultiplier();
+        for (Entry<BottleSize, StockEntry> e : mStock.entrySet()) {
+            count += e.getValue().getQuantity() * e.getKey().getMultiplier();
         }
         return count;
     }
@@ -67,18 +67,27 @@ public class StockRecordImpl implements StockRecord {
     @Override
     public void addStock(final BottleSize size, final int quantity) {
         if (size == null || quantity < 1) throw new IllegalArgumentException("Illegal size or quantity");
-        int existingStock = 0;
-        if (mStock.containsKey(size)) existingStock = mStock.get(size); 
-        mStock.put(size, existingStock + quantity);
+        if (mStock.containsKey(size)) {
+            final StockEntry entry = mStock.get(size);
+            entry.setQuantity(quantity + entry.getQuantity());
+        } else {
+            mStock.put(size, new StockEntryImpl(size, quantity));
+        }
+        
     }
 
     @Override
     public void depleteStock(final BottleSize size, final int quantity) {
         if (size == null || quantity < 1) throw new IllegalArgumentException("Illegal size or quantity");
         if (!mStock.containsKey(size)) throw new IllegalArgumentException("No stock existing");
-        int existingStock = mStock.get(size);
-        if (quantity > existingStock) throw new IllegalArgumentException("Not quantity exceeds stock");
-        mStock.put(size, existingStock - quantity);
+        final StockEntry entry = mStock.get(size);
+        if (quantity > entry.getQuantity()) throw new IllegalArgumentException("Not quantity exceeds stock");
+        entry.setQuantity(entry.getQuantity() - quantity);
+    }
+
+    @Override
+    public Map<BottleSize, StockEntry> getStock() {
+        return mStock;
     }
     
 }
