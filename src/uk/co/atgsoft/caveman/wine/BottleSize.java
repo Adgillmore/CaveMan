@@ -13,7 +13,7 @@ public enum BottleSize {
     
     HALF(0.5f),
     
-    BOTTLE(1),
+    STANDARD(1),
     
     MAGNUM(2),
     

@@ -56,11 +56,11 @@
       <TextField layoutX="81.0" layoutY="269.0" prefHeight="26.0" prefWidth="257.0" />
       <ToggleButton layoutX="288.0" layoutY="225.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="ToggleButton" />
       <ProgressBar layoutX="42.0" layoutY="228.0" prefHeight="20.0" prefWidth="230.0" progress="0.0" />
-      <TableView layoutX="375.0" layoutY="225.0" prefHeight="78.0" prefWidth="398.0">
+      <TableView fx:id="stockTable" layoutX="375.0" layoutY="225.0" prefHeight="78.0" prefWidth="398.0">
         <columns>
-          <TableColumn prefWidth="77.81463623046875" text="Quantity" />
-          <TableColumn prefWidth="94.67373657226562" text="Unit" />
-            <TableColumn prefWidth="192.32623291015625" text="Size" />
+          <TableColumn fx:id="unitColumn" prefWidth="77.81463623046875" text="Unit" />
+          <TableColumn fx:id="sizeColumn" prefWidth="94.67373657226562" text="Size" />
+          <TableColumn fx:id="quantityColumn" prefWidth="192.32623291015625" text="Quantity" />
         </columns>
       </TableView>
       <StackPane layoutX="35.0" layoutY="29.0" prefHeight="161.0" prefWidth="225.0">

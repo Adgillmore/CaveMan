@@ -22,9 +22,18 @@ public class StockRecordImpl implements StockRecord {
     private final Map<BottleSize, Integer> mStock;
 
     public StockRecordImpl(final Wine wine) {
+        this(wine, 0);
+    }
+    
+    public StockRecordImpl(final Wine wine, int stock) {
+        this(wine, BottleSize.STANDARD, stock);
+    }
+    
+    public StockRecordImpl(final Wine wine, final BottleSize size, final int stock) {
         if (wine == null) throw new IllegalArgumentException("Wine cannot be null");
         mWine = wine;
         mStock = new HashMap<>();
+        mStock.put(size, stock);
     }
         
     @Override

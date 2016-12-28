@@ -44,6 +44,16 @@
                 <PropertyValueFactory property="grape" />
             </cellValueFactory>
         </TableColumn>
+        <TableColumn text="Size" >
+<!--            <cellValueFactory>
+                <PropertyValueFactory property="grape" />
+            </cellValueFactory>-->
+        </TableColumn>
+        <TableColumn text="Quantity" >
+<!--            <cellValueFactory>
+                <PropertyValueFactory property="grape" />
+            </cellValueFactory>-->
+        </TableColumn>
     </columns>
     <items>
         <FXCollections fx:id="wines" fx:factory="observableArrayList" />

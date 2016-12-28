@@ -6,12 +6,25 @@
 package uk.co.atgsoft.caveman.ui;
 
 import java.math.BigDecimal;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
+import uk.co.atgsoft.caveman.wine.WineUnit;
+import uk.co.atgsoft.caveman.wine.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
 
 /**
  *
@@ -36,6 +49,14 @@ public class WineDetailController {
     @FXML private TextField colourText;
     
     @FXML private TextField priceText;
+    
+    @FXML private TableColumn<StockRecord, BottleSize> sizeColumn;
+    
+    @FXML private TableColumn<StockRecord, WineUnit> unitColumn;
+    
+    @FXML private TableColumn<StockRecord, Integer> quantityColumn;
+    
+    @FXML private TableView<StockRecord> stockTable;
     
     private Wine mWine;
     
@@ -118,6 +139,37 @@ public class WineDetailController {
             }
         });
         
+        quantityColumn.setCellValueFactory(new Callback<CellDataFeatures<StockRecord, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(final CellDataFeatures<StockRecord, Integer> param) {
+                return new ReadOnlyObjectWrapper<>(param.getValue().getNumberOfBottles()); // can change this if using javafx properties
+            }
+        });
+        
+        unitColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(WineUnit.values())));
+        sizeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(BottleSize.values())));
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Integer>() {
+            
+            @Override
+            public String toString(final Integer object) {
+                return Integer.toString(object);
+            }
+
+            @Override
+            public Integer fromString(final String string) {
+                int number = 0;
+                try {
+                    number = Integer.parseInt(string);
+                } catch (NumberFormatException ex) {
+                    //
+                }
+                return number;
+            }
+        }));
+
+        
+        quantityColumn.setEditable(true);
+        stockTable.setEditable(true);
     }
     
     public void setWine(final Wine wine) {
@@ -134,6 +186,7 @@ public class WineDetailController {
         if (wine.getWineColour() != null) colourText.setText(wine.getWineColour().toString());
         if (wine.getPrice() != null) priceText.setText(wine.getPrice().toString());
         grapesText.setText(wine.getGrape());
+        stockTable.getItems().add(new StockRecordImpl(wine));
         mWine = wine;
     }
     
