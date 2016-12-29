@@ -14,45 +14,21 @@
            xmlns:fx="http://javafx.com/fxml/1" 
            fx:controller="uk.co.atgsoft.caveman.ui.CellarTableController">
     <columns>
-        <TableColumn text="Name" >
-            <cellValueFactory>
-                <PropertyValueFactory property="Name" />
-            </cellValueFactory>
+        <TableColumn fx:id="nameColumn" text="Name" >
         </TableColumn>
-        <TableColumn text="Producer" >
-            <cellValueFactory>
-                <PropertyValueFactory property="producer" />
-            </cellValueFactory>
+        <TableColumn fx:id="producerColumn" text="Producer" >
         </TableColumn>
-        <TableColumn text="Region" >
-            <cellValueFactory>
-                <PropertyValueFactory property="region" />
-            </cellValueFactory>
+        <TableColumn fx:id="regionColumn" text="Region" >
         </TableColumn>
-        <TableColumn text="Country" >
-            <cellValueFactory>
-                <PropertyValueFactory property="country" />
-            </cellValueFactory>
+        <TableColumn fx:id="countryColumn" text="Country" >
         </TableColumn>
-        <TableColumn text="Vintage" >
-            <cellValueFactory>
-                <PropertyValueFactory property="vintage" />
-            </cellValueFactory>
+        <TableColumn fx:id="vintageColumn" text="Vintage" >
         </TableColumn>
-        <TableColumn text="Grape" >
-            <cellValueFactory>
-                <PropertyValueFactory property="grape" />
-            </cellValueFactory>
+        <TableColumn fx:id="grapeColumn" text="Grape" >
         </TableColumn>
-        <TableColumn text="Size" >
-<!--            <cellValueFactory>
-                <PropertyValueFactory property="grape" />
-            </cellValueFactory>-->
+        <TableColumn fx:id="sizeColumn" text="Size" >
         </TableColumn>
-        <TableColumn text="Quantity" >
-<!--            <cellValueFactory>
-                <PropertyValueFactory property="grape" />
-            </cellValueFactory>-->
+        <TableColumn fx:id="quantityColumn" text="Quantity" >
         </TableColumn>
     </columns>
     <items>

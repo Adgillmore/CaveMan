@@ -20,5 +20,5 @@ public interface StockDao {
     
     void updateStock(StockRecord stock);
     
-    List<StockRecord> getAllStock(StockRecord stock);
+    List<StockRecord> getAllStock();
 }

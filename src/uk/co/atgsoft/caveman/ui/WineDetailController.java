@@ -106,7 +106,12 @@ public class WineDetailController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (mWine == null) return;
-                mWine.setVintage(Integer.parseInt(newValue));
+                try {
+                    mWine.setVintage(Integer.parseInt(newValue));
+                } catch (NumberFormatException ex) {
+                    
+                }
+                
             }
         });
         
