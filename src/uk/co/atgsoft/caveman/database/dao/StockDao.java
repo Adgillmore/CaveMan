@@ -6,6 +6,7 @@
 package uk.co.atgsoft.caveman.database.dao;
 
 import java.util.List;
+import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
 
 /**
@@ -20,5 +21,7 @@ public interface StockDao {
     
     void updateStock(StockRecord stock);
     
-    List<StockRecord> getAllStock();
+    StockRecord getStockRecord(Wine wine);
+    
+    List<StockRecord> getAllStockRecords();
 }

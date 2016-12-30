@@ -26,8 +26,6 @@
         </TableColumn>
         <TableColumn fx:id="grapeColumn" text="Grape" >
         </TableColumn>
-        <TableColumn fx:id="sizeColumn" text="Size" >
-        </TableColumn>
         <TableColumn fx:id="quantityColumn" text="Quantity" >
         </TableColumn>
     </columns>

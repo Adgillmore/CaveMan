@@ -23,7 +23,7 @@ public interface StockRecord {
     
     float getVolume();
     
-    Map<BottleSize, StockEntry> getStock();
+    Map<BottleSize, StockEntry> getStockEntries();
     
     void addStock(BottleSize size, int quantity);
     

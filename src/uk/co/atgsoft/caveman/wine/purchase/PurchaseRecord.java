@@ -6,7 +6,7 @@
 package uk.co.atgsoft.caveman.wine.purchase;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 
@@ -15,6 +15,10 @@ import uk.co.atgsoft.caveman.wine.Wine;
  * @author adam
  */
 public interface PurchaseRecord {
+    
+    void setId(String id);
+    
+    String getId();
     
     void setWine(Wine wine);
     
@@ -36,8 +40,8 @@ public interface PurchaseRecord {
     
     String getVendor();
     
-    void setDate(Date date);
+    void setDate(LocalDate date);
     
-    Date getDate();
+    LocalDate getDate();
     
 }

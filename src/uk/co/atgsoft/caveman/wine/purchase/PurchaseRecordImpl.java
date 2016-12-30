@@ -6,7 +6,7 @@
 package uk.co.atgsoft.caveman.wine.purchase;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 
@@ -15,6 +15,8 @@ import uk.co.atgsoft.caveman.wine.Wine;
  * @author adam
  */
 public class PurchaseRecordImpl implements PurchaseRecord {
+    
+    private String mId;
 
     private Wine mWine;
     
@@ -26,10 +28,10 @@ public class PurchaseRecordImpl implements PurchaseRecord {
     
     private String mVendor;
     
-    private Date mDate;
+    private LocalDate mDate;
 
     public PurchaseRecordImpl(final Wine wine, final BigDecimal price, final int quantity, final BottleSize size, 
-            final String vendor, final Date date) {
+            final String vendor, final LocalDate date) {
         mWine = wine;
         mPrice = price;
         mQuantity = quantity;
@@ -96,14 +98,24 @@ public class PurchaseRecordImpl implements PurchaseRecord {
     }
 
     @Override
-    public void setDate(final Date date) {
+    public void setDate(final LocalDate date) {
         if (date == null) throw new IllegalArgumentException("Date cannot be null");
         mDate = date;
     }
 
     @Override
-    public Date getDate() {
+    public LocalDate getDate() {
         return mDate;
+    }
+
+    @Override
+    public void setId(String id) {
+        mId = id;
+    }
+
+    @Override
+    public String getId() {
+        return mId;
     }
     
 }

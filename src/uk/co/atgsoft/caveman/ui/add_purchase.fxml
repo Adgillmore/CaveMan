@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" 
+            prefHeight="272.0" 
+            prefWidth="386.0" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            xmlns="http://javafx.com/javafx/8"
+            fx:controller="uk.co.atgsoft.caveman.ui.AddPurchaseController">
+   <children>
+      <Label layoutX="48.0" layoutY="36.0" text="Vendor" />
+      <Label layoutX="48.0" layoutY="79.0" text="Date" />
+      <Label layoutX="48.0" layoutY="122.0" text="Price" />
+      <Label layoutX="47.0" layoutY="163.0" text="Size" />
+      <Label layoutX="48.0" layoutY="206.0" text="Quantity" />
+      <TextField fx:id="vendorText" layoutX="125.0" layoutY="31.0" prefHeight="26.0" prefWidth="190.0" />
+      <DatePicker fx:id="datePicker" layoutX="125.0" layoutY="74.0" />
+      <TextField fx:id="priceText" layoutX="125.0" layoutY="117.0" prefHeight="26.0" prefWidth="190.0" />
+      <ComboBox fx:id="sizePicker" layoutX="125.0" layoutY="158.0" prefHeight="26.0" prefWidth="190.0" />
+      <TextField fx:id="quantityText" layoutX="125.0" layoutY="201.0" prefHeight="26.0" prefWidth="190.0" />
+   </children>
+</AnchorPane>

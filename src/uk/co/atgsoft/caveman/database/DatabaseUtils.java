@@ -5,9 +5,19 @@
  */
 package uk.co.atgsoft.caveman.database;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.WineColour;
+import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
 
 /**
  *
@@ -44,6 +54,31 @@ public final class DatabaseUtils {
         } catch ( Exception e ) {
           System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+    }
+    
+    public static Wine createWine(final ResultSet rs) throws SQLException {
+        return new WineImpl(
+                rs.getString("wine_id"),
+                rs.getString("name"),
+                rs.getString("producer"),
+                rs.getString("region"),
+                rs.getString("country"),
+                rs.getInt("vintage"),
+                rs.getFloat("alcohol"),
+                new BigDecimal(rs.getFloat("price")),
+                WineColour.valueOf(rs.getString("colour").toUpperCase()),
+                rs.getString("grape")
+             );
+    }
+    
+    public static PurchaseRecord createPurchaseRecord(final Wine wine, final ResultSet rs) throws SQLException {
+        return new PurchaseRecordImpl(wine, 
+                new BigDecimal(rs.getFloat("price")), 
+                rs.getInt("quantity"), 
+                BottleSize.valueOf(rs.getString("size")), 
+                rs.getString("vendor"), 
+                LocalDate.parse(rs.getString("date"))
+                );
     }
         
 }

@@ -86,7 +86,7 @@ public class StockRecordImpl implements StockRecord {
     }
 
     @Override
-    public Map<BottleSize, StockEntry> getStock() {
+    public Map<BottleSize, StockEntry> getStockEntries() {
         return mStock;
     }
     

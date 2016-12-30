@@ -5,16 +5,10 @@
  */
 package uk.co.atgsoft.caveman.ui;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.util.Callback;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
 
 /**
@@ -22,41 +16,42 @@ import uk.co.atgsoft.caveman.wine.stock.StockRecord;
  *
  * @author adam.gillmore
  */
-public class CellarTableController implements Initializable {
+public class CellarTableController {
 
-    @FXML private ObservableList<StockRecord> stock;
-    
     @FXML private TableColumn<StockRecord, String> nameColumn;
     
     @FXML private TableColumn<StockRecord, String> producerColumn;
     
+    @FXML private TableColumn<StockRecord, String> regionColumn;
+    
+    @FXML private TableColumn<StockRecord, String> countryColumn;
+    
+    @FXML private TableColumn<StockRecord, Integer> vintageColumn;
+    
+    @FXML private TableColumn<StockRecord, String> grapeColumn;
+    
+    @FXML private TableColumn<StockRecord, Integer> quantityColumn;
+    
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        nameColumn.setCellValueFactory(new Callback<CellDataFeatures<StockRecord, String>, ObservableValue<String>>() {
-            
-            @Override
-            public ObservableValue<String> call(final CellDataFeatures<StockRecord, String> param) {
-                return new ReadOnlyObjectWrapper<>(param.getValue().getWine().getName());
-            }
-        });
+    @FXML
+    private void initialize() {
+        nameColumn.setCellValueFactory((final CellDataFeatures<StockRecord, String> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getName()));
+        producerColumn.setCellValueFactory((final CellDataFeatures<StockRecord, String> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getProducer()));
+        regionColumn.setCellValueFactory((final CellDataFeatures<StockRecord, String> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getRegion()));
+        countryColumn.setCellValueFactory((final CellDataFeatures<StockRecord, String> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getCountry()));
+        vintageColumn.setCellValueFactory((final CellDataFeatures<StockRecord, Integer> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getVintage()));
+        grapeColumn.setCellValueFactory((final CellDataFeatures<StockRecord, String> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getGrape()));
         
-        producerColumn.setCellValueFactory(new Callback<CellDataFeatures<StockRecord, String>, ObservableValue<String>>() {
-            
-            @Override
-            public ObservableValue<String> call(final CellDataFeatures<StockRecord, String> param) {
-                return new ReadOnlyObjectWrapper<>(param.getValue().getWine().getProducer());
-            }
-        });
+        quantityColumn.setCellValueFactory((final CellDataFeatures<StockRecord, Integer> param) 
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getNumberOfBottles()));
     }    
-    
-    public ObservableList<StockRecord> getStock() {
-        return stock;
-    }
-    
-    public void addAllStock(ObservableList<StockRecord> stock) {
-        stock.addAll(stock);
-    }
+
 }

@@ -6,6 +6,8 @@
 package uk.co.atgsoft.caveman;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -41,8 +43,8 @@ import uk.co.atgsoft.caveman.ui.CellarTableController;
 import uk.co.atgsoft.caveman.ui.WineDetailController;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
-import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
 
 /**
  *
@@ -52,11 +54,9 @@ public class Main extends Application {
     
     private TableView table;
     
-    private AnchorPane wineDetailPane;
+    private WineDao wineDao;
     
     private WineDetailController wineDetailController;
-    
-    private WineDao wineDao;
     
     private PurchaseDao purchaseDao;
     
@@ -76,15 +76,9 @@ public class Main extends Application {
         purchaseDao = new PurchaseDaoImpl();
         stockDao = new StockDaoImpl();
         wineList = FXCollections.observableArrayList();
-        wineList.addAll(stockDao.getAllStock());
-        
-        final FXMLLoader loader = new FXMLLoader();
-        loader.load(WineDetailController.class.getResourceAsStream("wine_detail.fxml"));
-        wineDetailPane = (AnchorPane) loader.getRoot();
-        wineDetailController = loader.getController();
-        table = initTableView(wineList);
-        
+        wineList.addAll(stockDao.getAllStockRecords());
         wineDetailDialog = initDialog(wineList, wineDao);
+        table = initTableView(wineList);
         
         final BorderPane root = new BorderPane(table, initToolbar(wineList, stockDao), 
                 null, null, null);
@@ -107,7 +101,8 @@ public class Main extends Application {
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                wineDetailController.setStockRecord(new StockRecordImpl(new WineImpl()));
+                wineDetailController.setWine(new WineImpl());
+                wineDetailController.setPurchaseRecords(new ArrayList<>());
                 wineDetailDialog.show();
             }
         });
@@ -123,8 +118,14 @@ public class Main extends Application {
     }
     
     private Dialog initDialog(final ObservableList<StockRecord> stock, final WineDao dao) {
-
-        // Init dialog
+        final FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.load(WineDetailController.class.getResourceAsStream("wine_detail.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        final AnchorPane wineDetailPane = (AnchorPane) loader.getRoot();
+        wineDetailController = loader.getController();
         final Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Add New Wine");
         ButtonType saveButtonType = new ButtonType("Save", ButtonData.OK_DONE);
@@ -140,9 +141,17 @@ public class Main extends Application {
             } else {
                 dao.updateWine(wine);
             }
-            final StockRecord record = wineDetailController.getStockRecord();
-            stockDao.addStock(record);
-            stock.add(record);
+            final List<PurchaseRecord> records = wineDetailController.getPurchaseRecords();
+            for (PurchaseRecord r : records) {
+                if (r.getId() == null) {
+                    r.setId(r.getWine().getId() + ":" + r.getDate() + ":" + r.getBottleSize() + ":" + r.getQuantity());
+                    purchaseDao.addPurchase(r);
+                } else {
+                    // update?
+                }
+                
+            }
+            stock.add(stockDao.getStockRecord(wine));
         });
         return dialog;
     }
@@ -155,14 +164,14 @@ public class Main extends Application {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        final CellarTableController controller = loader.getController();
-        controller.addAllStock(wines);
         table.setItems(wines);
         table.setRowFactory(callback -> {
             final TableRow<StockRecord> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
+                final Wine wine = row.getItem().getWine();
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    wineDetailController.setStockRecord(row.getItem());
+                    wineDetailController.setWine(wine);
+                    wineDetailController.setPurchaseRecords(purchaseDao.getAllPurchases(wine));
                     wineDetailDialog.show();
                 }
             });

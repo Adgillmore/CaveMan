@@ -130,8 +130,19 @@ public class WineDaoImpl implements WineDao {
     }
 
     @Override
-    public void updateWine(Wine wine) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateWine(final Wine wine) {
+        DatabaseUtils.executeStatement(
+            "UPDATE WINE SET "
+                    + "NAME = '" + wine.getName() + "', " 
+          + "PRODUCER = '" + wine.getProducer() + "', "
+          + "REGION = '" + wine.getRegion() + "', "
+          + "COUNTRY = '" + wine.getCountry() + "', "
+          + "VINTAGE = " + wine.getVintage() + ", "
+          + "ALCOHOL = " + wine.getAlcohol() + ", "
+          + "COLOUR = '" + wine.getWineColour() + "', "
+          + "PRICE = " + wine.getPrice().floatValue() + ", "
+          + "GRAPE = '" + wine.getGrape() + "'"
+          + " WHERE ID ='" + wine.getId() + "';");
     }
     
 }

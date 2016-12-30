@@ -11,11 +11,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.stock.StockEntry;
 import uk.co.atgsoft.caveman.wine.stock.StockRecord;
 import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
 
@@ -25,29 +23,9 @@ import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
  */
 public class StockDaoImpl implements StockDao {
     
-    
-
-    public StockDaoImpl() {
-        DatabaseUtils.createTable("CREATE TABLE IF NOT EXISTS STOCK " +
-           "(ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-           " WINE_ID INTEGER, " +
-           " QUANTITY INTEGER, " + 
-           " SIZE TEXT, " + 
-           " FOREIGN KEY(WINE_ID) REFERENCES WINE(ID))");
-    }
-    
     @Override
     public void addStock(StockRecord stock) {
-        for (Entry<BottleSize, StockEntry> entry : stock.getStock().entrySet()) {
-            DatabaseUtils.executeStatement(
-            "INSERT INTO STOCK (WINE_ID, QUANTITY, SIZE)"
-                    + "VALUES ("
-                    + "'" + stock.getWine().getId() + "', "
-                    + "'" + entry.getValue().getQuantity() + "', "
-                    + "'" + entry.getValue().getBottleSize() + "');");
-        }
-        
-        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -61,25 +39,19 @@ public class StockDaoImpl implements StockDao {
     }
 
     @Override
-    public List<StockRecord> getAllStock() {
-        final List<StockRecord> stockRecords = new ArrayList<>();
-        
+    public StockRecord getStockRecord(final Wine wine) {
         Connection c = null;
         Statement stmt = null;
+        StockRecord stock = null;
         try {
-//          Class.forName("org.sqlite.JDBC");
           c = DriverManager.getConnection("jdbc:sqlite:test.db");
-          System.out.println("Opened database successfully");
 
           stmt = c.createStatement();
-          ResultSet rs = stmt.executeQuery( "SELECT * FROM STOCK;" );
-          while ( rs.next() ) {
-             final StockRecord stock = new StockRecordImpl(
-                (Wine) rs.getRef("wine").getObject(), 
-                BottleSize.valueOf(rs.getString("size")),
-                rs.getInt("quantity")
-             );
-             stockRecords.add(stock);
+          ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID WHERE WINE_ID = '" + wine.getId() + "';" );
+          
+          while (rs.next()) {
+             if (stock == null) stock = new StockRecordImpl(DatabaseUtils.createWine(rs));
+             stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("quantity"));
           }
           rs.close();
           stmt.close();
@@ -87,8 +59,41 @@ public class StockDaoImpl implements StockDao {
         } catch ( Exception e ) {
           System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-        System.out.println("Operation done successfully");
-        return stockRecords;
+        System.out.println("Stock retrieved successfully");
+        return stock;
     }
+
+    @Override
+    public List<StockRecord> getAllStockRecords() {
+        final List<StockRecord> records = new ArrayList<>();
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            stmt = c.createStatement();
+//            ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE GROUP BY SIZE ORDER BY WINE_ID ASC INNER JOIN WINE ON WINE.WINE_ID=PURCHASE.WINE_ID;" );
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID;" );
+            String lastWineId = null;
+            StockRecord stock = null;
+            while (rs.next()) {
+                final Wine wine = DatabaseUtils.createWine(rs);
+                if (!wine.getId().equals(lastWineId)) {
+                    stock = new StockRecordImpl(wine);
+                    records.add(stock);
+                }
+                stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("quantity"));
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        }   catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        System.out.println("All stock retrieved successfully");
+        return records;
+    }
+    
+    
     
 }
