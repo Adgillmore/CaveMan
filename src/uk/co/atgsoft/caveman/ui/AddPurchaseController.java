@@ -59,7 +59,7 @@ public class AddPurchaseController {
         if (wine == null) {
             throw new IllegalArgumentException("Wine cannot be null");
         }
-        return new PurchaseRecordImpl(wine, new BigDecimal(Float.parseFloat(priceText.getText())), 
+        return new PurchaseRecordImpl(null, wine, new BigDecimal(Float.parseFloat(priceText.getText())), 
                 Integer.parseInt(quantityText.getText()), sizePicker.getValue(), vendorText.getText(), 
                 datePicker.getValue());
     }

@@ -64,6 +64,8 @@ public class Main extends Application {
     
     private ObservableList<StockRecord> wineList;
     
+    private StockRecord editedRecord;
+    
     private Dialog<Pair<String, String>> wineDetailDialog;
     
     private BooleanProperty saveDisabled = new SimpleBooleanProperty();
@@ -151,7 +153,11 @@ public class Main extends Application {
                 }
                 
             }
+            if (editedRecord != null) {
+                stock.remove(editedRecord);
+            }
             stock.add(stockDao.getStockRecord(wine));
+            editedRecord = null;
         });
         return dialog;
     }
@@ -172,6 +178,7 @@ public class Main extends Application {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     wineDetailController.setWine(wine);
                     wineDetailController.setPurchaseRecords(purchaseDao.getAllPurchases(wine));
+                    editedRecord = row.getItem();
                     wineDetailDialog.show();
                 }
             });

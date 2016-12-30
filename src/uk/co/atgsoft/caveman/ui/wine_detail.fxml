@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -7,15 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" 
-            maxWidth="-Infinity" 
-            minHeight="-Infinity" 
-            minWidth="-Infinity" 
-            prefHeight="600" 
-            prefWidth="800.0" 
-            xmlns="http://javafx.com/javafx/8" 
-            xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="uk.co.atgsoft.caveman.ui.WineDetailController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.co.atgsoft.caveman.ui.WineDetailController">
    <children>
       <Label layoutX="282.0" layoutY="32.0" text="Name" />
       <Label layoutX="269.0" layoutY="70.0" text="Producer" />
@@ -27,7 +20,7 @@
       <TextField fx:id="countryText" layoutX="328.0" layoutY="135.0" prefHeight="26.0" prefWidth="300" />
       <Label layoutX="651.0" layoutY="32.0" text="Vintage" />
       <Label layoutX="652.0" layoutY="70.0" text="Alcohol" />
-      <Label layoutX="666.0" layoutY="140.0" text="Price" />
+      <Label layoutX="660.0" layoutY="140.0" text="RRP" />
       <Label layoutX="654.0" layoutY="105.0" text="Colour" />
       <TextField fx:id="vintageText" layoutX="706.0" layoutY="27.0" prefHeight="26.0" prefWidth="80" />
       <TextField fx:id="alcoholText" layoutX="706.0" layoutY="65.0" prefHeight="26.0" prefWidth="80" />
@@ -83,27 +76,27 @@
                   <children>
                       <TableView fx:id="purchaseTable" prefHeight="236.0" prefWidth="760.0">
                         <columns>
-                            <TableColumn fx:id="vendorColumn" prefWidth="291.0" text="Vendor" >
+                            <TableColumn fx:id="vendorColumn" prefWidth="291.0" text="Vendor">
                                 <cellValueFactory>
                                     <javafx.scene.control.cell.PropertyValueFactory property="vendor" />
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn fx:id="dateColumn" minWidth="5.0" prefWidth="109.0" text="Date" >
+                            <TableColumn fx:id="dateColumn" minWidth="5.0" prefWidth="109.0" text="Date">
                                 <cellValueFactory>
                                     <javafx.scene.control.cell.PropertyValueFactory property="date" />
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn fx:id="priceColumn" minWidth="6.0" prefWidth="97.0" text="Price" >
+                            <TableColumn fx:id="priceColumn" minWidth="6.0" prefWidth="97.0" text="Price">
                                 <cellValueFactory>
                                     <javafx.scene.control.cell.PropertyValueFactory property="price" />
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn fx:id="sizeColumn" prefWidth="165.0" text="Size" >
+                            <TableColumn fx:id="sizeColumn" prefWidth="165.0" text="Size">
                                 <cellValueFactory>
                                     <javafx.scene.control.cell.PropertyValueFactory property="size" />
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn fx:id="quantityColumn" prefWidth="96.0" text="Quantity" >
+                            <TableColumn fx:id="quantityColumn" prefWidth="96.0" text="Quantity">
                                 <cellValueFactory>
                                     <javafx.scene.control.cell.PropertyValueFactory property="quantity" />
                                 </cellValueFactory>

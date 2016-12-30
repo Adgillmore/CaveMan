@@ -72,8 +72,9 @@ public class StockDaoImpl implements StockDao {
         try {
             c = DriverManager.getConnection("jdbc:sqlite:test.db");
             stmt = c.createStatement();
-//            ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE GROUP BY SIZE ORDER BY WINE_ID ASC INNER JOIN WINE ON WINE.WINE_ID=PURCHASE.WINE_ID;" );
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID;" );
+            ResultSet rs = stmt.executeQuery( "SELECT WINE_ID, NAME, PRODUCER, REGION, COUNTRY, VINTAGE, ALCOHOL, "
+                    + "COLOUR, WINE.PRICE, GRAPE, SIZE, QUANTITY, SUM(QUANTITY) AS TOTAL "
+                    + "FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID GROUP BY WINE_ID;" );
             String lastWineId = null;
             StockRecord stock = null;
             while (rs.next()) {
@@ -82,7 +83,7 @@ public class StockDaoImpl implements StockDao {
                     stock = new StockRecordImpl(wine);
                     records.add(stock);
                 }
-                stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("quantity"));
+                stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("total"));
             }
             rs.close();
             stmt.close();

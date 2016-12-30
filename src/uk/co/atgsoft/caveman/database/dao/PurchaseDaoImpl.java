@@ -38,8 +38,9 @@ public class PurchaseDaoImpl implements PurchaseDao {
     @Override
     public void addPurchase(PurchaseRecord purchase) {
         DatabaseUtils.executeStatement(
-        "INSERT INTO PURCHASE (WINE_ID, PRICE, DATE, QUANTITY, VENDOR, SIZE)"
+        "INSERT INTO PURCHASE (ID, WINE_ID, PRICE, DATE, QUANTITY, VENDOR, SIZE)"
                 + "VALUES ("
+                + "'" + purchase.getId() + "', "
                 + "'" + purchase.getWine().getId() + "', "
                 + "'" + purchase.getPrice() + "', "
                 + "'" + purchase.getDate() + "', "

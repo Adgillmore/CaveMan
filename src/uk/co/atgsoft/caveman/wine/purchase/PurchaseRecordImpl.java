@@ -30,8 +30,9 @@ public class PurchaseRecordImpl implements PurchaseRecord {
     
     private LocalDate mDate;
 
-    public PurchaseRecordImpl(final Wine wine, final BigDecimal price, final int quantity, final BottleSize size, 
+    public PurchaseRecordImpl(final String id, final Wine wine, final BigDecimal price, final int quantity, final BottleSize size, 
             final String vendor, final LocalDate date) {
+        mId = id;
         mWine = wine;
         mPrice = price;
         mQuantity = quantity;

@@ -72,7 +72,8 @@ public final class DatabaseUtils {
     }
     
     public static PurchaseRecord createPurchaseRecord(final Wine wine, final ResultSet rs) throws SQLException {
-        return new PurchaseRecordImpl(wine, 
+        return new PurchaseRecordImpl(rs.getString("id"),
+                wine, 
                 new BigDecimal(rs.getFloat("price")), 
                 rs.getInt("quantity"), 
                 BottleSize.valueOf(rs.getString("size")), 
