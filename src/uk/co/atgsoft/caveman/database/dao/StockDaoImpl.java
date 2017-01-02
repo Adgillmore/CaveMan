@@ -95,6 +95,4 @@ public class StockDaoImpl implements StockDao {
         return records;
     }
     
-    
-    
 }
