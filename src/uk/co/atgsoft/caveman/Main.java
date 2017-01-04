@@ -20,6 +20,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,8 +31,14 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import uk.co.atgsoft.caveman.database.dao.PurchaseDao;
@@ -83,12 +91,28 @@ public class Main extends Application {
         table = initTableView(wineList);
         
         final BorderPane root = new BorderPane(table, initToolbar(wineList, stockDao), 
-                null, null, null);
-        Scene scene = new Scene(root, 800, 600);
+                getPreviewPane(), null, getFilterPane());
+        root.setFocusTraversable(false);
+        Scene scene = new Scene(root, 1280, 800);
         
         primaryStage.setTitle("CaveMan - The wine cave manager");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    private Node getFilterPane() {
+        final VBox filterPane = new VBox(10, new Text("All wines"), new Text("Favourites"));
+        filterPane.setAlignment(Pos.TOP_LEFT);
+        filterPane.setPrefWidth(125);
+        filterPane.setPadding(new Insets(10, 20, 10, 20));
+        return filterPane;
+    }
+    
+    private Node getPreviewPane() {
+        final VBox previewPane = new VBox();
+        previewPane.setPrefWidth(350);
+        previewPane.setPadding(new Insets(10, 10, 10, 10));
+        return previewPane;
     }
 
     /**
@@ -115,7 +139,9 @@ public class Main extends Application {
             wines.remove(table.getSelectionModel().getFocusedIndex());
             dao.removeStock((StockRecord) table.getSelectionModel().getSelectedItem());
         });
-        final HBox toolbar = new HBox(addButton, removeButton);
+        final HBox toolbar = new HBox(10, addButton, removeButton);
+        toolbar.setPadding(new Insets(10, 10, 10, 10));
+        toolbar.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         return toolbar;
     }
     
@@ -174,6 +200,7 @@ public class Main extends Application {
         table.setRowFactory(callback -> {
             final TableRow<StockRecord> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
+                if (row.getItem() == null) return;
                 final Wine wine = row.getItem().getWine();
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     wineDetailController.setWine(wine);
