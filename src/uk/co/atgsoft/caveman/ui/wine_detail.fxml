@@ -32,13 +32,59 @@
       <Separator layoutX="58.0" layoutY="213.0" prefHeight="3.0" prefWidth="689.0" />
       
       
-      <TabPane layoutX="23.0" layoutY="381.0" prefHeight="198.0" prefWidth="760.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="31.0" layoutY="271.0" prefHeight="300.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
+            <Tab text="Purchases">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="750.0">
+                  <children>
+                      <TableView fx:id="purchaseTable" prefHeight="229.0" prefWidth="750.0">
+                        <columns>
+                            <TableColumn fx:id="vendorColumn" prefWidth="287.0" text="Vendor">
+                                <cellValueFactory>
+                                    <javafx.scene.control.cell.PropertyValueFactory property="vendor" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="dateColumn" minWidth="5.0" prefWidth="86.0" text="Date">
+                                <cellValueFactory>
+                                    <javafx.scene.control.cell.PropertyValueFactory property="date" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="priceColumn" minWidth="6.0" prefWidth="69.0" text="Price">
+                                <cellValueFactory>
+                                    <javafx.scene.control.cell.PropertyValueFactory property="price" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="sizeColumn" prefWidth="146.0" text="Size">
+                                <cellValueFactory>
+                                    <javafx.scene.control.cell.PropertyValueFactory property="size" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="quantityColumn" prefWidth="81.0" text="Quantity">
+                                <cellValueFactory>
+                                    <javafx.scene.control.cell.PropertyValueFactory property="quantity" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="stockColumn" prefWidth="89.0" text="Stock">
+                                <cellValueFactory>
+                                    <javafx.scene.control.cell.PropertyValueFactory property="quantity" />
+                                </cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                      </TableView>
+                        <Button fx:id="addStockButton" layoutX="13.0" layoutY="235.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="Add stock" />
+                        <Button fx:id="depleteStockButton" layoutX="139.0" layoutY="235.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="Deplete stock" />
+                        <Label layoutX="625.0" layoutY="241.0" text="Total" />
+                        <TextField layoutX="670.0" layoutY="236.0" prefHeight="25.0" prefWidth="80.0" />
+                  </children>
+              </AnchorPane>
+            </content>
+          </Tab>
             <Tab text="Producer's Notes">
               <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="600.0">
                       <children>
-                          <TextArea minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="760.0" />
+                          <TextArea minHeight="0.0" minWidth="0.0" prefHeight="265.0" prefWidth="750.0" />
                       </children>
                   </AnchorPane>
               </content>
@@ -47,7 +93,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="600.0">
                   <children>
-                      <TextArea minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="760.0" />
+                      <TextArea minHeight="0.0" minWidth="0.0" prefHeight="269.0" prefWidth="760.0" />
                   </children>
               </AnchorPane>
             </content>
@@ -56,7 +102,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="600.0">
                   <children>
-                      <TextArea minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="760.0" />
+                      <TextArea minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="760.0" />
                   </children>
               </AnchorPane>
             </content>
@@ -65,68 +111,31 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="600.0">
                   <children>
-                      <TextArea minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="760.0" />
-                  </children>
-              </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Purchases">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="600.0">
-                  <children>
-                      <TableView fx:id="purchaseTable" prefHeight="236.0" prefWidth="760.0">
-                        <columns>
-                            <TableColumn fx:id="vendorColumn" prefWidth="291.0" text="Vendor">
-                                <cellValueFactory>
-                                    <javafx.scene.control.cell.PropertyValueFactory property="vendor" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="dateColumn" minWidth="5.0" prefWidth="109.0" text="Date">
-                                <cellValueFactory>
-                                    <javafx.scene.control.cell.PropertyValueFactory property="date" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="priceColumn" minWidth="6.0" prefWidth="97.0" text="Price">
-                                <cellValueFactory>
-                                    <javafx.scene.control.cell.PropertyValueFactory property="price" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="sizeColumn" prefWidth="165.0" text="Size">
-                                <cellValueFactory>
-                                    <javafx.scene.control.cell.PropertyValueFactory property="size" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="quantityColumn" prefWidth="96.0" text="Quantity">
-                                <cellValueFactory>
-                                    <javafx.scene.control.cell.PropertyValueFactory property="quantity" />
-                                </cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                      </TableView>
+                      <TextArea minHeight="0.0" minWidth="0.0" prefHeight="270.0" prefWidth="750.0" />
                   </children>
               </AnchorPane>
             </content>
           </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="42.0" layoutY="274.0" text="Drink" />
-      <TextField layoutX="81.0" layoutY="269.0" prefHeight="26.0" prefWidth="257.0" />
+      <Label layoutX="356.0" layoutY="231.0" text="Drink by" />
+      <TextField layoutX="427.0" layoutY="225.0" prefHeight="26.0" prefWidth="257.0" />
       <ToggleButton layoutX="288.0" layoutY="225.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="ToggleButton" />
-      <ProgressBar layoutX="42.0" layoutY="228.0" prefHeight="20.0" prefWidth="230.0" progress="0.0" />
+      <ProgressBar layoutX="35.0" layoutY="229.0" prefHeight="20.0" prefWidth="230.0" progress="0.0" />
       
       <StackPane layoutX="35.0" layoutY="29.0" prefHeight="161.0" prefWidth="225.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcebbf" height="169.0" stroke="BLACK" strokeType="INSIDE" width="225.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="BEIGE" height="169.0" stroke="BLACK" strokeType="INSIDE" width="225.0" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+
+            </ImageView>
          </children>
       </StackPane>
-      <Button fx:id="addStockButton" layoutX="400.0" layoutY="261.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="+" />
-      <Button fx:id="depleteStockButton" layoutX="400.0" layoutY="295.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="-" />
-      <Label layoutX="416.0" layoutY="240.0" text="Stock" />
-      <TableView layoutX="467.0" layoutY="230.0" prefHeight="130.0" prefWidth="316.0">
+<!--      <TableView layoutX="467.0" layoutY="230.0" prefHeight="130.0" prefWidth="316.0">
         <columns>
           <TableColumn prefWidth="226.0" text="Size" />
           <TableColumn prefWidth="89.0" text="Quantity" />
         </columns>
-      </TableView>
+      </TableView>-->
    </children>
 </AnchorPane>

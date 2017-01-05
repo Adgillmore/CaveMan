@@ -38,6 +38,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -91,12 +92,13 @@ public class Main extends Application {
         table = initTableView(wineList);
         
         final BorderPane root = new BorderPane(table, initToolbar(wineList, stockDao), 
-                getPreviewPane(), null, getFilterPane());
+                null, null, getFilterPane());
         root.setFocusTraversable(false);
         Scene scene = new Scene(root, 1280, 800);
         
         primaryStage.setTitle("CaveMan - The wine cave manager");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
     
@@ -104,13 +106,13 @@ public class Main extends Application {
         final VBox filterPane = new VBox(10, new Text("All wines"), new Text("Favourites"));
         filterPane.setAlignment(Pos.TOP_LEFT);
         filterPane.setPrefWidth(125);
-        filterPane.setPadding(new Insets(10, 20, 10, 20));
+        filterPane.setPadding(new Insets(10, 10, 10, 15));
         return filterPane;
     }
     
     private Node getPreviewPane() {
         final VBox previewPane = new VBox();
-        previewPane.setPrefWidth(350);
+        previewPane.setPrefWidth(300);
         previewPane.setPadding(new Insets(10, 10, 10, 10));
         return previewPane;
     }
@@ -211,6 +213,8 @@ public class Main extends Application {
             });
             return row;
         });
+        
+        
         return table;
     }
     
