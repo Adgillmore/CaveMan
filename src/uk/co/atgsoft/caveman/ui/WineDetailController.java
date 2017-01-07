@@ -6,7 +6,6 @@
 package uk.co.atgsoft.caveman.ui;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,12 +15,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -37,6 +39,7 @@ import uk.co.atgsoft.caveman.Main;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
+import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
 
 /**
@@ -61,7 +64,7 @@ public class WineDetailController {
     
     @FXML private TextField colourText;
     
-    @FXML private TextField priceText;
+    @FXML private ComboBox<WineStyle> styleText;
     
     @FXML private Button addStockButton;
     
@@ -139,13 +142,7 @@ public class WineDetailController {
             }
         });
         
-        priceText.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (mWine == null) return;
-                mWine.setPrice(new BigDecimal(newValue));
-            }
-        });
+        
         
         alcoholText.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -165,6 +162,14 @@ public class WineDetailController {
                     // no op.
                 }
                 
+            }
+        });
+        
+        styleText.itemsProperty().set(FXCollections.observableArrayList(WineStyle.values()));
+        styleText.valueProperty().addListener(new ChangeListener<WineStyle>() {
+            @Override
+            public void changed(ObservableValue<? extends WineStyle> observable, WineStyle oldValue, WineStyle newValue) {
+                if (mWine != null) mWine.setStyle(newValue);
             }
         });
     }
@@ -226,6 +231,7 @@ public class WineDetailController {
         final Button saveButton = (Button) purchaseDialog.getDialogPane().lookupButton(saveButtonType);
         saveButton.setOnAction((ActionEvent event) -> {
             purchaseTable.getItems().add(controller.getPurchase(mWine));
+            mWine.setPrice(controller.getPurchase(mWine).getPrice());
         });
         saveButton.disableProperty().bind(controller.validInputProperty().not());
         return purchaseDialog;
@@ -252,7 +258,8 @@ public class WineDetailController {
         vintageText.setText(Integer.toString(wine.getVintage()));
         alcoholText.setText(Float.toString(wine.getAlcohol()));
         colourText.setText(wine.getWineColour() == null ? "" : wine.getWineColour().toString());
-        priceText.setText(wine.getPrice() == null ? "" : wine.getPrice().toString());
+//        priceText.setText(wine.getPrice() == null ? "" : wine.getPrice().toString());
+        styleText.getSelectionModel().select(wine.getStyle());
         grapesText.setText(wine.getGrape());
         mWine = wine;
     }

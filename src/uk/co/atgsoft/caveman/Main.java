@@ -184,7 +184,9 @@ public class Main extends Application {
             if (editedRecord != null) {
                 stock.remove(editedRecord);
             }
-            stock.add(stockDao.getStockRecord(wine));
+            
+            final StockRecord record = stockDao.getStockRecord(wine);
+            stock.add(record);
             editedRecord = null;
         });
         return dialog;

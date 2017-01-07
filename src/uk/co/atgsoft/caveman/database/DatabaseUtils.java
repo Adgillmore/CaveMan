@@ -16,6 +16,7 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
 import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
 
@@ -57,7 +58,7 @@ public final class DatabaseUtils {
     }
     
     public static Wine createWine(final ResultSet rs) throws SQLException {
-        return new WineImpl(
+        final Wine wine = new WineImpl(
                 rs.getString("wine_id"),
                 rs.getString("name"),
                 rs.getString("producer"),
@@ -67,8 +68,10 @@ public final class DatabaseUtils {
                 rs.getFloat("alcohol"),
                 new BigDecimal(rs.getFloat("price")),
                 WineColour.valueOf(rs.getString("colour").toUpperCase()),
+                WineStyle.valueOf(rs.getString("style").toUpperCase()),
                 rs.getString("grape")
              );
+        return wine;
     }
     
     public static PurchaseRecord createPurchaseRecord(final Wine wine, final ResultSet rs) throws SQLException {

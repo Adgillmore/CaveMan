@@ -5,7 +5,6 @@
  */
 package uk.co.atgsoft.caveman.database.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,6 +15,7 @@ import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.WineStyle;
 
 /**
  *
@@ -33,7 +33,8 @@ public class WineDaoImpl implements WineDao {
            " VINTAGE        INT, " + 
            " ALCOHOL        REAL, " + 
            " COLOUR         TEXT, " + 
-           " PRICE          REAL, " + 
+           " PRICE          BIGDECIMAL, " +
+           " STYLE          TEXT, " +
            " GRAPE         TEXT)");
     }
     
@@ -42,7 +43,8 @@ public class WineDaoImpl implements WineDao {
     @Override
     public void insertWine(final Wine wine) {
     DatabaseUtils.executeStatement(
-          "INSERT INTO WINE (ID,NAME,PRODUCER,REGION,COUNTRY,VINTAGE,ALCOHOL,COLOUR,PRICE,GRAPE) " +
+          "INSERT INTO WINE (ID,NAME,PRODUCER,REGION,COUNTRY,VINTAGE,ALCOHOL"
+                  + ",COLOUR,PRICE,STYLE,GRAPE) " +
                "VALUES (" 
           + "'" + wine.getId() + "', "
           + "'" + wine.getName() + "', " 
@@ -53,6 +55,7 @@ public class WineDaoImpl implements WineDao {
           + wine.getAlcohol() + ", "
           + "'" + wine.getWineColour() + "', "
           + wine.getPrice().floatValue() + ", "
+          + "'" + wine.getStyle().toString() + "', "
           + "'" + wine.getGrape() + "');");
     System.out.println("Wine added successfully");
     }
@@ -103,8 +106,9 @@ public class WineDaoImpl implements WineDao {
                 rs.getString("country"),
                 rs.getInt("vintage"),
                 rs.getFloat("alcohol"),
-                new BigDecimal(rs.getFloat("price")),
+                rs.getBigDecimal("price"),
                 WineColour.valueOf(rs.getString("colour").toUpperCase()),
+                WineStyle.valueOf(rs.getString("style").toUpperCase()),
                 rs.getString("grape")
              );
              wines.add(wine);

@@ -36,12 +36,15 @@ public class WineImpl implements Wine {
     private String delimiter = ": ";
     
     private String spacer = ", ";
+    
+    private WineStyle mStyle;
 
     public WineImpl() {
     }
 
-    public WineImpl(String id, String name, String producer, final String region, final String country, int vintage, 
-            float alcohol, BigDecimal price, WineColour colour, String grape) {
+    public WineImpl(String id, String name, String producer, final String region, 
+            final String country, int vintage, float alcohol, BigDecimal price, 
+            WineColour colour, WineStyle style, String grape) {
         if (id == null) throw new IllegalArgumentException("Id cannot be null");
         if (name == null) throw new IllegalArgumentException("Name cannot be null");
         if (producer == null) throw new IllegalArgumentException("Producer cannot be null");
@@ -51,6 +54,7 @@ public class WineImpl implements Wine {
         if (grape == null) throw new IllegalArgumentException("Grape cannot be null");
         if (colour == null) throw new IllegalArgumentException("Colour cannot be null");
         if (price == null) throw new IllegalArgumentException("Price cannot be null");
+        if (style == null) throw new IllegalArgumentException("Style cannot be null");
         if (alcohol < 0) throw new IllegalArgumentException("Alcohol cannot be less than 0");
         mId = id;
         mName = name;
@@ -62,6 +66,7 @@ public class WineImpl implements Wine {
         mAvgPrice = price;
         mColour = colour;
         mGrape = grape;
+        mStyle = style;
     }
     
     @Override
@@ -193,6 +198,17 @@ public class WineImpl implements Wine {
     @Override
     public BigDecimal getPrice() {
         return mAvgPrice;
+    }
+
+    @Override
+    public void setStyle(final WineStyle style) {
+        if (style == null) throw new IllegalArgumentException("Style cannot be null");
+        mStyle = style;
+    }
+
+    @Override
+    public WineStyle getStyle() {
+        return mStyle;
     }
     
     

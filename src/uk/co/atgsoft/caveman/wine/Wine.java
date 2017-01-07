@@ -53,4 +53,8 @@ public interface Wine {
     
     BigDecimal getPrice();
     
+    void setStyle(WineStyle style);
+    
+    WineStyle getStyle();
+    
 }

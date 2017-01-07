@@ -20,11 +20,11 @@
       <TextField fx:id="countryText" layoutX="328.0" layoutY="135.0" prefHeight="26.0" prefWidth="300" />
       <Label layoutX="651.0" layoutY="32.0" text="Vintage" />
       <Label layoutX="652.0" layoutY="70.0" text="Alcohol" />
-      <Label layoutX="660.0" layoutY="140.0" text="RRP" />
+      <Label layoutX="660.0" layoutY="140.0" text="Style" />
       <Label layoutX="654.0" layoutY="105.0" text="Colour" />
       <TextField fx:id="vintageText" layoutX="706.0" layoutY="27.0" prefHeight="26.0" prefWidth="80" />
       <TextField fx:id="alcoholText" layoutX="706.0" layoutY="65.0" prefHeight="26.0" prefWidth="80" />
-      <TextField fx:id="priceText" layoutX="705.0" layoutY="135.0" prefHeight="26.0" prefWidth="80" />
+      <ComboBox fx:id="styleText" layoutX="705.0" layoutY="135.0" prefHeight="26.0" prefWidth="80" />
       <TextField fx:id="colourText" layoutX="705.0" layoutY="100.0" prefHeight="26.0" prefWidth="80" />
       <Label layoutX="279.0" layoutY="177.0" text="Grapes" />
       <TextField fx:id="grapesText" layoutX="328.0" layoutY="172.0" prefHeight="26.0" prefWidth="455.0" />
