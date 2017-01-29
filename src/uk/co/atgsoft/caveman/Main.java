@@ -208,7 +208,7 @@ public class Main extends Application {
                 final Wine wine = row.getItem().getWine();
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     wineDetailController.setWine(wine);
-                    wineDetailController.setPurchaseRecords(purchaseDao.getAllPurchases(wine));
+                    wineDetailController.setPurchaseRecords(purchaseDao.getPurchases(wine));
                     editedRecord = row.getItem();
                     wineDetailDialog.show();
                 }

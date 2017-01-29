@@ -12,11 +12,13 @@
             <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/StockDaoImpl.java</file>
         </group>
         <group>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/wine/WineImpl.java</file>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/ui/WineDetailController.java</file>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/Main.java</file>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/StockDaoImpl.java</file>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/database/DatabaseUtils.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/wine/WineRecordImpl.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/PurchaseDao.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/DepletionDao.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/wine/depletion/DepletionRecord.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/wine/depletion/DepletionRecordImpl.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/wine/purchase/PurchaseRecord.java</file>
+            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/wine/purchase/PurchaseRecordImpl.java</file>
         </group>
     </open-files>
 </project-private>

@@ -7,21 +7,21 @@ package uk.co.atgsoft.caveman.database.dao;
 
 import java.util.List;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.depletion.DepletionRecord;
 
 /**
  *
  * @author adam.gillmore
  */
-public interface PurchaseDao {
+public interface DepletionDao {
     
-    void addPurchase(PurchaseRecord purchase);
+    void addDepletion(DepletionRecord depletion);
     
-    void removePurchase(PurchaseRecord purchase);
+    void removeDepletion(DepletionRecord depletion);
     
-    void updatePurchase(PurchaseRecord purchase);
+    void updateDepletion(DepletionRecord depletion);
     
-    List<PurchaseRecord> getAllPurchases();
+    List<DepletionRecord> getAllDepletions();
     
-    List<PurchaseRecord> getPurchases(Wine wine);
+    List<DepletionRecord> getDepletions(Wine wine);
 }

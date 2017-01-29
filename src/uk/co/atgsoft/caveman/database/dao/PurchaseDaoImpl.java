@@ -65,7 +65,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public List<PurchaseRecord> getAllPurchases(final Wine wine) {
+    public List<PurchaseRecord> getPurchases(final Wine wine) {
         final List<PurchaseRecord> records = new ArrayList<>();
         Connection c = null;
         Statement stmt = null;

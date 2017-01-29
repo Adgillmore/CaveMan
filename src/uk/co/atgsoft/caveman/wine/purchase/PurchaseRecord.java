@@ -6,42 +6,19 @@
 package uk.co.atgsoft.caveman.wine.purchase;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import uk.co.atgsoft.caveman.wine.BottleSize;
-import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.WineRecord;
 
 /**
- *
+ * An abstraction of a wine purchase.
  * @author adam
  */
-public interface PurchaseRecord {
-    
-    void setId(String id);
-    
-    String getId();
-    
-    void setWine(Wine wine);
-    
-    Wine getWine();
+public interface PurchaseRecord extends WineRecord {
     
     void setPrice(BigDecimal price);
     
     BigDecimal getPrice();
     
-    void setQuantity(int quantity);
-    
-    int getQuantity();
-    
-    void setBottleSize(BottleSize size);
-    
-    BottleSize getBottleSize();
-    
     void setVendor(String vendor);
     
     String getVendor();
-    
-    void setDate(LocalDate date);
-    
-    LocalDate getDate();
-    
 }
