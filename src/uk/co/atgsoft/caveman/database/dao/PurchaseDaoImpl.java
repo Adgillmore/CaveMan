@@ -21,8 +21,11 @@ import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
  */
 public class PurchaseDaoImpl implements PurchaseDao {
 
-    public PurchaseDaoImpl() {
-        DatabaseUtils.createTable("CREATE TABLE IF NOT EXISTS PURCHASE " +
+    private final String mDatabaseName;
+    
+    public PurchaseDaoImpl(final String databaseName) {
+        mDatabaseName = databaseName;
+        DatabaseUtils.createTable(databaseName, "CREATE TABLE IF NOT EXISTS PURCHASE " +
            "(ID TEXT PRIMARY KEY," +
            " WINE_ID TEXT, " +
            " PRICE INTEGER    NOT NULL, " + 
@@ -37,7 +40,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
     
     @Override
     public void addPurchase(PurchaseRecord purchase) {
-        DatabaseUtils.executeStatement(
+        DatabaseUtils.executeStatement(mDatabaseName, 
         "INSERT INTO PURCHASE (ID, WINE_ID, PRICE, DATE, QUANTITY, VENDOR, SIZE)"
                 + "VALUES ("
                 + "'" + purchase.getId() + "', "
@@ -71,7 +74,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
         Statement stmt = null;
         
         try {
-          c = DriverManager.getConnection("jdbc:sqlite:test.db");
+          c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
 
           stmt = c.createStatement();
           ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE WHERE WINE_ID = '" + wine.getId() + "';" );

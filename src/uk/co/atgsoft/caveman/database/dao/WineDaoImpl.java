@@ -23,8 +23,11 @@ import uk.co.atgsoft.caveman.wine.WineStyle;
  */
 public class WineDaoImpl implements WineDao {
 
-    public WineDaoImpl() {
-        DatabaseUtils.createTable("CREATE TABLE IF NOT EXISTS WINE " +
+    private final String mDatabaseName;
+    
+    public WineDaoImpl(final String databaseName) {
+        mDatabaseName = databaseName;
+        DatabaseUtils.createTable(mDatabaseName, "CREATE TABLE IF NOT EXISTS WINE " +
            "(ID TEXT PRIMARY KEY," +
            " NAME           TEXT    NOT NULL, " + 
            " PRODUCER       TEXT    NOT NULL, " + 
@@ -42,7 +45,7 @@ public class WineDaoImpl implements WineDao {
     
     @Override
     public void insertWine(final Wine wine) {
-    DatabaseUtils.executeStatement(
+    DatabaseUtils.executeStatement(mDatabaseName,
           "INSERT INTO WINE (ID,NAME,PRODUCER,REGION,COUNTRY,VINTAGE,ALCOHOL"
                   + ",COLOUR,PRICE,STYLE,GRAPE) " +
                "VALUES (" 
@@ -54,7 +57,7 @@ public class WineDaoImpl implements WineDao {
           + wine.getVintage() + ", "
           + wine.getAlcohol() + ", "
           + "'" + wine.getWineColour() + "', "
-          + wine.getPrice().floatValue() + ", "
+//          + wine.getPrice().floatValue() + ", "
           + "'" + wine.getStyle().toString() + "', "
           + "'" + wine.getGrape() + "');");
     System.out.println("Wine added successfully");
@@ -65,7 +68,7 @@ public class WineDaoImpl implements WineDao {
         Statement stmt = null;
         int id = 0;
         try {
-          c = DriverManager.getConnection("jdbc:sqlite:test.db");
+          c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
           stmt = c.createStatement();
           ResultSet rs = stmt.executeQuery(
                   "SELECT ID FROM WINE WHERE NAME='" 
@@ -91,8 +94,7 @@ public class WineDaoImpl implements WineDao {
         Connection c = null;
         Statement stmt = null;
         try {
-//          Class.forName("org.sqlite.JDBC");
-          c = DriverManager.getConnection("jdbc:sqlite:test.db");
+          c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
           System.out.println("Opened database successfully");
 
           stmt = c.createStatement();
@@ -128,14 +130,14 @@ public class WineDaoImpl implements WineDao {
 
     @Override
     public void removeWine(final Wine wine) {
-        DatabaseUtils.executeStatement(
+        DatabaseUtils.executeStatement(mDatabaseName, 
            "DELETE FROM WINE WHERE NAME = '" + wine.getName() + "';");
         System.out.println("Wine deleted successfully");
     }
 
     @Override
     public void updateWine(final Wine wine) {
-        DatabaseUtils.executeStatement(
+        DatabaseUtils.executeStatement(mDatabaseName,
             "UPDATE WINE SET "
                     + "NAME = '" + wine.getName() + "', " 
           + "PRODUCER = '" + wine.getProducer() + "', "

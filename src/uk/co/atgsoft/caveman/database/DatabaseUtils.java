@@ -26,11 +26,11 @@ import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
  */
 public final class DatabaseUtils {
     
-    public static void createTable(final String statement) {
+    public static void createTable(final String databaseName, final String statement) {
         Connection c = null;
         Statement stmt = null;
         try {
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            c = DriverManager.getConnection("jdbc:sqlite:" + databaseName + ".db");
             System.out.println("Opened database successfully");
             stmt = c.createStatement();
             stmt.executeUpdate(statement);
@@ -42,11 +42,11 @@ public final class DatabaseUtils {
         System.out.println("Table created successfully");
     }
     
-    public static void executeStatement(final String statement) {
+    public static void executeStatement(final String databaseName, final String statement) {
         Connection c = null;
         Statement stmt = null;
         try {
-          c = DriverManager.getConnection("jdbc:sqlite:test.db");
+          c = DriverManager.getConnection("jdbc:sqlite:" + databaseName + ".db");
           stmt = c.createStatement();
           stmt.executeUpdate(statement);
           stmt.close();

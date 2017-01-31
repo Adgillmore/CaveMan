@@ -38,7 +38,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -60,6 +59,8 @@ import uk.co.atgsoft.caveman.wine.stock.StockRecord;
  * @author adam
  */
 public class Main extends Application {
+    
+    private static final String DATABASE_NAME="user1";
     
     private TableView table;
     
@@ -83,9 +84,9 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        wineDao = new WineDaoImpl();
-        purchaseDao = new PurchaseDaoImpl();
-        stockDao = new StockDaoImpl();
+        wineDao = new WineDaoImpl(DATABASE_NAME);
+        purchaseDao = new PurchaseDaoImpl(DATABASE_NAME);
+        stockDao = new StockDaoImpl(DATABASE_NAME);
         wineList = FXCollections.observableArrayList();
         wineList.addAll(stockDao.getAllStockRecords());
         wineDetailDialog = initDialog(wineList, wineDao);

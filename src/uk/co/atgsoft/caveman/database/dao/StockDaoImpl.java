@@ -22,6 +22,14 @@ import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
  * @author adam.gillmore
  */
 public class StockDaoImpl implements StockDao {
+
+    private final String mDatabaseName;
+    
+    public StockDaoImpl(final String databaseName) {
+        mDatabaseName = databaseName;
+    }
+    
+    
     
     @Override
     public void addStock(StockRecord stock) {
@@ -44,7 +52,7 @@ public class StockDaoImpl implements StockDao {
         Statement stmt = null;
         StockRecord stock = null;
         try {
-          c = DriverManager.getConnection("jdbc:sqlite:test.db");
+          c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
 
           stmt = c.createStatement();
           ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID WHERE WINE_ID = '" + wine.getId() + "';" );
@@ -73,7 +81,7 @@ public class StockDaoImpl implements StockDao {
         Statement stmt = null;
         
         try {
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery( "SELECT WINE_ID, NAME, PRODUCER, REGION, COUNTRY, VINTAGE, ALCOHOL, "
                     + "COLOUR, WINE.PRICE, STYLE, GRAPE, SIZE, QUANTITY, SUM(QUANTITY) AS TOTAL "
