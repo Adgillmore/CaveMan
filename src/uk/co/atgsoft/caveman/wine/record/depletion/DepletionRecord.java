@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.depletion;
+package uk.co.atgsoft.caveman.wine.record.depletion;
 
-import uk.co.atgsoft.caveman.wine.WineRecord;
+import uk.co.atgsoft.caveman.wine.record.WineRecord;
 
 /**
  *

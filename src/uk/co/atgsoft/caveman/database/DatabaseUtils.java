@@ -16,9 +16,13 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
 
 /**
  *
@@ -59,17 +63,14 @@ public final class DatabaseUtils {
     
     public static Wine createWine(final ResultSet rs) throws SQLException {
         final Wine wine = new WineImpl(
-                rs.getString("wine_id"),
-                rs.getString("name"),
-                rs.getString("producer"),
-                rs.getString("region"),
-                rs.getString("country"),
+                rs.getString("wine_id"), 
+                rs.getString("name"), 
+                new WineOriginImpl(rs.getString("producer"), rs.getString("region"), rs.getString("country")),
+                new WineCompositionImpl(WineColour.valueOf(rs.getString("colour").toUpperCase()), 
+                        WineStyle.valueOf(rs.getString("style").toUpperCase()), rs.getString("grape")),
                 rs.getInt("vintage"),
                 rs.getFloat("alcohol"),
-                new BigDecimal(rs.getFloat("price")),
-                WineColour.valueOf(rs.getString("colour").toUpperCase()),
-                WineStyle.valueOf(rs.getString("style").toUpperCase()),
-                rs.getString("grape")
+                rs.getBigDecimal("price")
              );
         return wine;
     }
@@ -83,6 +84,16 @@ public final class DatabaseUtils {
                 rs.getString("vendor"), 
                 LocalDate.parse(rs.getString("date"))
                 );
+    }
+    
+    public static DepletionRecord createDepletionRecord(final Wine wine, final ResultSet rs) throws SQLException {
+        return new DepletionRecordImpl(rs.getString("id"), 
+                wine, 
+                rs.getInt("quantity"), 
+                BottleSize.valueOf(rs.getString("size")), 
+                LocalDate.parse(rs.getString("date")), 
+                rs.getFloat("rating"), 
+                rs.getString("review"));
     }
         
 }

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.purchase;
+package uk.co.atgsoft.caveman.wine.record.purchase;
 
 import java.math.BigDecimal;
-import uk.co.atgsoft.caveman.wine.WineRecord;
+import uk.co.atgsoft.caveman.wine.record.WineRecord;
 
 /**
  * An abstraction of a wine purchase.

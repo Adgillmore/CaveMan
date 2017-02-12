@@ -14,8 +14,8 @@ import java.util.List;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.stock.StockRecord;
-import uk.co.atgsoft.caveman.wine.stock.StockRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.record.stock.StockRecordImpl;
 
 /**
  *

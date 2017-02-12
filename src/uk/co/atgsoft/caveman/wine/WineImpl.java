@@ -17,17 +17,11 @@ public class WineImpl implements Wine {
 
     private String mName;
     
-    private String mProducer;
+    private WineOrigin mOrigin;
+    
+    private WineComposition mComposition;
     
     private int mVintage;
-    
-    private String mGrape;
-    
-    private String mCountry;
-    
-    private String mRegion;
-    
-    private WineColour mColour;
     
     private float mAlcohol;
     
@@ -37,36 +31,26 @@ public class WineImpl implements Wine {
     
     private String spacer = ", ";
     
-    private WineStyle mStyle;
-
     public WineImpl() {
     }
 
-    public WineImpl(String id, String name, String producer, final String region, 
-            final String country, int vintage, float alcohol, BigDecimal price, 
-            WineColour colour, WineStyle style, String grape) {
+    public WineImpl(String id, final String name, final WineOrigin origin, final WineComposition composition, 
+            int vintage, float alcohol, BigDecimal price) {
         if (id == null) throw new IllegalArgumentException("Id cannot be null");
         if (name == null) throw new IllegalArgumentException("Name cannot be null");
-        if (producer == null) throw new IllegalArgumentException("Producer cannot be null");
-        if (region == null) throw new IllegalArgumentException("Region cannot be null");
-        if (country == null) throw new IllegalArgumentException("Country cannot be null");
+        if (origin == null) throw new IllegalArgumentException("Origin cannot be null");
+        if (composition == null) throw new IllegalArgumentException("Composition cannot be null");
         if (vintage < 1800 || vintage > 2200) throw new IllegalArgumentException("Vintage is out of range");
-        if (grape == null) throw new IllegalArgumentException("Grape cannot be null");
-        if (colour == null) throw new IllegalArgumentException("Colour cannot be null");
         if (price == null) throw new IllegalArgumentException("Price cannot be null");
-        if (style == null) throw new IllegalArgumentException("Style cannot be null");
         if (alcohol < 0) throw new IllegalArgumentException("Alcohol cannot be less than 0");
         mId = id;
         mName = name;
-        mProducer = producer;
-        mRegion = region;
-        mCountry = country;
+        mOrigin = origin;
+        mComposition = composition;
         mVintage = vintage;
         mAlcohol = alcohol;
         mAvgPrice = price;
-        mColour = colour;
-        mGrape = grape;
-        mStyle = style;
+        
     }
     
     @Override
@@ -81,17 +65,6 @@ public class WineImpl implements Wine {
     }
 
     @Override
-    public void setProducer(final String producer) {
-        if (producer == null) throw new IllegalArgumentException("Producer cannot be null");
-        mProducer= producer;
-    }
-
-    @Override
-    public String getProducer() {
-        return mProducer;
-    }
-
-    @Override
     public int getVintage() {
         return mVintage;
     }
@@ -100,17 +73,6 @@ public class WineImpl implements Wine {
     public void setVintage(final int vintage) {
         if (vintage < 1800 || vintage > 2200) return;
         mVintage = vintage;
-    }
-
-    @Override
-    public String getGrape() {
-        return mGrape;
-    }
-
-    @Override
-    public void setGrape(final String grape) {
-        if (grape == null) throw new IllegalArgumentException("Grape cannot be null");
-        mGrape = grape;
     }
 
     @Override
@@ -135,46 +97,7 @@ public class WineImpl implements Wine {
     public void setId(final String id) {
         mId = id;
     }
-
-    @Override
-    public void setCountry(final String country) {
-        if (country == null) {
-            throw new IllegalArgumentException("Country cannot be null");
-        }
-        mCountry = country;
-    }
-
-    @Override
-    public String getCountry() {
-        return mCountry;
-    }
-
-    @Override
-    public void setRegion(final String region) {
-        if (region == null) {
-            throw new IllegalArgumentException("Region cannot be null");
-        }
-        mRegion = region;
-    }
-
-    @Override
-    public String getRegion() {
-        return mRegion;
-    }
-
-    @Override
-    public void setColour(final WineColour colour) {
-        if (colour == null) {
-            throw new IllegalArgumentException("Colour cannot be null");
-        }
-        mColour = colour;
-    }
-
-    @Override
-    public WineColour getWineColour() {
-        return mColour;
-    }
-
+    
     @Override
     public void setAlcohol(final float alcohol) {
         if (alcohol < 0 || alcohol > 100) throw new IllegalArgumentException("Alcohol must be between 0 and 100");
@@ -201,15 +124,65 @@ public class WineImpl implements Wine {
     }
 
     @Override
-    public void setStyle(final WineStyle style) {
-        if (style == null) throw new IllegalArgumentException("Style cannot be null");
-        mStyle = style;
+    public void setProducer(String producer) {
+        mOrigin.setProducer(producer);
+    }
+
+    @Override
+    public String getProducer() {
+        return mOrigin.getProducer();
+    }
+
+    @Override
+    public void setGrape(String grape) {
+        mComposition.setGrape(grape);
+    }
+
+    @Override
+    public String getGrape() {
+        return mComposition.getGrape();
+    }
+
+    @Override
+    public void setCountry(String country) {
+        mOrigin.setCountry(country);
+    }
+
+    @Override
+    public String getCountry() {
+        return mOrigin.getCountry();
+    }
+
+    @Override
+    public void setRegion(String region) {
+        mOrigin.setRegion(region);
+    }
+
+    @Override
+    public String getRegion() {
+        return mOrigin.getRegion();
+    }
+
+    @Override
+    public void setColour(WineColour colour) {
+        mComposition.setColour(colour);
+    }
+
+    @Override
+    public WineColour getWineColour() {
+        return mComposition.getWineColour();
+    }
+
+    @Override
+    public void setStyle(WineStyle style) {
+        mComposition.setStyle(style);
     }
 
     @Override
     public WineStyle getStyle() {
-        return mStyle;
+        return mComposition.getStyle();
     }
+
     
     
     

@@ -7,7 +7,7 @@ package uk.co.atgsoft.caveman.database.dao;
 
 import java.util.List;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.depletion.DepletionRecord;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
 
 /**
  *

@@ -15,7 +15,9 @@ import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
+import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
 
 /**
  *
@@ -101,17 +103,14 @@ public class WineDaoImpl implements WineDao {
           ResultSet rs = stmt.executeQuery( "SELECT * FROM WINE;" );
           while ( rs.next() ) {
              final Wine wine = new WineImpl(
-                rs.getString("id"),
-                rs.getString("name"),
-                rs.getString("producer"),
-                rs.getString("region"),
-                rs.getString("country"),
+                rs.getString("id"), 
+                rs.getString("name"), 
+                new WineOriginImpl(rs.getString("producer"), rs.getString("region"), rs.getString("country")),
+                new WineCompositionImpl(WineColour.valueOf(rs.getString("colour").toUpperCase()), 
+                        WineStyle.valueOf(rs.getString("style").toUpperCase()), rs.getString("grape")),
                 rs.getInt("vintage"),
                 rs.getFloat("alcohol"),
-                rs.getBigDecimal("price"),
-                WineColour.valueOf(rs.getString("colour").toUpperCase()),
-                WineStyle.valueOf(rs.getString("style").toUpperCase()),
-                rs.getString("grape")
+                rs.getBigDecimal("price")
              );
              wines.add(wine);
              

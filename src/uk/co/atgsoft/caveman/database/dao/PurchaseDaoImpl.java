@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
 
 /**
  *
@@ -31,8 +31,8 @@ public class PurchaseDaoImpl implements PurchaseDao {
            " PRICE INTEGER    NOT NULL, " + 
            " DATE TEXT    NOT NULL, " +
            " VENDOR TEXT NOT NULL, " +
-           " QUANTITY INTEGER, " + 
-           " SIZE TEXT, " + 
+           " QUANTITY INTEGER NOT NULL, " + 
+           " SIZE TEXT NOT NULL, " + 
            " FOREIGN KEY(WINE_ID) REFERENCES WINE(ID))");
     }
 

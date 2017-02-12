@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.purchase;
+package uk.co.atgsoft.caveman.wine.record.purchase;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.WineRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
 
 /**
  *

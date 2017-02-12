@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.stock;
+package uk.co.atgsoft.caveman.wine.record.stock;
 
 import uk.co.atgsoft.caveman.wine.BottleSize;
 

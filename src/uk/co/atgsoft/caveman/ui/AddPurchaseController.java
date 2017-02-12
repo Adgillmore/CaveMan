@@ -16,8 +16,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
 
 /**
  *

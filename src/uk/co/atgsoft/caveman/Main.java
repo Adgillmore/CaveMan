@@ -51,8 +51,8 @@ import uk.co.atgsoft.caveman.ui.CellarTableController;
 import uk.co.atgsoft.caveman.ui.WineDetailController;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
-import uk.co.atgsoft.caveman.wine.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
 
 /**
  *

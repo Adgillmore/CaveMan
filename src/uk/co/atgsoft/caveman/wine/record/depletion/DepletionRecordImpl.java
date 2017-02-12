@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.depletion;
+package uk.co.atgsoft.caveman.wine.record.depletion;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.WineRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
 
 /**
  *
  * @author adam
  */
 public class DepletionRecordImpl extends WineRecordImpl implements DepletionRecord {
-
+    
     private float mRating;
     
     private String mReview;
@@ -47,5 +48,28 @@ public class DepletionRecordImpl extends WineRecordImpl implements DepletionReco
     public String getReview() {
         return mReview;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getWine(), getDate(), getBottleSize(), getQuantity(), mRating, mReview);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof DepletionRecordImpl)) {
+            return false;
+        }
+        DepletionRecordImpl other = (DepletionRecordImpl) obj;
+        return Objects.equals(mRating, other.getRating()) &&
+                Objects.equals(mReview, other.getReview()) &&
+                Objects.equals(getId(), other.getId()) &&
+                Objects.equals(getDate(), other.getDate()) &&
+                Objects.equals(getWine(), other.getWine()) &&
+                Objects.equals(getBottleSize(), other.getBottleSize()) &&
+                Objects.equals(getQuantity(), other.getQuantity());
+    }
+    
+    
     
 }

@@ -10,7 +10,9 @@ import org.junit.Test;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
+import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
 
 /**
  *
@@ -25,10 +27,9 @@ public class WineDaoImplTest {
         final WineDao dao = new WineDaoImpl(DATABASE_NAME);
         
         final Wine wine = new WineImpl("the_id", 
-                "the_name", "the_producer", 
-                "the_region", "the_country", 
-                2012, 15, BigDecimal.ONE, WineColour.ROSE, 
-                WineStyle.DRY, "semillon");
+                "the_name", new WineOriginImpl("the_producer", "the_region", "the_country"), 
+                new WineCompositionImpl(WineColour.ROSE, WineStyle.DRY, "semillon"),
+                2012, 15, BigDecimal.ONE);
         
         dao.insertWine(wine);
     }

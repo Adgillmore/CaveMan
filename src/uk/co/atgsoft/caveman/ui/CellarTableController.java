@@ -9,7 +9,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
-import uk.co.atgsoft.caveman.wine.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
 
 /**
  * FXML Controller class
