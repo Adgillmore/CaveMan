@@ -29,8 +29,6 @@ public class StockDaoImpl implements StockDao {
         mDatabaseName = databaseName;
     }
     
-    
-    
     @Override
     public void addStock(StockRecord stock) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -55,12 +53,14 @@ public class StockDaoImpl implements StockDao {
           c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
 
           stmt = c.createStatement();
-          ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID WHERE WINE_ID = '" + wine.getId() + "';" );
-          
+//          ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID WHERE WINE_ID = '" + wine.getId() + "';" );
+          ResultSet rs = stmt.executeQuery("SELECT purchase.wine_id, wine.name, wine.producer, wine.vintage, wine.region, wine.country, wine.colour, wine.style, wine.grape," 
+            + "avg(wine.price) as avg_price, sum(purchase.quantity) as added, sum(depletion.quantity) as drunk, purchase.size, depletion.rating, depletion.review" 
+                    + "from purchase join depletion on purchase.wine_id=depletion.wine_id join wine on purchase.wine_id = wine.id group by purchase.size");
           while (rs.next()) {
              if (stock == null) {
 //                 stock = new StockRecordImpl(DatabaseUtils.createWine(rs));
-                    stock = new StockRecordImpl(wine);
+                    stock = new StockRecordImpl(wine, (rs.getInt("added") - rs.getInt("drunk")));
              }
              stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("quantity"));
           }

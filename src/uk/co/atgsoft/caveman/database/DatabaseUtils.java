@@ -30,6 +30,20 @@ import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
  */
 public final class DatabaseUtils {
     
+    private final static StringBuilder sb = new StringBuilder();
+    private static final String JDBC_PREFIX = "jdbc:sqlite:";
+    private static final String DB_SUFFIX = ".db";
+    
+    public static Connection getConnection(final String databaseName) throws SQLException {
+        sb.setLength(0);
+        sb.append(JDBC_PREFIX).append(databaseName).append(DB_SUFFIX);
+        Connection conn = null;
+        conn = DriverManager.getConnection(sb.toString());
+        sb.setLength(0);
+        return conn;
+    }
+
+    
     public static void createTable(final String databaseName, final String statement) {
         Connection c = null;
         Statement stmt = null;
@@ -54,12 +68,12 @@ public final class DatabaseUtils {
           stmt = c.createStatement();
           stmt.executeUpdate(statement);
           stmt.close();
-          c.commit();
           c.close();
         } catch ( Exception e ) {
           System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
+
     
     public static Wine createWine(final ResultSet rs) throws SQLException {
         final Wine wine = new WineImpl(
@@ -95,5 +109,14 @@ public final class DatabaseUtils {
                 rs.getFloat("rating"), 
                 rs.getString("review"));
     }
-        
+
+    private static void check(final String s) {
+        if (s == null || s.isEmpty()) throw new IllegalArgumentException();
+    }
+    
+    private static void check(final String... strings) {
+        for (String s : strings) {
+            check(s);
+        }
+    }
 }

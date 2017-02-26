@@ -21,7 +21,5 @@ public interface PurchaseDao {
     
     void updatePurchase(PurchaseRecord purchase);
     
-    List<PurchaseRecord> getAllPurchases();
-    
     List<PurchaseRecord> getPurchases(Wine wine);
 }

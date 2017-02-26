@@ -21,7 +21,5 @@ public interface DepletionDao {
     
     void updateDepletion(DepletionRecord depletion);
     
-    List<DepletionRecord> getAllDepletions();
-    
     List<DepletionRecord> getDepletions(Wine wine);
 }

@@ -63,11 +63,6 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public List<PurchaseRecord> getAllPurchases() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public List<PurchaseRecord> getPurchases(final Wine wine) {
         final List<PurchaseRecord> records = new ArrayList<>();
         Connection c = null;
