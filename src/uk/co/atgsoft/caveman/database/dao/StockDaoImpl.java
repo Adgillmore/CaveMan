@@ -55,17 +55,24 @@ public class StockDaoImpl implements StockDao {
           stmt = c.createStatement();
 //          ResultSet rs = stmt.executeQuery( "SELECT * FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID WHERE WINE_ID = '" + wine.getId() + "';" );
           
-            ResultSet rs = stmt.executeQuery("SELECT PURCHASE.WINE_ID, wine.name, wine.producer, wine.vintage, wine.region, wine.country, wine.colour, wine.style, wine.grape," 
-            + "avg(wine.price) as avg_price, sum(purchase.quantity) as added, sum(depletion.quantity) as drunk, purchase.size, depletion.rating, depletion.review" 
-                    + "from purchase");// join depletion on purchase.wine_id=depletion.wine_id");// join wine on purchase.wine_id = wine.id group by purchase.size");
-          
+//            ResultSet rs = stmt.executeQuery("SELECT PURCHASE.WINE_ID, wine.name, wine.producer, wine.vintage, wine.region, wine.country, wine.colour, wine.style, wine.grape," 
+//            + "avg(wine.price) as avg_price, sum(purchase.quantity) as added, sum(depletion.quantity) as drunk, purchase.size, depletion.rating, depletion.review" 
+//                    + "from purchase");// join depletion on purchase.wine_id=depletion.wine_id");// join wine on purchase.wine_id = wine.id group by purchase.size");
+            final ResultSet rs = stmt.executeQuery(
+                    "Select WINE_ID, NAME, PRODUCER, VINTAGE, REGION, COUNTRY, COLOUR, STYLE, GRAPE, QUANTITY, avg(PURCHASE.PRICE) as AVG_PRICE, sum(PURCHASE.QUANTITY) as ADDED FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID WHERE WINE_ID = '" + wine.getId() + "';" );
           
           while (rs.next()) {
              if (stock == null) {
+                 final String name = rs.getString("name");
+                 final String producer = rs.getString("producer");
+                 final int quantity = rs.getInt("quantity");
+                 final float avgPrice = rs.getFloat("avg_price");
+                 final int added = rs.getInt("added");
+                 final boolean b = true;
 //                 stock = new StockRecordImpl(DatabaseUtils.createWine(rs));
-                    stock = new StockRecordImpl(wine, (rs.getInt("added") - rs.getInt("drunk")));
+//                    stock = new StockRecordImpl(wine, (rs.getInt("added") - rs.getInt("drunk")));
              }
-             stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("quantity"));
+//             stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("quantity"));
           }
           rs.close();
           stmt.close();

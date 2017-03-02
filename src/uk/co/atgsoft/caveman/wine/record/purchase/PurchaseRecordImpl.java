@@ -7,8 +7,10 @@ package uk.co.atgsoft.caveman.wine.record.purchase;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
 
 /**
@@ -55,4 +57,23 @@ public class PurchaseRecordImpl extends WineRecordImpl implements PurchaseRecord
         return mVendor;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getWine(), getQuantity(), getBottleSize(), mPrice, mVendor);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof PurchaseRecordImpl)) {
+            return false;
+        }
+        PurchaseRecordImpl other = (PurchaseRecordImpl) obj;
+        return Objects.equals(getId(), other.getId()) &&
+                Objects.equals(getWine(), other.getWine()) &&
+                Objects.equals(getQuantity(), other.getQuantity()) &&
+                Objects.equals(getBottleSize(), other.getBottleSize()) &&
+//                Objects.equals(mPrice, other.getPrice()) &&
+                Objects.equals(mVendor, other.getVendor());
+    }
 }

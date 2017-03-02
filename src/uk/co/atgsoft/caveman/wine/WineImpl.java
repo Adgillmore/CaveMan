@@ -205,7 +205,7 @@ public class WineImpl implements Wine {
                 Objects.equals(getRegion(), other.getRegion()) &&
                 Objects.equals(getAlcohol(), other.getAlcohol()) &&
                 Objects.equals(getStyle(), other.getStyle()) &&
-                Objects.equals(getPrice(), other.getPrice()) &&
+//                Objects.equals(getPrice(), other.getPrice()) &&
                 Objects.equals(getWineColour(), other.getWineColour());
     }
     

@@ -41,16 +41,6 @@ public class DepletionDaoImpl implements DepletionDao {
     
     @Override
     public void addDepletion(final DepletionRecord depletion) {
-//        DatabaseUtils.executeStatement(mDatabaseName, 
-//                "INSERT INTO DEPLETION (ID, WINE_ID, DATE, QUANTITY, SIZE, RATING, REVIEW) VALUES ("
-//        + "'" + depletion.getId() + "', "
-//        + "'" + depletion.getWine().getId() + "', "
-//        + "'" + depletion.getDate() + "', "
-//        + "'" + depletion.getQuantity() + "', "
-//        + "'" + depletion.getBottleSize() + "', "
-//        + "'" + depletion.getRating() + "', "
-//        + "'" + depletion.getReview() + "');");
-        
         try {
             Connection conn = DatabaseUtils.getConnection(mDatabaseName);
             final PreparedStatement ps = conn.prepareStatement(

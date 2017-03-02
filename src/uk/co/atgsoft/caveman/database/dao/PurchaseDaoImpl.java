@@ -24,6 +24,8 @@ public class PurchaseDaoImpl implements PurchaseDao {
     private final String mDatabaseName;
     
     public PurchaseDaoImpl(final String databaseName) {
+        if (databaseName == null || databaseName.isEmpty()) throw new IllegalArgumentException(
+                "Database name cannot be null or empty");
         mDatabaseName = databaseName;
         DatabaseUtils.createTable(databaseName, "CREATE TABLE IF NOT EXISTS PURCHASE " +
            "(ID TEXT PRIMARY KEY," +
