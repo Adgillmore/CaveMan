@@ -6,6 +6,7 @@
 package uk.co.atgsoft.caveman.wine;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  *
@@ -183,7 +184,30 @@ public class WineImpl implements Wine {
         return mComposition.getStyle();
     }
 
-    
+    @Override
+    public int hashCode() {
+        return Objects.hash(mId, mName, getProducer(), getVintage(), getCountry(), getRegion(), getAlcohol(), 
+                getStyle(), getPrice(), getWineColour());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof WineImpl)) {
+            return false;
+        }
+        WineImpl other = (WineImpl) obj;
+        return Objects.equals(mId, other.getId()) &&
+                Objects.equals(mName, other.getName()) &&
+                Objects.equals(getProducer(), other.getProducer()) &&
+                Objects.equals(getVintage(), other.getVintage()) &&
+                Objects.equals(getCountry(), other.getCountry()) &&
+                Objects.equals(getRegion(), other.getRegion()) &&
+                Objects.equals(getAlcohol(), other.getAlcohol()) &&
+                Objects.equals(getStyle(), other.getStyle()) &&
+                Objects.equals(getPrice(), other.getPrice()) &&
+                Objects.equals(getWineColour(), other.getWineColour());
+    }
     
     
 }

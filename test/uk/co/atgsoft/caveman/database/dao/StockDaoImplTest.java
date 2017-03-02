@@ -36,7 +36,7 @@ public class StockDaoImplTest {
     
     private static final String SUFFIX = ".db";
     
-    private static final String DB_NAME = "test_db";
+    private static final String DB_NAME = "test_data";
     
     private static final String BBR = "Berry Brothers and Rudd";
     

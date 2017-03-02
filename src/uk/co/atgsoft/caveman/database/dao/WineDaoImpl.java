@@ -59,7 +59,7 @@ public class WineDaoImpl implements WineDao {
           + wine.getVintage() + ", "
           + wine.getAlcohol() + ", "
           + "'" + wine.getWineColour() + "', "
-//          + wine.getPrice().floatValue() + ", "
+          + wine.getPrice().floatValue() + ", "
           + "'" + wine.getStyle().toString() + "', "
           + "'" + wine.getGrape() + "');");
     System.out.println("Wine added successfully");
@@ -149,5 +149,6 @@ public class WineDaoImpl implements WineDao {
           + "GRAPE = '" + wine.getGrape() + "'"
           + " WHERE ID ='" + wine.getId() + "';");
     }
+    
     
 }
