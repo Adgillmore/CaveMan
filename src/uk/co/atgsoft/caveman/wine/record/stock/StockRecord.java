@@ -17,15 +17,9 @@ public interface StockRecord {
     
     Wine getWine();
     
-    int getNumberOfBottles();
+    Map<BottleSize, StockEntry> getStock();
     
-    float getNumberOfStandardBottles();
+    StockEntry getStockentry(BottleSize size);
     
-    float getVolume();
-    
-    Map<BottleSize, StockEntry> getStockEntries();
-    
-    void addStock(BottleSize size, int quantity);
-    
-    void depleteStock(BottleSize size, int quantity);
+    void addStockEntry(StockEntry entry);
 }

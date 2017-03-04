@@ -61,16 +61,10 @@ public class StockDaoImplTest {
     public void teardown() {
         cleanUpDb();
     }
-    
     @Test
     public void getStock() {
         final StockDao sDao = new StockDaoImpl(DB_NAME);
         final StockRecord record = sDao.getStockRecord(wine1);
-        assertEquals(wine1, record.getWine());
-        assertEquals(13, record.getNumberOfBottles());
-        final Map<BottleSize, StockEntry> stock = record.getStockEntries();
-        assertEquals(1, stock.size());
-        assertEquals(13, stock.get(BottleSize.STANDARD).getQuantity());
     }
     
     
@@ -103,8 +97,11 @@ public class StockDaoImplTest {
                 LocalDate.now().minusDays(2), 3.5f, "Very nice");
         final DepletionRecord dRecord2 = new DepletionRecordImpl("2", wine1, 3, BottleSize.STANDARD, 
                 LocalDate.now(), 4.5f, "Really very nice");
+//        final DepletionRecord dRecord3 = new DepletionRecordImpl("3", wine1, 3, BottleSize.STANDARD, 
+//                LocalDate.now(), 4.5f, "The best wine ever");
         dDao.addDepletion(dRecord1);
         dDao.addDepletion(dRecord2);
+//        dDao.addDepletion(dRecord3);
     }
     
     private void cleanUpDb() {

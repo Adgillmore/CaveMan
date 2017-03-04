@@ -5,7 +5,9 @@
  */
 package uk.co.atgsoft.caveman.wine.record.stock;
 
+import java.math.BigDecimal;
 import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
  *
@@ -13,11 +15,13 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
  */
 public interface StockEntry {
     
-    BottleSize getBottleSize();
+    Wine getWine();
     
-    void setBottleSize(BottleSize size);
+    BottleSize getBottleSize();
     
     int getQuantity();
     
-    void setQuantity(int quantity);
+    BigDecimal getAveragePrice();
+    
+    float getAverageRating();
 }

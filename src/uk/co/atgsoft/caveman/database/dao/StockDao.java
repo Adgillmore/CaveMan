@@ -15,13 +15,13 @@ import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
  */
 public interface StockDao {
     
-    void addStock(StockRecord stock);
-    
-    void removeStock(StockRecord stock);
-    
-    void updateStock(StockRecord stock);
+//    void addStock(StockRecord stock);
+//    
+//    void removeStock(StockRecord stock);
+//    
+//    void updateStock(StockRecord stock);
     
     StockRecord getStockRecord(Wine wine);
     
-    List<StockRecord> getAllStockRecords();
+//    List<StockRecord> getAllStockRecords();
 }

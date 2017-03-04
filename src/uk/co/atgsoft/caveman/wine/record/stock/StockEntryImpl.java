@@ -5,7 +5,9 @@
  */
 package uk.co.atgsoft.caveman.wine.record.stock;
 
+import java.math.BigDecimal;
 import uk.co.atgsoft.caveman.wine.BottleSize;
+import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
  *
@@ -13,19 +15,25 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
  */
 public class StockEntryImpl implements StockEntry {
 
+    private Wine mWine;
+    
     private BottleSize mSize;
     
     private int mQuantity;
+    
+    private BigDecimal mAvgPrice;
+    
+    private float mAvgRating;
 
-    public StockEntryImpl() {
-        this(BottleSize.STANDARD, 0);
-    }
-
-    public StockEntryImpl(final BottleSize size, final int quantity) {
+    public StockEntryImpl(final Wine wine, final BottleSize size, final int quantity,
+            final BigDecimal avgPrice, final float avgRating) {
         if (quantity < 0) throw new IllegalArgumentException("Quantity must be at least 0");
         if (size == null) throw new IllegalArgumentException("BottleSize cannot be null");
         mSize = size;
         mQuantity = quantity;
+        mWine = wine;
+        mAvgPrice = avgPrice;
+        mAvgRating = avgRating;
     }
     
     @Override
@@ -39,15 +47,18 @@ public class StockEntryImpl implements StockEntry {
     }
 
     @Override
-    public void setQuantity(final int quantity) {
-        if (quantity < 0) throw new IllegalArgumentException("Quantity must be at least 0");
-        mQuantity = quantity;
+    public Wine getWine() {
+        return mWine;
     }
 
     @Override
-    public void setBottleSize(final BottleSize size) {
-        if (size == null) throw new IllegalArgumentException("BottleSize cannot be null");
-        mSize = size;
+    public BigDecimal getAveragePrice() {
+        return mAvgPrice;
+    }
+
+    @Override
+    public float getAverageRating() {
+        return mAvgRating;
     }
     
 }
