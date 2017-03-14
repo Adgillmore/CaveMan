@@ -25,8 +25,8 @@ import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
 /**
  *
@@ -82,16 +82,16 @@ public class DepletionDaoImplTest {
         final LocalDate date1 = LocalDate.of(2003, Month.MARCH, 12);
         final float rating1 = 3.5F;
         final String review1 = "Good aroma. Plenty of cassis and oak on the palate with a long peppery finish.";
-        final DepletionRecord record1 = new DepletionRecordImpl("1", wine1, 1, BottleSize.STANDARD, date1, rating1, 
+        final DepletionEntry record1 = new DepletionEntryImpl("1", wine1, 1, BottleSize.STANDARD, date1, rating1, 
                 review1);
         dao.addDepletion(record1);
         
-        final List<DepletionRecord> results = dao.getDepletions(wine1);
+        final List<DepletionEntry> results = dao.getDepletions(wine1);
         assertNotNull(results);
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
         
-        final DepletionRecord actualRecord1 = results.get(0);
+        final DepletionEntry actualRecord1 = results.get(0);
         assertEquals(record1, actualRecord1);
     }
     
@@ -101,25 +101,25 @@ public class DepletionDaoImplTest {
         final LocalDate date1 = LocalDate.of(2003, Month.MARCH, 12);
         final float rating1 = 3.5F;
         final String review1 = "Good aroma. Plenty of cassis and oak on the palate with a long peppery finish.";
-        final DepletionRecord record1 = new DepletionRecordImpl("1", wine1, 1, BottleSize.STANDARD, date1, rating1, 
+        final DepletionEntry record1 = new DepletionEntryImpl("1", wine1, 1, BottleSize.STANDARD, date1, rating1, 
                 review1);
         dao.addDepletion(record1);
         
         final LocalDate date2 = LocalDate.of(2005, Month.NOVEMBER, 15);
         final float rating2 = 4.5F;
         final String review2 = "Good aroma. More complex than last tasting, softer tannins and more smokiness.";
-        final DepletionRecord record2 = new DepletionRecordImpl("2", wine1, 3, BottleSize.STANDARD, date2, rating2, 
+        final DepletionEntry record2 = new DepletionEntryImpl("2", wine1, 3, BottleSize.STANDARD, date2, rating2, 
                 review2);
         dao.addDepletion(record2);
         
-        final List<DepletionRecord> results = dao.getDepletions(wine1);
+        final List<DepletionEntry> results = dao.getDepletions(wine1);
         assertNotNull(results);
         assertFalse(results.isEmpty());
         assertEquals(2, results.size());
         
-        final DepletionRecord actualRecord1 = results.get(0);
+        final DepletionEntry actualRecord1 = results.get(0);
         assertEquals(record1, actualRecord1);
-        final DepletionRecord actualRecord2 = results.get(1);
+        final DepletionEntry actualRecord2 = results.get(1);
         assertEquals(record2, actualRecord2);
     }
     

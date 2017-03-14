@@ -85,77 +85,18 @@ public class StockDaoImpl implements StockDao {
         for (Entry<BottleSize, AdditionSummary> entry : allAdditions.entrySet()) {
             
             final BottleSize size = entry.getKey();
-            final int added = entry.getValue().mQuantity;
+            final AdditionSummary addition = entry.getValue();
+            final int added = addition.mQuantity;
+            
             final DepletionSummary depletions = allDepletions.get(size);
             final int remaining = added - depletions.mQuantity;
-            final StockEntry stockEntry = new StockEntryImpl(entry.getValue().mWine, size, remaining, 
-                    entry.getValue().mAvgPrice, depletions.mAvgRating);
+            final StockEntry stockEntry = new StockEntryImpl("id", addition.mWine, remaining, size,  
+                    addition.mAvgPrice, depletions.mAvgRating, depletions.review);
             record.addStockEntry(stockEntry);
         }
         
         return record;
     }
-
-    
-
-//    @Override
-//    public List<StockRecord> getAllStockRecords() {
-//        final List<StockRecord> records = new ArrayList<>();
-//        Connection c = null;
-//        Statement stmt = null;
-//        
-//        try {
-//            c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
-//            stmt = c.createStatement();
-//            ResultSet rs = stmt.executeQuery( "SELECT WINE_ID, NAME, PRODUCER, REGION, COUNTRY, VINTAGE, ALCOHOL, "
-//                    + "COLOUR, WINE.PRICE, STYLE, GRAPE, SIZE, QUANTITY, SUM(QUANTITY) AS TOTAL "
-//                    + "FROM PURCHASE JOIN WINE ON PURCHASE.WINE_ID = WINE.ID GROUP BY WINE_ID;" );
-//            String lastWineId = null;
-//            StockRecord stock = null;
-//            while (rs.next()) {
-//                final Wine wine = DatabaseUtils.createWine(rs);
-//                if (!wine.getId().equals(lastWineId)) {
-//                    stock = new StockRecordImpl(wine);
-//                    records.add(stock);
-//                }
-//                stock.addStock(BottleSize.valueOf(rs.getString("size")), rs.getInt("total"));
-//            }
-//            rs.close();
-//            stmt.close();
-//            c.close();
-//        }   catch ( Exception e ) {
-//            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-//        }
-//        System.out.println("All stock retrieved successfully");
-//        return records;
-//    }
-    
-    
-//    private void nearlyThere(final Wine wine) {
-//        Connection c = null;
-//        Statement stmt = null;
-//        StockRecord stock = null;
-//        try {
-//          c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
-//
-//          stmt = c.createStatement();
-//        final ResultSet rs = stmt.executeQuery(
-//                "SELECT PURCHASE.WINE_ID, NAME, PRODUCER, VINTAGE, REGION, COUNTRY, COLOUR, STYLE, GRAPE, PURCHASE.SIZE, DEPLETION.SIZE " 
-//                        + ", avg(PURCHASE.PRICE) as AVG_PRICE, sum(PURCHASE.QUANTITY) as ADDED " 
-//                        + ", sum(DEPLETION.QUANTITY) as DEPLETED, avg(DEPLETION.RATING) as AVG_RATING " 
-//                        + "FROM PURCHASE " 
-//                        + "JOIN WINE ON PURCHASE.WINE_ID = WINE.ID " 
-//                        + "JOIN DEPLETION ON PURCHASE.WINE_ID = DEPLETION.WINE_ID " 
-//                        
-//                        + "WHERE PURCHASE.WINE_ID = '" + wine.getId() + "' " 
-//                        + "GROUP BY PURCHASE.SIZE;" );
-//        rs.close();
-//          stmt.close();
-//          c.close();
-//        } catch ( Exception e ) {
-//          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-//        }
-//    }
     
     private class AdditionSummary {
         private Wine mWine;

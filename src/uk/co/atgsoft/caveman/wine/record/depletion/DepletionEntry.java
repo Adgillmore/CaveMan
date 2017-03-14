@@ -5,16 +5,19 @@
  */
 package uk.co.atgsoft.caveman.wine.record.depletion;
 
-import java.util.List;
-import uk.co.atgsoft.caveman.wine.record.WineRecord;
+import uk.co.atgsoft.caveman.wine.record.DatedRecordEntry;
 
 /**
  *
  * @author adam
  */
-public interface DepletionRecord extends WineRecord {
+public interface DepletionEntry extends DatedRecordEntry {
     
-    List<DepletionEntry> getDepletions();
+    void setRating(float rating);
     
-    void addDepletion(DepletionEntry entry);
+    float getRating();
+    
+    void setReview(String review);
+    
+    String getReview();
 }

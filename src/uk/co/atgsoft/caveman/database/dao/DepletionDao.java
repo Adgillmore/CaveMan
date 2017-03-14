@@ -7,7 +7,7 @@ package uk.co.atgsoft.caveman.database.dao;
 
 import java.util.List;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
 /**
  *
@@ -15,11 +15,11 @@ import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
  */
 public interface DepletionDao {
     
-    void addDepletion(DepletionRecord depletion);
+    void addDepletion(DepletionEntry depletion);
     
-    void removeDepletion(DepletionRecord depletion);
+    void removeDepletion(DepletionEntry depletion);
     
-    void updateDepletion(DepletionRecord depletion);
+    void updateDepletion(DepletionEntry depletion);
     
-    List<DepletionRecord> getDepletions(Wine wine);
+    List<DepletionEntry> getDepletions(Wine wine);
 }

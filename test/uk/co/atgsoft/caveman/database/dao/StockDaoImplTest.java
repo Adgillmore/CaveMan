@@ -21,12 +21,12 @@ import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecordImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.stock.StockEntry;
 import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
 /**
  *
@@ -83,9 +83,9 @@ public class StockDaoImplTest {
     
     private void addPurchases() {
         final PurchaseDao pDao = new PurchaseDaoImpl(DB_NAME);
-        final PurchaseRecord pRecord1 = new PurchaseRecordImpl("1", wine1, new BigDecimal(24.5), 6, BottleSize.STANDARD, 
+        final PurchaseEntry pRecord1 = new PurchaseEntryImpl("1", wine1, new BigDecimal(24.5), 6, BottleSize.STANDARD, 
                 BBR, LocalDate.of(2012, 5, 12));
-        final PurchaseRecord pRecord2 = new PurchaseRecordImpl("2", wine1, new BigDecimal(28.5), 12, BottleSize.STANDARD, 
+        final PurchaseEntry pRecord2 = new PurchaseEntryImpl("2", wine1, new BigDecimal(28.5), 12, BottleSize.STANDARD, 
                 BBR, LocalDate.of(2013, 8, 24));
         pDao.addPurchase(pRecord1);
         pDao.addPurchase(pRecord2);
@@ -93,9 +93,9 @@ public class StockDaoImplTest {
     
     private void addDepletions() {
         final DepletionDao dDao = new DepletionDaoImpl(DB_NAME);
-        final DepletionRecord dRecord1 = new DepletionRecordImpl("1", wine1, 2, BottleSize.STANDARD, 
+        final DepletionEntry dRecord1 = new DepletionEntryImpl("1", wine1, 2, BottleSize.STANDARD, 
                 LocalDate.now().minusDays(2), 3.5f, "Very nice");
-        final DepletionRecord dRecord2 = new DepletionRecordImpl("2", wine1, 3, BottleSize.STANDARD, 
+        final DepletionEntry dRecord2 = new DepletionEntryImpl("2", wine1, 3, BottleSize.STANDARD, 
                 LocalDate.now(), 4.5f, "Really very nice");
 //        final DepletionRecord dRecord3 = new DepletionRecordImpl("3", wine1, 3, BottleSize.STANDARD, 
 //                LocalDate.now(), 4.5f, "The best wine ever");

@@ -19,10 +19,10 @@ import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecordImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
 /**
  *
@@ -89,8 +89,8 @@ public final class DatabaseUtils {
         return wine;
     }
     
-    public static PurchaseRecord createPurchaseRecord(final Wine wine, final ResultSet rs) throws SQLException {
-        return new PurchaseRecordImpl(rs.getString("id"),
+    public static PurchaseEntry createPurchaseRecord(final Wine wine, final ResultSet rs) throws SQLException {
+        return new PurchaseEntryImpl(rs.getString("id"),
                 wine, 
                 new BigDecimal(rs.getFloat("price")), 
                 rs.getInt("quantity"), 
@@ -100,8 +100,8 @@ public final class DatabaseUtils {
                 );
     }
     
-    public static DepletionRecord createDepletionRecord(final Wine wine, final ResultSet rs) throws SQLException {
-        return new DepletionRecordImpl(rs.getString("id"), 
+    public static DepletionEntry createDepletionRecord(final Wine wine, final ResultSet rs) throws SQLException {
+        return new DepletionEntryImpl(rs.getString("id"), 
                 wine, 
                 rs.getInt("quantity"), 
                 BottleSize.valueOf(rs.getString("size")), 

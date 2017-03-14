@@ -5,13 +5,15 @@
  */
 package uk.co.atgsoft.caveman.wine.record;
 
-import uk.co.atgsoft.caveman.wine.Wine;
+import java.time.LocalDate;
 
 /**
  *
  * @author adam
  */
-public interface WineRecord {
+public interface DatedRecordEntry extends RecordEntry {
     
-    Wine getWine();
+    void setDate(LocalDate date);
+    
+    LocalDate getDate();
 }

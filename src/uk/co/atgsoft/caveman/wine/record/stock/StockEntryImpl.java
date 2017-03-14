@@ -8,57 +8,43 @@ package uk.co.atgsoft.caveman.wine.record.stock;
 import java.math.BigDecimal;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.record.BaseRecordEntryImpl;
 
 /**
  *
  * @author adam.gillmore
  */
-public class StockEntryImpl implements StockEntry {
+public class StockEntryImpl extends BaseRecordEntryImpl implements StockEntry {
 
-    private Wine mWine;
+    private final float mAvgRating;
     
-    private BottleSize mSize;
+    private final String mNotes;
     
-    private int mQuantity;
-    
-    private BigDecimal mAvgPrice;
-    
-    private float mAvgRating;
+    private final BigDecimal mAvgPrice;
 
-    public StockEntryImpl(final Wine wine, final BottleSize size, final int quantity,
-            final BigDecimal avgPrice, final float avgRating) {
-        if (quantity < 0) throw new IllegalArgumentException("Quantity must be at least 0");
-        if (size == null) throw new IllegalArgumentException("BottleSize cannot be null");
-        mSize = size;
-        mQuantity = quantity;
-        mWine = wine;
+    public StockEntryImpl(final String id, final Wine wine, final int quantity, 
+            final BottleSize size, final BigDecimal avgPrice, final float rating, final String TastingNotes) {
+        super(id, wine, quantity, size);
+        if (rating < 0) throw new IllegalArgumentException("Rating cannot br less than 0");
+        if (TastingNotes == null || TastingNotes.isEmpty()) throw new IllegalArgumentException("Review can't be null or empty");
+        mAvgRating = rating;
+        mNotes = TastingNotes;
         mAvgPrice = avgPrice;
-        mAvgRating = avgRating;
-    }
-    
-    @Override
-    public BottleSize getBottleSize() {
-        return mSize;
     }
 
     @Override
-    public int getQuantity() {
-        return mQuantity;
-    }
-
-    @Override
-    public Wine getWine() {
-        return mWine;
-    }
-
-    @Override
-    public BigDecimal getAveragePrice() {
-        return mAvgPrice;
-    }
-
-    @Override
-    public float getAverageRating() {
+    public float getRating() {
         return mAvgRating;
+    }
+
+    @Override
+    public String getTastingNotes() {
+        return mNotes;
+    }
+
+    @Override
+    public BigDecimal getAvgPrice() {
+        return mAvgPrice;
     }
     
 }

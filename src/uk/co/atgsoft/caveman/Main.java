@@ -51,8 +51,8 @@ import uk.co.atgsoft.caveman.ui.CellarTableController;
 import uk.co.atgsoft.caveman.ui.WineDetailController;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
 import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
  *
@@ -172,8 +172,8 @@ public class Main extends Application {
             } else {
                 dao.updateWine(wine);
             }
-            final List<PurchaseRecord> records = wineDetailController.getPurchaseRecords();
-            for (PurchaseRecord r : records) {
+            final List<PurchaseEntry> records = wineDetailController.getPurchaseRecords();
+            for (PurchaseEntry r : records) {
                 if (r.getId() == null) {
                     r.setId(r.getWine().getId() + ":" + r.getDate() + ":" + r.getBottleSize() + ":" + r.getQuantity());
                     purchaseDao.addPurchase(r);

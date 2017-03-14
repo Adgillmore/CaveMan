@@ -16,8 +16,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
  *
@@ -55,11 +55,11 @@ public class AddPurchaseController {
         quantityText.setText("1");
     }
     
-    PurchaseRecord getPurchase(final Wine wine) {
+    PurchaseEntry getPurchase(final Wine wine) {
         if (wine == null) {
             throw new IllegalArgumentException("Wine cannot be null");
         }
-        return new PurchaseRecordImpl(null, wine, new BigDecimal(Float.parseFloat(priceText.getText())), 
+        return new PurchaseEntryImpl(null, wine, new BigDecimal(Float.parseFloat(priceText.getText())), 
                 Integer.parseInt(quantityText.getText()), sizePicker.getValue(), vendorText.getText(), 
                 datePicker.getValue());
     }

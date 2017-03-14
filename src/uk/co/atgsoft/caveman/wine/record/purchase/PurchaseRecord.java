@@ -5,20 +5,16 @@
  */
 package uk.co.atgsoft.caveman.wine.record.purchase;
 
-import java.math.BigDecimal;
+import java.util.List;
 import uk.co.atgsoft.caveman.wine.record.WineRecord;
 
 /**
- * An abstraction of a wine purchase.
+ *
  * @author adam
  */
 public interface PurchaseRecord extends WineRecord {
     
-    void setPrice(BigDecimal price);
+    List<PurchaseEntry> getPurchases();
     
-    BigDecimal getPrice();
-    
-    void setVendor(String vendor);
-    
-    String getVendor();
+    void addPurchaseEntry(PurchaseEntry entry);
 }

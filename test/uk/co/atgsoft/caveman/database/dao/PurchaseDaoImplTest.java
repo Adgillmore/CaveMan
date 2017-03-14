@@ -23,8 +23,8 @@ import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
  *
@@ -86,12 +86,12 @@ public class PurchaseDaoImplTest {
         final PurchaseDao dao = new PurchaseDaoImpl(DB_NAME);
         
         final LocalDate date = LocalDate.now().minusYears(2);
-        final PurchaseRecord record = 
-                new PurchaseRecordImpl("id1", wine1, new BigDecimal(19.99), 6, BottleSize.STANDARD, BBR, date);
+        final PurchaseEntry record = 
+                new PurchaseEntryImpl("id1", wine1, new BigDecimal(19.99), 6, BottleSize.STANDARD, BBR, date);
         
         dao.addPurchase(record);
         
-        final List<PurchaseRecord> records = dao.getPurchases(wine1);
+        final List<PurchaseEntry> records = dao.getPurchases(wine1);
         assertNotNull(records);
         assertEquals(1, records.size());
         assertEquals(record, records.get(0));
@@ -103,25 +103,25 @@ public class PurchaseDaoImplTest {
         
         final LocalDate date1 = LocalDate.now().minusYears(2);
         final LocalDate date2 = LocalDate.now().minusYears(3).minusMonths(3);
-        final PurchaseRecord record1 = 
-                new PurchaseRecordImpl("id1", wine1, new BigDecimal(19.99), 6, BottleSize.STANDARD, BBR, date1);
-        final PurchaseRecord record2 = 
-                new PurchaseRecordImpl("id2", wine1, new BigDecimal(15.99), 12, BottleSize.STANDARD, BBR, date2);
-        final PurchaseRecord record3 = 
-                new PurchaseRecordImpl("id3", wine2, new BigDecimal(26.99), 3, BottleSize.STANDARD, BBR, date2);
+        final PurchaseEntry record1 = 
+                new PurchaseEntryImpl("id1", wine1, new BigDecimal(19.99), 6, BottleSize.STANDARD, BBR, date1);
+        final PurchaseEntry record2 = 
+                new PurchaseEntryImpl("id2", wine1, new BigDecimal(15.99), 12, BottleSize.STANDARD, BBR, date2);
+        final PurchaseEntry record3 = 
+                new PurchaseEntryImpl("id3", wine2, new BigDecimal(26.99), 3, BottleSize.STANDARD, BBR, date2);
         
         dao.addPurchase(record1);
         dao.addPurchase(record2);
         dao.addPurchase(record3);
         
-        final List<PurchaseRecord> records1 = dao.getPurchases(wine1);
+        final List<PurchaseEntry> records1 = dao.getPurchases(wine1);
         assertNotNull(records1);
         assertEquals(2, records1.size());
         assertTrue(records1.contains(record1));
         assertTrue(records1.contains(record2));
         
         
-        final List<PurchaseRecord> records2 = dao.getPurchases(wine2);
+        final List<PurchaseEntry> records2 = dao.getPurchases(wine2);
         assertNotNull(records2);
         assertEquals(1, records2.size());
         assertTrue(records2.contains(record3));

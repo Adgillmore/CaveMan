@@ -6,22 +6,17 @@
 package uk.co.atgsoft.caveman.wine.record.stock;
 
 import java.math.BigDecimal;
-import uk.co.atgsoft.caveman.wine.BottleSize;
-import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.record.RecordEntry;
 
 /**
  *
  * @author adam.gillmore
  */
-public interface StockEntry {
+public interface StockEntry extends RecordEntry {
     
-    Wine getWine();
+    BigDecimal getAvgPrice();
     
-    BottleSize getBottleSize();
+    float getRating();
     
-    int getQuantity();
-    
-    BigDecimal getAveragePrice();
-    
-    float getAverageRating();
+    String getTastingNotes();
 }

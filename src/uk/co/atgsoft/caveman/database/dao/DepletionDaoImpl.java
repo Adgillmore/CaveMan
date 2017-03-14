@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionRecord;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
 /**
  *
@@ -40,7 +40,7 @@ public class DepletionDaoImpl implements DepletionDao {
     }
     
     @Override
-    public void addDepletion(final DepletionRecord depletion) {
+    public void addDepletion(final DepletionEntry depletion) {
         try {
             Connection conn = DatabaseUtils.getConnection(mDatabaseName);
             final PreparedStatement ps = conn.prepareStatement(
@@ -60,8 +60,8 @@ public class DepletionDaoImpl implements DepletionDao {
     }
 
     @Override
-    public List<DepletionRecord> getDepletions(Wine wine) {
-        final List<DepletionRecord> records = new ArrayList<>();
+    public List<DepletionEntry> getDepletions(Wine wine) {
+        final List<DepletionEntry> records = new ArrayList<>();
         try {
             Connection c = DatabaseUtils.getConnection(mDatabaseName);
             PreparedStatement ps = c.prepareStatement("SELECT * FROM DEPLETION WHERE WINE_ID = ?;");
@@ -80,12 +80,12 @@ public class DepletionDaoImpl implements DepletionDao {
     }
     
     @Override
-    public void removeDepletion(DepletionRecord depletion) {
+    public void removeDepletion(DepletionEntry depletion) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void updateDepletion(DepletionRecord depletion) {
+    public void updateDepletion(DepletionEntry depletion) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

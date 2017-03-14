@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.record.depletion;
+package uk.co.atgsoft.caveman.wine.record.tasting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,24 +14,23 @@ import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
  *
  * @author adam
  */
-public class DepletionRecordImpl extends WineRecordImpl implements DepletionRecord {
-
-    private final List<DepletionEntry> entries;
-
-    public DepletionRecordImpl(final Wine wine) {
+public class TastingRecordImpl extends WineRecordImpl implements TastingRecord {
+    
+    private final List<TastingEntry> entries;
+    
+    public TastingRecordImpl(final Wine wine) {
         super(wine);
         entries = new ArrayList<>();
     }
-    
+
     @Override
-    public List<DepletionEntry> getDepletions() {
+    public List<TastingEntry> getTastingEntries() {
         return entries;
     }
 
     @Override
-    public void addDepletion(final DepletionEntry entry) {
+    public void addTastingEntry(final TastingEntry entry) {
         if (entry == null) throw new IllegalArgumentException("Purchase entry cannot be null");
         if (!entries.contains(entry)) entries.add(entry);
     }
-    
 }

@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.record.stock;
+package uk.co.atgsoft.caveman.wine.record.tasting;
 
-import java.util.Map;
-import uk.co.atgsoft.caveman.wine.BottleSize;
+import java.util.List;
 import uk.co.atgsoft.caveman.wine.record.WineRecord;
 
 /**
  *
  * @author adam
  */
-public interface StockRecord extends WineRecord {
+public interface TastingRecord extends WineRecord {
     
-    Map<BottleSize, StockEntry> getStock();
+    List<TastingEntry> getTastingEntries();
     
-    void addStockEntry(StockEntry entry);
+    void addTastingEntry(final TastingEntry entry);
 }

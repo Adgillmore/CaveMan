@@ -5,12 +5,9 @@
  */
 package uk.co.atgsoft.caveman.wine.record.purchase;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Objects;
-import uk.co.atgsoft.caveman.wine.BottleSize;
+import java.util.ArrayList;
+import java.util.List;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
 
 /**
@@ -18,62 +15,23 @@ import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
  * @author adam
  */
 public class PurchaseRecordImpl extends WineRecordImpl implements PurchaseRecord {
-    
-    private BigDecimal mPrice;
-    
-    private String mVendor;
 
-    public PurchaseRecordImpl(final String id, final Wine wine, 
-            final BigDecimal price, final int quantity, 
-            final BottleSize size, final String vendor, final LocalDate date) {
-        super(id, wine, quantity, size, date);
-        mPrice = price;
-        mVendor = vendor;
+    private final List<PurchaseEntry> entries;
+    
+    public PurchaseRecordImpl(final Wine wine) {
+        super(wine);
+        entries = new ArrayList<>();
     }
     
     @Override
-    public void setPrice(final BigDecimal price) {
-        if (price == null || price.floatValue() < 0) {
-            throw new IllegalArgumentException("Invalid price");
-        }
-        mPrice = price;
+    public List<PurchaseEntry> getPurchases() {
+        return entries;
     }
 
     @Override
-    public BigDecimal getPrice() {
-        return mPrice;
+    public void addPurchaseEntry(final PurchaseEntry entry) {
+        if (entry == null) throw new IllegalArgumentException("Purchase entry cannot be null");
+        if (!entries.contains(entry)) entries.add(entry);
     }
     
-    @Override
-    public void setVendor(final String vendor) {
-        if (vendor == null || vendor.isEmpty()) {
-            throw new IllegalArgumentException("Vendor cannot be null or empty");
-        }
-        mVendor = vendor;
-    }
-
-    @Override
-    public String getVendor() {
-        return mVendor;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getWine(), getQuantity(), getBottleSize(), mPrice, mVendor);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (!(obj instanceof PurchaseRecordImpl)) {
-            return false;
-        }
-        PurchaseRecordImpl other = (PurchaseRecordImpl) obj;
-        return Objects.equals(getId(), other.getId()) &&
-                Objects.equals(getWine(), other.getWine()) &&
-                Objects.equals(getQuantity(), other.getQuantity()) &&
-                Objects.equals(getBottleSize(), other.getBottleSize()) &&
-//                Objects.equals(mPrice, other.getPrice()) &&
-                Objects.equals(mVendor, other.getVendor());
-    }
 }

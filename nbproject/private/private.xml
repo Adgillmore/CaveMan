@@ -22,9 +22,6 @@
             <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/PurchaseDaoImpl.java</file>
             <file>file:/Users/adam/Documents/workspace/my_projects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/StockDaoImpl.java</file>
         </group>
-        <group>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/test/uk/co/atgsoft/caveman/database/dao/StockDaoImplTest.java</file>
-            <file>file:/home/adam/NetBeansProjects/CaveMan/src/uk/co/atgsoft/caveman/database/dao/StockDaoImpl.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

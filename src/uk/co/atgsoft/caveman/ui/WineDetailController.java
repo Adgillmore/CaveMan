@@ -38,7 +38,7 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
  *
@@ -68,11 +68,11 @@ public class WineDetailController {
     
     @FXML private Button depleteStockButton;
     
-    @FXML private TableColumn<PurchaseRecord, BottleSize> sizeColumn;
+    @FXML private TableColumn<PurchaseEntry, BottleSize> sizeColumn;
     
-    @FXML private TableColumn<PurchaseRecord, Integer> quantityColumn;
+    @FXML private TableColumn<PurchaseEntry, Integer> quantityColumn;
     
-    @FXML private TableView<PurchaseRecord> purchaseTable;
+    @FXML private TableView<PurchaseEntry> purchaseTable;
     
     private Dialog<Pair<String, String>> purchaseDialog;
     
@@ -173,16 +173,16 @@ public class WineDetailController {
     }
     
     private void initPurchaseTable() {
-        sizeColumn.setCellValueFactory(new Callback<CellDataFeatures<PurchaseRecord, BottleSize>, ObservableValue<BottleSize>>() {
+        sizeColumn.setCellValueFactory(new Callback<CellDataFeatures<PurchaseEntry, BottleSize>, ObservableValue<BottleSize>>() {
             @Override
-            public ObservableValue<BottleSize> call(final CellDataFeatures<PurchaseRecord, BottleSize> param) {
+            public ObservableValue<BottleSize> call(final CellDataFeatures<PurchaseEntry, BottleSize> param) {
                 return new ReadOnlyObjectWrapper<>(param.getValue().getBottleSize()); // can change this if using javafx properties
             }
         });
         
-        quantityColumn.setCellValueFactory(new Callback<CellDataFeatures<PurchaseRecord, Integer>, ObservableValue<Integer>>() {
+        quantityColumn.setCellValueFactory(new Callback<CellDataFeatures<PurchaseEntry, Integer>, ObservableValue<Integer>>() {
             @Override
-            public ObservableValue<Integer> call(final CellDataFeatures<PurchaseRecord, Integer> param) {
+            public ObservableValue<Integer> call(final CellDataFeatures<PurchaseEntry, Integer> param) {
                 return new ReadOnlyObjectWrapper<>(param.getValue().getQuantity()); // can change this if using javafx properties
             }
         });
@@ -266,16 +266,16 @@ public class WineDetailController {
         return mWine;
     }
 
-    public void setPurchaseRecords(final List<PurchaseRecord> records) {
+    public void setPurchaseRecords(final List<PurchaseEntry> records) {
         if (records == null) {
             throw new IllegalArgumentException("Records cannot be null");
         }
-        final ObservableList<PurchaseRecord> list = purchaseTable.getItems();
+        final ObservableList<PurchaseEntry> list = purchaseTable.getItems();
         list.clear();
         list.addAll(records);
     }
     
-    public List<PurchaseRecord> getPurchaseRecords() {
+    public List<PurchaseEntry> getPurchaseRecords() {
         return purchaseTable.getItems();
     }
     

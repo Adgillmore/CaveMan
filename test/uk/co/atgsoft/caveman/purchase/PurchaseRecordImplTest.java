@@ -18,8 +18,8 @@ import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
 import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecordImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
  *
@@ -41,9 +41,9 @@ public class PurchaseRecordImplTest {
         
         final LocalDate date = LocalDate.now().minusMonths(5).minusDays(12);
         
-        final PurchaseRecord record1 = new PurchaseRecordImpl("id1", wine1, new BigDecimal(14.65), 6, BottleSize.STANDARD, BBR, LocalDate.MAX);
-        final PurchaseRecord record2 = new PurchaseRecordImpl("id1", wine1, new BigDecimal(14.65), 6, BottleSize.STANDARD, BBR, LocalDate.MAX);
-        final PurchaseRecord record3 = new PurchaseRecordImpl("id3", wine2, new BigDecimal(25.99), 12, BottleSize.STANDARD, BBR, LocalDate.MAX);
+        final PurchaseEntry record1 = new PurchaseEntryImpl("id1", wine1, new BigDecimal(14.65), 6, BottleSize.STANDARD, BBR, LocalDate.MAX);
+        final PurchaseEntry record2 = new PurchaseEntryImpl("id1", wine1, new BigDecimal(14.65), 6, BottleSize.STANDARD, BBR, LocalDate.MAX);
+        final PurchaseEntry record3 = new PurchaseEntryImpl("id3", wine2, new BigDecimal(25.99), 12, BottleSize.STANDARD, BBR, LocalDate.MAX);
         
         assertEquals(record1, record2);
         assertNotEquals(record1, record3);

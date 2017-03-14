@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseRecord;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
  *
@@ -41,7 +41,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
     
     
     @Override
-    public void addPurchase(PurchaseRecord purchase) {
+    public void addPurchase(PurchaseEntry purchase) {
         DatabaseUtils.executeStatement(mDatabaseName, 
         "INSERT INTO PURCHASE (ID, WINE_ID, PRICE, DATE, QUANTITY, VENDOR, SIZE)"
                 + "VALUES ("
@@ -55,18 +55,18 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public void removePurchase(PurchaseRecord purchase) {
+    public void removePurchase(PurchaseEntry purchase) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void updatePurchase(PurchaseRecord purchase) {
+    public void updatePurchase(PurchaseEntry purchase) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<PurchaseRecord> getPurchases(final Wine wine) {
-        final List<PurchaseRecord> records = new ArrayList<>();
+    public List<PurchaseEntry> getPurchases(final Wine wine) {
+        final List<PurchaseEntry> records = new ArrayList<>();
         Connection c = null;
         Statement stmt = null;
         
