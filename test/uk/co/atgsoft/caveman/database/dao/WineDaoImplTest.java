@@ -20,7 +20,7 @@ import uk.co.atgsoft.caveman.wine.WineComposition;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
 
 /**
  *

@@ -17,7 +17,7 @@ import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
  */
 public class StockRecordImpl extends WineRecordImpl implements StockRecord {
 
-    private final Map<BottleSize, StockEntry> mStock;
+    private final Map<BottleSize, StockEntryImpl> mStock;
     
     public StockRecordImpl(final Wine wine) {
         super(wine);
@@ -25,12 +25,12 @@ public class StockRecordImpl extends WineRecordImpl implements StockRecord {
     }
 
     @Override
-    public Map<BottleSize, StockEntry> getStock() {
+    public Map<BottleSize, StockEntryImpl> getStock() {
         return mStock;
     }
 
     @Override
-    public void addStockEntry(StockEntry entry) {
+    public void addStockEntry(StockEntryImpl entry) {
         if (entry == null) throw new IllegalArgumentException("Entry cannot be null");
         mStock.put(entry.getBottleSize(), entry);
     }

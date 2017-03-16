@@ -35,7 +35,7 @@ public class WineImpl implements Wine {
     public WineImpl() {
     }
 
-    public WineImpl(String id, final String name, final WineOrigin origin, final WineComposition composition, 
+    public WineImpl(final String id, final String name, final WineOrigin origin, final WineComposition composition, 
             int vintage, float alcohol, BigDecimal price) {
         if (id == null) throw new IllegalArgumentException("Id cannot be null");
         if (name == null) throw new IllegalArgumentException("Name cannot be null");
@@ -52,6 +52,12 @@ public class WineImpl implements Wine {
         mAlcohol = alcohol;
         mAvgPrice = price;
         
+    }
+    
+    public WineImpl(final String id, final Wine wine) {
+        this(id, wine.getName(), new WineOriginImpl(wine.getProducer(), wine.getRegion(), wine.getCountry()), 
+                new WineCompositionImpl(wine.getWineColour(), wine.getStyle(), wine.getGrape()), wine.getVintage(),
+                wine.getAlcohol(), wine.getPrice());
     }
     
     @Override

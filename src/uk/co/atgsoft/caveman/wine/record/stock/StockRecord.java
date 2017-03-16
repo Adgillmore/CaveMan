@@ -15,7 +15,7 @@ import uk.co.atgsoft.caveman.wine.record.WineRecord;
  */
 public interface StockRecord extends WineRecord {
     
-    Map<BottleSize, StockEntry> getStock();
+    Map<BottleSize, StockEntryImpl> getStock();
     
-    void addStockEntry(StockEntry entry);
+    void addStockEntry(StockEntryImpl entry);
 }

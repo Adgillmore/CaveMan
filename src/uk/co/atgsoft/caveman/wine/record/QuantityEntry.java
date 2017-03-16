@@ -6,21 +6,12 @@
 package uk.co.atgsoft.caveman.wine.record;
 
 import uk.co.atgsoft.caveman.wine.BottleSize;
-import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
- * Abstraction of common metadata for a wine record.
+ *
  * @author adam
  */
-public interface RecordEntry {
-    
-    void setId(String id);
-    
-    String getId();
-    
-    void setWine(Wine wine);
-    
-    Wine getWine();
+public interface QuantityEntry {
     
     void setQuantity(int quantity);
     

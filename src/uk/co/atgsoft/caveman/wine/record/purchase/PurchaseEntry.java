@@ -6,13 +6,12 @@
 package uk.co.atgsoft.caveman.wine.record.purchase;
 
 import java.math.BigDecimal;
-import uk.co.atgsoft.caveman.wine.record.DatedRecordEntry;
 
 /**
  * An abstraction of a wine purchase.
  * @author adam
  */
-public interface PurchaseEntry extends DatedRecordEntry {
+public interface PurchaseEntry {
     
     void setPrice(BigDecimal price);
     

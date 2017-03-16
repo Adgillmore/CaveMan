@@ -5,15 +5,21 @@
  */
 package uk.co.atgsoft.caveman.wine.record;
 
-import java.time.LocalDate;
+import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
- *
+ * Abstraction of common metadata for a wine record.
  * @author adam
  */
-public interface DatedRecordEntry extends RecordEntry {
+public interface WineEntry {
     
-    void setDate(LocalDate date);
+    void setId(String id);
     
-    LocalDate getDate();
+    String getId();
+    
+    void setWine(Wine wine);
+    
+    Wine getWine();
+    
+    
 }

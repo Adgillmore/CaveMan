@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.atgsoft.caveman.wine.record.stock;
+package uk.co.atgsoft.caveman.wine.record;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  *
- * @author adam.gillmore
+ * @author adam
  */
-public interface StockEntry {
+public interface DateEntry {
     
-    BigDecimal getAvgPrice();
+    void setDate(LocalDate date);
     
-    float getAvgRating();
-
+    LocalDate getDate();
 }

@@ -20,7 +20,7 @@ import uk.co.atgsoft.caveman.wine.WineComposition;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.stock.StockEntry;
@@ -94,9 +94,9 @@ public class StockDaoImplTest {
     private void addDepletions() {
         final DepletionDao dDao = new DepletionDaoImpl(DB_NAME);
         final DepletionEntry dRecord1 = new DepletionEntryImpl("1", wine1, 2, BottleSize.STANDARD, 
-                LocalDate.now().minusDays(2), 3.5f, "Very nice");
+                LocalDate.now().minusDays(2));
         final DepletionEntry dRecord2 = new DepletionEntryImpl("2", wine1, 3, BottleSize.STANDARD, 
-                LocalDate.now(), 4.5f, "Really very nice");
+                LocalDate.now());
 //        final DepletionRecord dRecord3 = new DepletionRecordImpl("3", wine1, 3, BottleSize.STANDARD, 
 //                LocalDate.now(), 4.5f, "The best wine ever");
         dDao.addDepletion(dRecord1);

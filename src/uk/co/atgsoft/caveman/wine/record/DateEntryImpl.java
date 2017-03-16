@@ -6,20 +6,16 @@
 package uk.co.atgsoft.caveman.wine.record;
 
 import java.time.LocalDate;
-import uk.co.atgsoft.caveman.wine.BottleSize;
-import uk.co.atgsoft.caveman.wine.Wine;
 
 /**
  *
  * @author adam
  */
-public class DatedRecordEntryImpl extends BaseRecordEntryImpl implements DatedRecordEntry {
+public class DateEntryImpl implements DateEntry {
     
     private LocalDate mDate;
 
-    public DatedRecordEntryImpl(final String id, final Wine wine, final int quantity, 
-            final BottleSize size, final LocalDate date) {
-        super(id, wine, quantity, size);
+    public DateEntryImpl(final LocalDate date) {
         if (date == null) throw new IllegalArgumentException("Date cannot be null");
         mDate = date;
     }

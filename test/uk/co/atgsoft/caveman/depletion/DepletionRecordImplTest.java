@@ -17,7 +17,7 @@ import uk.co.atgsoft.caveman.wine.WineComposition;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
@@ -40,9 +40,9 @@ public class DepletionRecordImplTest {
         final LocalDate date1 = LocalDate.now().minusMonths(5).minusDays(12);
         final LocalDate date2 = LocalDate.now().minusMonths(5).minusDays(14);
         
-        final DepletionEntry record1 = new DepletionEntryImpl("id1", wine1, 1, BottleSize.STANDARD, date1, 4, "Very nice");
-        final DepletionEntry record2 = new DepletionEntryImpl("id1", wine1, 1, BottleSize.STANDARD, date1, 4, "Very nice");
-        final DepletionEntry record3 = new DepletionEntryImpl("id2", wine2, 2, BottleSize.STANDARD, date2, 4.5f, "Lush");
+        final DepletionEntry record1 = new DepletionEntryImpl("id1", wine1, 1, BottleSize.STANDARD, date1);
+        final DepletionEntry record2 = new DepletionEntryImpl("id1", wine1, 1, BottleSize.STANDARD, date1);
+        final DepletionEntry record3 = new DepletionEntryImpl("id2", wine2, 2, BottleSize.STANDARD, date2);
         
         assertEquals(record1, record2);
         assertNotEquals(record1, record3);

@@ -5,13 +5,13 @@
  */
 package uk.co.atgsoft.caveman.wine.record.tasting;
 
-import uk.co.atgsoft.caveman.wine.record.DatedRecordEntry;
+import uk.co.atgsoft.caveman.wine.record.DateEntry;
 
 /**
  *
  * @author adam
  */
-public interface TastingEntry extends DatedRecordEntry {
+public interface TastingEntry extends DateEntry {
     
     String getReviewer();
     

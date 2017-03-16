@@ -24,7 +24,7 @@ import uk.co.atgsoft.caveman.wine.WineComposition;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.record.WineCompositionImpl;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
 
@@ -82,8 +82,7 @@ public class DepletionDaoImplTest {
         final LocalDate date1 = LocalDate.of(2003, Month.MARCH, 12);
         final float rating1 = 3.5F;
         final String review1 = "Good aroma. Plenty of cassis and oak on the palate with a long peppery finish.";
-        final DepletionEntry record1 = new DepletionEntryImpl("1", wine1, 1, BottleSize.STANDARD, date1, rating1, 
-                review1);
+        final DepletionEntry record1 = new DepletionEntryImpl("1", wine1, 1, BottleSize.STANDARD, date1);
         dao.addDepletion(record1);
         
         final List<DepletionEntry> results = dao.getDepletions(wine1);
@@ -99,17 +98,11 @@ public class DepletionDaoImplTest {
     public void addGetMultipleDepletions() {
         final DepletionDao dao = new DepletionDaoImpl(DB_NAME);
         final LocalDate date1 = LocalDate.of(2003, Month.MARCH, 12);
-        final float rating1 = 3.5F;
-        final String review1 = "Good aroma. Plenty of cassis and oak on the palate with a long peppery finish.";
-        final DepletionEntry record1 = new DepletionEntryImpl("1", wine1, 1, BottleSize.STANDARD, date1, rating1, 
-                review1);
+        final DepletionEntry record1 = new DepletionEntryImpl("1", wine1, 1, BottleSize.STANDARD, date1);
         dao.addDepletion(record1);
         
         final LocalDate date2 = LocalDate.of(2005, Month.NOVEMBER, 15);
-        final float rating2 = 4.5F;
-        final String review2 = "Good aroma. More complex than last tasting, softer tannins and more smokiness.";
-        final DepletionEntry record2 = new DepletionEntryImpl("2", wine1, 3, BottleSize.STANDARD, date2, rating2, 
-                review2);
+        final DepletionEntry record2 = new DepletionEntryImpl("2", wine1, 3, BottleSize.STANDARD, date2);
         dao.addDepletion(record2);
         
         final List<DepletionEntry> results = dao.getDepletions(wine1);
