@@ -88,7 +88,7 @@ public class Main extends Application {
         purchaseDao = new PurchaseDaoImpl(DATABASE_NAME);
         stockDao = new StockDaoImpl(DATABASE_NAME);
         wineList = FXCollections.observableArrayList();
-        wineList.addAll(stockDao.getAllStockRecords());
+        wineList.addAll(getStock());
         wineDetailDialog = initDialog(wineList, wineDao);
         table = initTableView(wineList);
         
@@ -101,6 +101,15 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
+    }
+    
+    private ObservableList<StockRecord> getStock() {
+        final List<Wine> wines = wineDao.getAllWines();
+        final ObservableList<StockRecord> stock = FXCollections.observableArrayList();
+        for (Wine wine : wines) {
+            stock.add(stockDao.getStockRecord(wine));
+        }
+        return stock;
     }
     
     private Node getFilterPane() {
@@ -138,10 +147,10 @@ public class Main extends Application {
         
         final Button removeButton = new Button("Remove");
         removeButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
-        removeButton.setOnAction((ActionEvent event) -> {
-            wines.remove(table.getSelectionModel().getFocusedIndex());
-            dao.removeStock((StockRecord) table.getSelectionModel().getSelectedItem());
-        });
+//        removeButton.setOnAction((ActionEvent event) -> {
+//            wines.remove(table.getSelectionModel().getFocusedIndex());
+//            dao.removeStock((StockRecord) table.getSelectionModel().getSelectedItem());
+//        });
         final HBox toolbar = new HBox(10, addButton, removeButton);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         toolbar.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));

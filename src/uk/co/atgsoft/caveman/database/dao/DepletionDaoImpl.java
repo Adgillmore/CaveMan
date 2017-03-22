@@ -34,8 +34,6 @@ public class DepletionDaoImpl implements DepletionDao {
            " DATE TEXT NOT NULL, " +
            " QUANTITY INTEGER NOT NULL, " + 
            " SIZE TEXT NOT NULL, " + 
-           " RATING REAL, " +
-           " REVIEW TEXT, " +
            " FOREIGN KEY(WINE_ID) REFERENCES WINE(ID))");
     }
     
@@ -44,14 +42,12 @@ public class DepletionDaoImpl implements DepletionDao {
         try {
             Connection conn = DatabaseUtils.getConnection(mDatabaseName);
             final PreparedStatement ps = conn.prepareStatement(
-                    "INSERT INTO DEPLETION (ID, WINE_ID, DATE, QUANTITY, SIZE, RATING, REVIEW) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO DEPLETION (ID, WINE_ID, DATE, QUANTITY, SIZE) VALUES (?, ?, ?, ?, ?)");
             ps.setString(1, depletion.getId());
             ps.setString(2, depletion.getWine().getId());
             ps.setString(3, depletion.getDate().format(DateTimeFormatter.ISO_DATE));
             ps.setInt(4, depletion.getQuantity());
             ps.setString(5, depletion.getBottleSize().toString());
-            ps.setFloat(6, depletion.getRating());
-            ps.setString(7, depletion.getReview());
             
             ps.executeUpdate();
         } catch (SQLException e) {

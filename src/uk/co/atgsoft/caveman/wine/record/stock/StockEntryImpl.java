@@ -10,14 +10,13 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.record.QuantityEntry;
 import uk.co.atgsoft.caveman.wine.record.QuantityEntryImpl;
-import uk.co.atgsoft.caveman.wine.record.WineEntry;
 import uk.co.atgsoft.caveman.wine.record.WineEntryImpl;
 
 /**
  *
  * @author adam.gillmore
  */
-public class StockEntryImpl implements StockEntry, WineEntry, QuantityEntry {
+public class StockEntryImpl implements StockEntry {
 
     private final WineEntryImpl mWine;
     

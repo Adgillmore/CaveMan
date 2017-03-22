@@ -51,7 +51,7 @@ public class CellarTableController {
                 -> new ReadOnlyObjectWrapper<>(param.getValue().getWine().getGrape()));
         
         quantityColumn.setCellValueFactory((final CellDataFeatures<StockRecord, Integer> param) 
-                -> new ReadOnlyObjectWrapper<>(param.getValue().getNumberOfBottles()));
+                -> new ReadOnlyObjectWrapper<>(param.getValue().getQuantity()));
     }    
 
 }

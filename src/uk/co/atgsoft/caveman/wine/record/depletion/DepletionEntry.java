@@ -5,10 +5,14 @@
  */
 package uk.co.atgsoft.caveman.wine.record.depletion;
 
+import uk.co.atgsoft.caveman.wine.record.DateEntry;
+import uk.co.atgsoft.caveman.wine.record.QuantityEntry;
+import uk.co.atgsoft.caveman.wine.record.WineEntry;
+
 /**
  *
  * @author adam
  */
-public interface DepletionEntry {
+public interface DepletionEntry extends WineEntry, QuantityEntry, DateEntry {
 
 }

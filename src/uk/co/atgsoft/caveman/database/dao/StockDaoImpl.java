@@ -89,9 +89,9 @@ public class StockDaoImpl implements StockDao {
             final int added = addition.mQuantity;
             
             final DepletionSummary depletions = allDepletions.get(size);
-            final int remaining = added - depletions.mQuantity;
+            final int remaining = added - (depletions == null ? 0 : depletions.mQuantity);
             final StockEntry stockEntry = new StockEntryImpl("id", addition.mWine, remaining, size,  
-                    addition.mAvgPrice, depletions.mAvgRating, depletions.review);
+                    addition.mAvgPrice, 5.0f);
             record.addStockEntry(stockEntry);
         }
         

@@ -105,9 +105,7 @@ public final class DatabaseUtils {
                 wine, 
                 rs.getInt("quantity"), 
                 BottleSize.valueOf(rs.getString("size")), 
-                LocalDate.parse(rs.getString("date")), 
-                rs.getFloat("rating"), 
-                rs.getString("review"));
+                LocalDate.parse(rs.getString("date")));
     }
 
     private static void check(final String s) {

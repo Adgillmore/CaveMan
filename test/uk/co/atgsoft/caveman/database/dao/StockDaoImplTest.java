@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.atgsoft.caveman.wine.BottleSize;
@@ -61,10 +62,13 @@ public class StockDaoImplTest {
     public void teardown() {
         cleanUpDb();
     }
+    
     @Test
     public void getStock() {
         final StockDao sDao = new StockDaoImpl(DB_NAME);
         final StockRecord record = sDao.getStockRecord(wine1);
+        assertNotNull(record);
+        assertEquals(18, record.getQuantity());
     }
     
     

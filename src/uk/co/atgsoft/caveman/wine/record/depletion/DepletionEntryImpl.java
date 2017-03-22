@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
-import uk.co.atgsoft.caveman.wine.record.DateEntry;
-import uk.co.atgsoft.caveman.wine.record.QuantityEntry;
 import uk.co.atgsoft.caveman.wine.record.QuantityEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.WineEntry;
 import uk.co.atgsoft.caveman.wine.record.WineEntryImpl;
@@ -19,7 +17,7 @@ import uk.co.atgsoft.caveman.wine.record.WineEntryImpl;
  *
  * @author adam
  */
-public class DepletionEntryImpl implements WineEntry, QuantityEntry, DepletionEntry, DateEntry {
+public class DepletionEntryImpl implements DepletionEntry {
     
     private final WineEntry mWineEntry;
     

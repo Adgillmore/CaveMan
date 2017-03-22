@@ -7,6 +7,7 @@ package uk.co.atgsoft.caveman.wine.record.stock;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
@@ -17,7 +18,7 @@ import uk.co.atgsoft.caveman.wine.record.WineRecordImpl;
  */
 public class StockRecordImpl extends WineRecordImpl implements StockRecord {
 
-    private final Map<BottleSize, StockEntryImpl> mStock;
+    private final Map<BottleSize, StockEntry> mStock;
     
     public StockRecordImpl(final Wine wine) {
         super(wine);
@@ -25,14 +26,23 @@ public class StockRecordImpl extends WineRecordImpl implements StockRecord {
     }
 
     @Override
-    public Map<BottleSize, StockEntryImpl> getStock() {
+    public Map<BottleSize, StockEntry> getStock() {
         return mStock;
     }
 
     @Override
-    public void addStockEntry(StockEntryImpl entry) {
+    public void addStockEntry(StockEntry entry) {
         if (entry == null) throw new IllegalArgumentException("Entry cannot be null");
         mStock.put(entry.getBottleSize(), entry);
+    }
+
+    @Override
+    public int getQuantity() {
+        int quantity = 0;
+        for (Entry<BottleSize, StockEntry> entry : mStock.entrySet()) {
+            quantity += entry.getValue().getQuantity();
+        }
+        return quantity;
     }
     
 }

@@ -6,12 +6,14 @@
 package uk.co.atgsoft.caveman.wine.record.stock;
 
 import java.math.BigDecimal;
+import uk.co.atgsoft.caveman.wine.record.QuantityEntry;
+import uk.co.atgsoft.caveman.wine.record.WineEntry;
 
 /**
  *
  * @author adam.gillmore
  */
-public interface StockEntry {
+public interface StockEntry extends WineEntry, QuantityEntry  {
     
     BigDecimal getAvgPrice();
     
