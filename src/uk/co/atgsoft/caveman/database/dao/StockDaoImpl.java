@@ -5,16 +5,12 @@
  */
 package uk.co.atgsoft.caveman.database.dao;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionSummary;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseSummary;
 import uk.co.atgsoft.caveman.wine.record.stock.StockEntry;
 import uk.co.atgsoft.caveman.wine.record.stock.StockEntryImpl;
 import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
@@ -26,88 +22,38 @@ import uk.co.atgsoft.caveman.wine.record.stock.StockRecordImpl;
  */
 public class StockDaoImpl implements StockDao {
 
-    private final String mDatabaseName;
+    private final PurchaseDao mPurchaseDao;
+    private final DepletionDao mDepletionDao;
     
     public StockDaoImpl(final String databaseName) {
-        mDatabaseName = databaseName;
+        mPurchaseDao = new PurchaseDaoImpl(databaseName);
+        mDepletionDao = new DepletionDaoImpl(databaseName);
     }
     
     @Override
     public StockRecord getStockRecord(final Wine wine) {
-        final Map<BottleSize, AdditionSummary> allAdditions = getAdditions(wine);
-        final Map<BottleSize, DepletionSummary> allDepletions = getDepletions(wine);
+        final Map<BottleSize, PurchaseSummary> allAdditions = mPurchaseDao.getPurchaseSummary(wine);
+        final Map<BottleSize, DepletionSummary> allDepletions = mDepletionDao.getDepletionSummary(wine);
         return calculateStock(allAdditions, allDepletions);
     }
     
-    private Map<BottleSize, AdditionSummary> getAdditions(final Wine wine) {
-        Connection c = null;
-        Statement stmt = null;
-        StockRecord stock = null;
-        Map<BottleSize, AdditionSummary> allAdditions = new HashMap<>();
-        try {
-            c = DriverManager.getConnection("jdbc:sqlite:" + mDatabaseName + ".db");
-            stmt = c.createStatement();
-            final ResultSet rs = stmt.executeQuery(
-                "SELECT PURCHASE.WINE_ID, NAME, PRODUCER, VINTAGE, REGION, COUNTRY, COLOUR, STYLE, GRAPE, PURCHASE.SIZE " 
-                    + ", avg(PURCHASE.PRICE) as AVG_PRICE, sum(PURCHASE.QUANTITY) as ADDED " 
-                    + "FROM PURCHASE " 
-                    + "JOIN WINE ON PURCHASE.WINE_ID = WINE.ID " 
-                    + "WHERE PURCHASE.WINE_ID = '" + wine.getId() + "' " 
-                    + "GROUP BY PURCHASE.SIZE;" );
-          
-            while (rs.next()) {
-                if (stock == null) {
-                    
-                    final AdditionSummary additions = new AdditionSummary();
-                    additions.mWine = wine;
-                    additions.mAvgPrice = new BigDecimal(rs.getFloat("avg_price"));
-                    additions.mQuantity = rs.getInt("added");
-                    allAdditions.put(BottleSize.valueOf(rs.getString("size")), additions);
-                }
-            }
-            rs.close();
-            stmt.close();
-            c.close();
-        } catch ( Exception e ) {
-          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        }
-        return allAdditions;
-    }
-    
-    private Map<BottleSize, DepletionSummary> getDepletions(final Wine wine) {
-        final Map<BottleSize, DepletionSummary> allDepletions = new HashMap<>();
-        return allDepletions;
-    }
-    
-    private StockRecord calculateStock(final Map<BottleSize, AdditionSummary> allAdditions, 
+    private StockRecord calculateStock(final Map<BottleSize, PurchaseSummary> allAdditions, 
             final Map<BottleSize, DepletionSummary> allDepletions) {
-        final StockRecord record = new StockRecordImpl(allAdditions.get(BottleSize.STANDARD).mWine);
-        for (Entry<BottleSize, AdditionSummary> entry : allAdditions.entrySet()) {
+        final StockRecord record = new StockRecordImpl(allAdditions.get(BottleSize.STANDARD).getWine());
+        for (Entry<BottleSize, PurchaseSummary> entry : allAdditions.entrySet()) {
             
             final BottleSize size = entry.getKey();
-            final AdditionSummary addition = entry.getValue();
-            final int added = addition.mQuantity;
+            final PurchaseSummary addition = entry.getValue();
+            final int added = addition.getQuantity();
             
             final DepletionSummary depletions = allDepletions.get(size);
-            final int remaining = added - (depletions == null ? 0 : depletions.mQuantity);
-            final StockEntry stockEntry = new StockEntryImpl("id", addition.mWine, remaining, size,  
-                    addition.mAvgPrice, 5.0f);
+            final int remaining = added - (depletions == null ? 0 : depletions.getQuantity());
+            final StockEntry stockEntry = new StockEntryImpl(addition.getWine(), remaining, size,  
+                    addition.getAvgPrice(), 5.0f);
             record.addStockEntry(stockEntry);
         }
         
         return record;
     }
-    
-    private class AdditionSummary {
-        private Wine mWine;
-        private int mQuantity;
-        private BigDecimal mAvgPrice;
-    }
-    
-    private class DepletionSummary {
-        private Wine mWine;
-        private int mQuantity;
-        private float mAvgRating;
-        private String review;
-    }
+
 }

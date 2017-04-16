@@ -15,14 +15,14 @@ import java.time.LocalDate;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
 
 /**
  *
@@ -33,6 +33,7 @@ public final class DatabaseUtils {
     private final static StringBuilder sb = new StringBuilder();
     private static final String JDBC_PREFIX = "jdbc:sqlite:";
     private static final String DB_SUFFIX = ".db";
+    private static final BigDecimal HUNDRED = new BigDecimal(100);
     
     public static Connection getConnection(final String databaseName) throws SQLException {
         sb.setLength(0);
@@ -116,5 +117,16 @@ public final class DatabaseUtils {
         for (String s : strings) {
             check(s);
         }
+    }
+    
+    public static String PriceToString(final BigDecimal price) {
+        return price.multiply(HUNDRED).toString();
+    }
+    
+    public static BigDecimal StringToPrice(final String price) {
+        if (price == null || price.isEmpty()) {
+            throw new IllegalArgumentException("Price cannot be null or empty");
+        }
+        return new BigDecimal(price).divide(HUNDRED);
     }
 }

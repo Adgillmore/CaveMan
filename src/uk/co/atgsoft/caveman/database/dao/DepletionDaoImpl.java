@@ -11,10 +11,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uk.co.atgsoft.caveman.database.DatabaseUtils;
+import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionSummary;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionSummaryImpl;
 
 /**
  *
@@ -70,9 +77,40 @@ public class DepletionDaoImpl implements DepletionDao {
             ps.close();
             c.close();
         } catch (SQLException e) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            Logger.getLogger(DepletionDaoImpl.class.getName()).log(Level.SEVERE, null, e);
         }
         return records;
+    }
+    
+    @Override
+    public Map<BottleSize, DepletionSummary> getDepletionSummary(Wine wine) {
+        final Map<BottleSize, DepletionSummary> allDepletions = new HashMap<>();
+        
+        try {
+            final Connection conn = DatabaseUtils.getConnection(mDatabaseName);
+            final PreparedStatement ps = conn.prepareStatement(
+                    "SELECT DEPLETION.WINE_ID, NAME, PRODUCER, VINTAGE, REGION, COUNTRY, COLOUR, STYLE, GRAPE, DEPLETION.SIZE " 
+                    + ", sum(DEPLETION.QUANTITY) as REMOVED " 
+                    + "FROM DEPLETION " 
+                    + "JOIN WINE ON DEPLETION.WINE_ID = WINE.ID " 
+                    + "WHERE DEPLETION.WINE_ID = ? " 
+                    + "GROUP BY DEPLETION.SIZE;");
+            ps.setString(1, wine.getId());
+            final ResultSet rs = ps.executeQuery();
+          
+            while (rs.next()) {
+                final BottleSize size = BottleSize.valueOf(rs.getString("size"));
+                final DepletionSummary depletions = new DepletionSummaryImpl(
+                        wine, rs.getInt("removed"), size);
+                allDepletions.put(size, depletions);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch ( Exception e ) {
+          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        return allDepletions;
     }
     
     @Override

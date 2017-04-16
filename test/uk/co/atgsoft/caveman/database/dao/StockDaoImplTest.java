@@ -8,7 +8,6 @@ package uk.co.atgsoft.caveman.database.dao;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Map;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,16 +17,15 @@ import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
 import uk.co.atgsoft.caveman.wine.WineComposition;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
 import uk.co.atgsoft.caveman.wine.WineImpl;
 import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
-import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
-import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
-import uk.co.atgsoft.caveman.wine.record.stock.StockEntry;
-import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
-import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntry;
+import uk.co.atgsoft.caveman.wine.record.depletion.DepletionEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
+import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntryImpl;
+import uk.co.atgsoft.caveman.wine.record.stock.StockRecord;
 
 /**
  *
@@ -68,7 +66,7 @@ public class StockDaoImplTest {
         final StockDao sDao = new StockDaoImpl(DB_NAME);
         final StockRecord record = sDao.getStockRecord(wine1);
         assertNotNull(record);
-        assertEquals(18, record.getQuantity());
+        assertEquals(13, record.getQuantity());
     }
     
     
@@ -101,11 +99,8 @@ public class StockDaoImplTest {
                 LocalDate.now().minusDays(2));
         final DepletionEntry dRecord2 = new DepletionEntryImpl("2", wine1, 3, BottleSize.STANDARD, 
                 LocalDate.now());
-//        final DepletionRecord dRecord3 = new DepletionRecordImpl("3", wine1, 3, BottleSize.STANDARD, 
-//                LocalDate.now(), 4.5f, "The best wine ever");
         dDao.addDepletion(dRecord1);
         dDao.addDepletion(dRecord2);
-//        dDao.addDepletion(dRecord3);
     }
     
     private void cleanUpDb() {
