@@ -20,7 +20,5 @@ public interface WineDao {
     
     void updateWine(Wine wine);
     
-    int getId(Wine wine);
-    
     List<Wine> getAllWines();
 }
