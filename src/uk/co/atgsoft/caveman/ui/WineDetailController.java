@@ -6,6 +6,7 @@
 package uk.co.atgsoft.caveman.ui;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +38,11 @@ import uk.co.atgsoft.caveman.Main;
 import uk.co.atgsoft.caveman.wine.BottleSize;
 import uk.co.atgsoft.caveman.wine.Wine;
 import uk.co.atgsoft.caveman.wine.WineColour;
+import uk.co.atgsoft.caveman.wine.WineCompositionImpl;
+import uk.co.atgsoft.caveman.wine.WineImpl;
+import uk.co.atgsoft.caveman.wine.WineOriginImpl;
 import uk.co.atgsoft.caveman.wine.WineStyle;
+import uk.co.atgsoft.caveman.wine.WineUtils;
 import uk.co.atgsoft.caveman.wine.record.purchase.PurchaseEntry;
 
 /**
@@ -62,7 +67,7 @@ public class WineDetailController {
     
     @FXML private TextField colourText;
     
-    @FXML private ComboBox<WineStyle> styleText;
+    @FXML private ComboBox<WineStyle> stylePicker;
     
     @FXML private Button addStockButton;
     
@@ -163,8 +168,8 @@ public class WineDetailController {
             }
         });
         
-        styleText.itemsProperty().set(FXCollections.observableArrayList(WineStyle.values()));
-        styleText.valueProperty().addListener(new ChangeListener<WineStyle>() {
+        stylePicker.itemsProperty().set(FXCollections.observableArrayList(WineStyle.values()));
+        stylePicker.valueProperty().addListener(new ChangeListener<WineStyle>() {
             @Override
             public void changed(ObservableValue<? extends WineStyle> observable, WineStyle oldValue, WineStyle newValue) {
                 if (mWine != null) mWine.setStyle(newValue);
@@ -245,10 +250,10 @@ public class WineDetailController {
     }
     
     public void setWine(final Wine wine) {
-        if (wine == null) {
-            throw new IllegalArgumentException("Wine cannot be null");
-        }
         mWine = null;
+        if (wine == null) {
+            return;
+        }
         nameText.setText(wine.getName());
         producerText.setText(wine.getProducer());
         regionText.setText(wine.getRegion());
@@ -257,13 +262,17 @@ public class WineDetailController {
         alcoholText.setText(Float.toString(wine.getAlcohol()));
         colourText.setText(wine.getWineColour() == null ? "" : wine.getWineColour().toString());
 //        priceText.setText(wine.getPrice() == null ? "" : wine.getPrice().toString());
-        styleText.getSelectionModel().select(wine.getStyle());
+        stylePicker.getSelectionModel().select(wine.getStyle());
         grapesText.setText(wine.getGrape());
         mWine = wine;
     }
     
     public Wine getWine() {
-        return mWine;
+        return new WineImpl(WineUtils.createWineId(nameText.getText(), producerText.getText(), vintageText.getText()),
+        nameText.getText(), new WineOriginImpl(producerText.getText(), regionText.getText(), countryText.getText()),
+        new WineCompositionImpl(WineColour.valueOf(colourText.getText().toUpperCase()), 
+                stylePicker.getSelectionModel().getSelectedItem(), grapesText.getText()),
+        Integer.parseInt(vintageText.getText()), Float.parseFloat(alcoholText.getText()), new BigDecimal(0));
     }
 
     public void setPurchaseRecords(final List<PurchaseEntry> records) {

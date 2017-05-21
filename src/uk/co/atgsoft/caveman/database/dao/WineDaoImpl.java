@@ -147,6 +147,38 @@ public class WineDaoImpl implements WineDao {
         }
        
     }
+
+    @Override
+    public boolean exists(final Wine wine) {
+        final List<Wine> wines = new ArrayList<>();
+//        try {
+//            final Connection conn = DatabaseUtils.getConnection(mDatabaseName);
+//            final PreparedStatement ps = conn.prepareStatement("SELECT EXISTS(SELECT 1 FROM WINE WHERE ID = ? LIMIT 1);");
+//            final ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//            final Wine wine = new WineImpl(
+//                rs.getString("id"), 
+//                rs.getString("name"), 
+//                new WineOriginImpl(rs.getString("producer"), rs.getString("region"), rs.getString("country")),
+//                new WineCompositionImpl(WineColour.valueOf(rs.getString("colour").toUpperCase()), 
+//                        WineStyle.valueOf(rs.getString("style").toUpperCase()), rs.getString("grape")),
+//                rs.getInt("vintage"),
+//                rs.getFloat("alcohol"),
+//                rs.getBigDecimal("price")
+//             );
+//             wines.add(wine);
+//             
+//          }
+//          rs.close();
+//          ps.close();
+//          conn.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(WineDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+//        return wines;
+        return false;
+    }
     
     
 }

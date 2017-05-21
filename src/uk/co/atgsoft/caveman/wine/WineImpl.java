@@ -137,7 +137,7 @@ public class WineImpl implements Wine {
 
     @Override
     public String getProducer() {
-        return mOrigin.getProducer();
+        return mOrigin == null ? "" : mOrigin.getProducer();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class WineImpl implements Wine {
 
     @Override
     public String getGrape() {
-        return mComposition.getGrape();
+        return mComposition == null ? "" : mComposition.getGrape();
     }
 
     @Override
@@ -157,7 +157,7 @@ public class WineImpl implements Wine {
 
     @Override
     public String getCountry() {
-        return mOrigin.getCountry();
+        return mOrigin == null ? "" : mOrigin.getCountry();
     }
 
     @Override
@@ -167,7 +167,7 @@ public class WineImpl implements Wine {
 
     @Override
     public String getRegion() {
-        return mOrigin.getRegion();
+        return mOrigin == null ? "" : mOrigin.getRegion();
     }
 
     @Override
@@ -177,7 +177,7 @@ public class WineImpl implements Wine {
 
     @Override
     public WineColour getWineColour() {
-        return mComposition.getWineColour();
+        return mComposition == null ? null : mComposition.getWineColour();
     }
 
     @Override
@@ -187,7 +187,7 @@ public class WineImpl implements Wine {
 
     @Override
     public WineStyle getStyle() {
-        return mComposition.getStyle();
+        return mComposition == null ? null : mComposition.getStyle();
     }
 
     @Override

@@ -14,6 +14,8 @@ import uk.co.atgsoft.caveman.wine.Wine;
  */
 public interface WineDao {
     
+    boolean exists(Wine wine);
+    
     void insertWine(Wine wine);
     
     void removeWine(Wine wine);
